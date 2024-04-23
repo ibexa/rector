@@ -1,0 +1,22 @@
+deptrac:
+    paths:
+        - ./src
+    layers:
+        - name: Contracts
+          collectors:
+              - type: directory
+                value: contracts/.*
+        - name: Library
+          collectors:
+              - type: directory
+                value: lib/.*
+    ruleset:
+        Bundle:
+            - Bundle
+            - Contracts
+            - Library
+        Contracts:
+            - Contracts
+        Library:
+            - Contracts
+            - Library
