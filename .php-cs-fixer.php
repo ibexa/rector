@@ -6,15 +6,21 @@
  */
 declare(strict_types=1);
 
+use Ibexa\CodeStyle\PhpCsFixer\InternalConfigFactory;
 use PhpCsFixer\Finder;
-use Ibexa\CodeStyle\PhpCsFixer\Config;
 
-$finder = Finder::create()
-    ->in(__DIR__ . '/src')
-    ->in(__DIR__ . '/tests')
-    ->files()->name('*.php');
+$factory = new InternalConfigFactory();
 
-$config = new Config();
-$config->setFinder($finder);
-
-return $config;
+return $factory
+    ->buildConfig()
+    ->setFinder(
+        Finder::create()
+              ->in(
+                  [
+                      __DIR__ . '/src',
+                      __DIR__ . '/tests',
+                  ]
+              )
+              ->files()->name('*.php')
+    )
+;
