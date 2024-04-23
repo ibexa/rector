@@ -10,8 +10,8 @@
         failOnWarning="true"
         colors="true">
     <testsuites>
-        <testsuite name="lib">
-            <directory>tests/lib</directory>
+        <testsuite name="integration">
+            <directory>tests/integration</directory>
         </testsuite>
     </testsuites>
 </phpunit>
