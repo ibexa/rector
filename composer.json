@@ -1,5 +1,6 @@
 {
     "name": "ibexa/rector",
+    "description": "Ibexa Rector refactoring tool rule sets",
     "license": "(GPL-2.0-only or proprietary)",
     "type": "library",
     "keywords": [
