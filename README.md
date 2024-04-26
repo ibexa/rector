@@ -37,6 +37,10 @@ composer require --dev ibexa/rector:~5.0.x-dev
     php ./bin/rector process <directory>
     ```
 
+## CONTRIBUTING
+
+See [contribution guideline](./CONTRIBUTING.md) to learn how to add rules.
+
 ## COPYRIGHT
 
 Copyright (C) 1999-2024 Ibexa AS (formerly eZ Systems AS). All rights reserved.
