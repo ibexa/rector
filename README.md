@@ -1,11 +1,41 @@
-# ibexa/rector
+# Ibexa DXP Rector
 
 This package is part of [Ibexa DXP](https://ibexa.co).
 
-To use this package, [install Ibexa DXP](https://doc.ibexa.co/en/latest/install/).
-
 This package provides a set of [Rector](https://getrector.com/) rules to allow automatic upgrades between
 [Ibexa DXP](https://ibexa.co) versions.
+
+To use this package, [install Ibexa DXP](https://doc.ibexa.co/en/latest/install/) and follow installation instructions
+below.
+
+## Installation
+
+```
+composer require --dev ibexa/rector:~5.0.x-dev
+```
+
+## Usage
+
+1. Create `./rector.php` file in your project, with the following contents, adjusted to your project structure:
+    ```php
+    use Rector\Config\RectorConfig;
+
+    return static function (RectorConfig $rectorConfig): void {
+        $rectorConfig->paths([
+            __DIR__ . '/src', // see if it matches your project structure  
+            __DIR__ . '/tests',
+        ]);
+    
+        // define sets of rules
+        $rectorConfig->sets([
+            __DIR__ . '/vendor/ibexa/rector/src/contracts/Sets/ibexa-50.php' // rule set for upgrading to Ibexa DXP 5.0
+        ]);
+    };
+    ```
+2. Execute Rector
+    ```
+    php ./bin/rector process <directory>
+    ```
 
 ## COPYRIGHT
 
