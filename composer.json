@@ -10,6 +10,7 @@
         "php": ">=8.3",
         "rector/rector": "^1.0",
         "symfony/config": "^5.4",
+        "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "symfony/event-dispatcher": "^5.4",
         "symfony/http-foundation": "^5.4",
@@ -36,9 +37,12 @@
         }
     },
     "scripts": {
+        "define-custom-rule": "Ibexa\\Rector\\Composer\\Command\\DefineCustomIbexaRuleCommand",
         "fix-cs": "php-cs-fixer fix --config=.php-cs-fixer.php --show-progress=dots",
         "check-cs": "@fix-cs --dry-run",
-        "test": ["@test-unit"],
+        "test": [
+            "@test-unit"
+        ],
         "test-unit": "phpunit -c phpunit.xml.dist",
         "phpstan": "phpstan analyse -c phpstan.neon",
         "deptrac": "php vendor/bin/deptrac analyse"
