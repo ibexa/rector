@@ -84,7 +84,7 @@ final class RectorTemplateContentsProcessorTest extends TestCase
         ];
     }
 
-    protected function createSymfonySplFileInfoMock(string $fileContents): SplFileInfo
+    private function createSymfonySplFileInfoMock(string $fileContents): SplFileInfo
     {
         $splFileInfoMock = $this->createMock(SplFileInfo::class);
         $splFileInfoMock->method('getContents')->willReturn($fileContents);
