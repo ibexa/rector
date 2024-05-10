@@ -17,7 +17,7 @@ abstract class AbstractRectorTemplateProcessor
     {
         $rectorName = $ruleName;
         // suffix with Rector by convention
-        if (substr_compare($rectorName, 'Rector', -strlen('Rector')) !== 0) {
+        if (!str_ends_with($rectorName, 'Rector')) {
             $rectorName .= 'Rector';
         }
 
