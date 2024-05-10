@@ -14,7 +14,7 @@ This guide is meant for adding rules to this package. For custom project rules, 
 
 ## Creating custom rules
 
-This package comes with a Composer-wrapped Symfony command to generate custom rule and place its files to proper
+This package comes with a Composer-wrapped Symfony command to generate custom rule and place its files in proper
 directories, following the above structure.
 
 ```bash
