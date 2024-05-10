@@ -8,8 +8,9 @@
     ],
     "require": {
         "php": ">=8.3",
-        "ibexa/core": "^5.0.x-dev",
+        "rector/rector": "^1.0",
         "symfony/config": "^5.4",
+        "symfony/console": "^5.4",
         "symfony/dependency-injection": "^5.4",
         "symfony/event-dispatcher": "^5.4",
         "symfony/http-foundation": "^5.4",
@@ -18,11 +19,11 @@
     },
     "require-dev": {
         "ibexa/code-style": "~2.0.0",
-        "ibexa/doctrine-schema": "^5.0.x-dev",
+        "nikic/php-parser": "^4.18",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",
         "phpstan/phpstan-symfony": "^1.3",
-        "phpunit/phpunit": "^9.0",
+        "phpunit/phpunit": "^10",
         "qossmic/deptrac-shim": "^0.24.0 || ^1.0.2"
     },
     "autoload": {
@@ -33,16 +34,17 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Ibexa\\Tests\\Integration\\Rector\\": "tests/integration/",
-            "Ibexa\\Tests\\Rector\\": "tests/lib/"
+            "Ibexa\\Rector\\Tests\\": "tests/lib/"
         }
     },
     "scripts": {
+        "define-custom-rule": "Ibexa\\Rector\\Composer\\Command\\DefineCustomIbexaRuleCommand",
         "fix-cs": "php-cs-fixer fix --config=.php-cs-fixer.php --show-progress=dots",
         "check-cs": "@fix-cs --dry-run",
-        "test": ["@test-unit", "@test-integration"],
+        "test": [
+            "@test-unit"
+        ],
         "test-unit": "phpunit -c phpunit.xml.dist",
-        "test-integration": "phpunit -c phpunit.integration.xml.dist",
         "phpstan": "phpstan analyse -c phpstan.neon",
         "deptrac": "php vendor/bin/deptrac analyse"
     },
@@ -51,7 +53,6 @@
         "check-cs": "Run code style checker for all files",
         "test": "Run all automatic tests",
         "test-unit": "Run unit tests",
-        "test-integration": "Run integration tests",
         "phpstan": "Run static code analysis",
         "deptrac": "Run Deptrac architecture testing"
     },
