@@ -20,7 +20,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class RemoveLegacyClassAliasRector extends AbstractRector
 {
     /** @var array<string> */
-    private const array FQCN_PREFIXES = ['eZ\\', 'EzSystems\\', 'Ibexa\\'];
+    private const array FQCN_PREFIXES = ['eZ\\', 'EzSystems\\', 'Ibexa\\', 'spec\\EzSystems'];
 
     /**
      * @throws \Exception
