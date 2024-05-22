@@ -20,7 +20,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class RemoveLegacyClassAliasRector extends AbstractRector
 {
     /** @var array<string> */
-    private const array FQCN_PREFIXES = ['eZ\\', 'EzSystems\\', 'Ibexa\\'];
+    private const array FQCN_PREFIXES = ['eZ\\', 'EzSystems\\', 'Ibexa\\', 'spec\\EzSystems'];
 
     /**
      * @throws \Exception
@@ -74,18 +74,28 @@ CODE_SAMPLE
      */
     private function isLegacyClassAlias(array $args): bool
     {
-        if (!isset($args[1]) || !$args[1]->value instanceof Node\Scalar\String_) {
+        if (!isset($args[1]) || null === ($classFQCN = $this->getFQCNFromArgValue($args[1]->value))) {
             return false;
         }
 
-        $value = $args[1]->value->value;
-
         foreach (self::FQCN_PREFIXES as $prefix) {
-            if (str_starts_with($value, $prefix)) {
+            if (str_starts_with($classFQCN, $prefix)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    private function getFQCNFromArgValue(Node\Expr $value): ?string
+    {
+        if ($value instanceof Node\Scalar\String_) {
+            return $value->value;
+        }
+        if ($value instanceof Node\Expr\ClassConstFetch) {
+            return $this->getName($value);
+        }
+
+        return null;
     }
 }
