@@ -1,16 +1,16 @@
 <?php /** @noinspection ALL */
 
-use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Rector\Tests\Rule\Internal\RemoveInterfaceWithMethods\Fixture\SomeInterface;
 use OtherInterface;
 
-class SomeClass implements BackwardCompatibleCommand, OtherInterface
+class SomeClass implements SomeInterface, OtherInterface
 {
     public function firstMethod()
     {
 
     }
 
-    public function getDeprecatedAliases(): array
+    public function someMethod(): array
     {
         return ['ezplatform:some_old:command_with_interface'];
     }
@@ -20,7 +20,7 @@ class SomeClass implements BackwardCompatibleCommand, OtherInterface
 -----
 <?php /** @noinspection ALL */
 
-use Ibexa\Bundle\Core\Command\BackwardCompatibleCommand;
+use Ibexa\Rector\Tests\Rule\Internal\RemoveInterfaceWithMethods\Fixture\SomeInterface;
 use OtherInterface;
 
 class SomeClass implements OtherInterface

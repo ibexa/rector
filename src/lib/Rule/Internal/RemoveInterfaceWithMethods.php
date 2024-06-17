@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Rector\Rule\Internal;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Rector\AbstractRector;
@@ -97,7 +96,6 @@ final class RemoveInterfaceWithMethods extends AbstractRector implements Configu
 
     /**
      * @param class-string[] $configuration
-     * @return void
      */
     public function configure(array $configuration): void
     {
