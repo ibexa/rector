@@ -8,13 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Rector\Rule\Internal;
 
+use Ibexa\Rector\Visitor\DependentMethodCallRemovingVisitor;
 use PhpParser\Node;
-use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeTraverser;
-use PhpParser\NodeVisitorAbstract;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
-use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\Rector\AbstractRector;
 use Rector\Removing\Rector\Class_\RemoveInterfacesRector;
 use ReflectionClass;
@@ -61,7 +59,7 @@ final class RemoveInterfaceWithMethods extends AbstractRector implements Configu
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {
@@ -81,7 +79,7 @@ final class RemoveInterfaceWithMethods extends AbstractRector implements Configu
             if ($this->isNames($implement, $this->interfacesToRemove)) {
                 foreach ($this->interfacesToRemove as $interface) {
                     $ref = new ReflectionClass($interface);
-                    $methods = array_map(static fn (ReflectionMethod $reflectionMethod) => $reflectionMethod->getName(), $ref->getMethods());
+                    $methods = array_map(static fn (ReflectionMethod $reflectionMethod): string => $reflectionMethod->getName(), $ref->getMethods());
 
                     // Remove method definition
                     foreach ($node->stmts as $key => $stmt) {
@@ -93,39 +91,15 @@ final class RemoveInterfaceWithMethods extends AbstractRector implements Configu
                     // Remove method calls, if one of the arguments was removed method
                     foreach ($node->getMethods() as $classMethod) {
                         $nodeTraverser = new NodeTraverser();
-                        $nodeTraverser->addVisitor(new class($this->nodeNameResolver, $methods) extends NodeVisitorAbstract {
-                            private NodeNameResolver $nodeNameResolver;
-
-                            /** @var string[] */
-                            private array $methods;
-
-                            /**
-                             * @param string[] $methods
-                             */
-                            public function __construct(NodeNameResolver $nodeNameResolver, array $methods)
-                            {
-                                $this->nodeNameResolver = $nodeNameResolver;
-                                $this->methods = $methods;
-                            }
-
-                            public function leaveNode(Node $node)
-                            {
-                                if ($node instanceof MethodCall) {
-                                    foreach ($node->getArgs() as $arg) {
-                                        $argValue = $arg->value;
-                                        if ($argValue instanceof MethodCall && $this->nodeNameResolver->isNames($argValue->name, $this->methods)) {
-                                            return $node->var;
-                                        }
-                                    }
-                                }
-
-                                return null;
-                            }
-                        });
+                        $nodeTraverser->addVisitor(
+                            new DependentMethodCallRemovingVisitor(
+                                $this->nodeNameResolver,
+                                $methods
+                            )
+                        );
 
                         if ($classMethod->stmts !== null) {
                             /** @var array<\PhpParser\Node\Stmt>|null $traversedStmts */
-
                             $traversedStmts = $nodeTraverser->traverse($classMethod->stmts);
                             $classMethod->stmts = $traversedStmts;
                         }
