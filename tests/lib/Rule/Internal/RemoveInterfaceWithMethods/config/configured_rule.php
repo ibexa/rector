@@ -6,13 +6,13 @@
  */
 declare(strict_types=1);
 
-use Ibexa\Rector\Rule\Internal\RemoveInterfaceWithMethods;
+use Ibexa\Rector\Rule\Internal\RemoveInterfaceWithMethodsRector;
 use Ibexa\Rector\Tests\Rule\Internal\RemoveInterfaceWithMethods\Fixture\SomeInterface;
 use Rector\Config\RectorConfig;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(
-        RemoveInterfaceWithMethods::class,
+        RemoveInterfaceWithMethodsRector::class,
         [SomeInterface::class]
     );
 };

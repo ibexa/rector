@@ -14,7 +14,7 @@ use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 /**
  * @covers \Ibexa\Rector\Rule\Internal\RemoveLegacyClassAliasRector
  */
-final class RemoveInterfaceWithMethodsTest extends AbstractRectorTestCase
+final class RemoveInterfaceWithMethodsRectorTest extends AbstractRectorTestCase
 {
     /**
      * @throws \Rector\Exception\ShouldNotHappenException

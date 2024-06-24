@@ -20,7 +20,7 @@ use ReflectionMethod;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
-final class RemoveInterfaceWithMethods extends AbstractRector implements ConfigurableRectorInterface
+final class RemoveInterfaceWithMethodsRector extends AbstractRector implements ConfigurableRectorInterface
 {
     private RemoveInterfacesRector $removeInterfacesRector;
 
