@@ -9,7 +9,38 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Rector\Sets;
 
 use Rector\Config\RectorConfig;
+use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
+use Rector\Renaming\Rector\PropertyFetch\RenamePropertyRector;
+use Rector\Renaming\ValueObject\RenameClassConstFetch;
+use Rector\Renaming\ValueObject\RenameProperty;
 
 return static function (RectorConfig $rectorConfig): void {
-    // list of rector rules to upgrade Ibexa projects to Ibexa DXP 5.0
+    // List of rector rules to upgrade Ibexa projects to Ibexa DXP 5.0
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassConstFetch(
+                'Ibexa\Bundle\SystemInfo\SystemInfo\Collector\IbexaSystemInfoCollector',
+                'CONTENT_PACKAGES',
+                'HEADLESS_PACKAGES'
+            ),
+            new RenameClassConstFetch(
+                'Ibexa\Bundle\SystemInfo\SystemInfo\Collector\IbexaSystemInfoCollector',
+                'ENTERPRISE_PACKAGES',
+                'HEADLESS_PACKAGES'
+            ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenamePropertyRector::class,
+        [
+            new RenameProperty(
+                'Ibexa\Bundle\SystemInfo\SystemInfo\Value\IbexaSystemInfo',
+                'stability',
+                'lowestStability',
+            ),
+        ]
+    );
 };
