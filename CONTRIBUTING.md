@@ -9,8 +9,9 @@ This guide is meant for adding rules to this package. For custom project rules, 
   - `./src/contracts/Sets/ibexa-50.php` is a ruleset which contains all the rules for Ibexa DXP 5.0 upgrade, new rules 
     should be added there.
 * `./src/lib/Rule` - directory to implement specific rules, following [Rector's official doc](https://getrector.com/documentation/custom-rule).
-  - `./src/lib/Rule/Ibexa50/` - directory to implement Ibexa 5.0 upgrade specific rules
-* `./tests/lib/Rule` - directory to implement a specific rule tests, should contain subdirectory named `<RuleName>/`
+  - `./src/lib/Rule/Ibexa50/` - directory to implement Ibexa 5.0 upgrade specific rules.
+* `./tests/lib/Rule` - directory to implement a specific rule tests, should contain subdirectory named `<RuleName>/`.
+* `./tests/lib/Sets/Ibexa50/` - directory to implement specific use cases for Ibexa 5.0 set configuration, if not covered by Rector tests.
 
 ## Creating custom rules
 
