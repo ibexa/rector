@@ -10,12 +10,19 @@ namespace Ibexa\Contracts\Rector\Sets;
 
 use Rector\Config\RectorConfig;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
+use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\Rector\PropertyFetch\RenamePropertyRector;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Rector\Renaming\ValueObject\RenameProperty;
 
 return static function (RectorConfig $rectorConfig): void {
     // List of rector rules to upgrade Ibexa projects to Ibexa DXP 5.0
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\\Bundle\\Core\\ApiLoader\\RepositoryConfigurationProvider' => 'Ibexa\\Contracts\\Core\\Container\\ApiLoader\\RepositoryConfigurationProviderInterface',
+        ]
+    );
 
     $rectorConfig->ruleWithConfiguration(
         RenameClassConstFetchRector::class,
