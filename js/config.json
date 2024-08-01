@@ -1,0 +1,63 @@
+{
+    "ibexa-rename-variables": {
+        "^Ez(.*?)Validator$": {
+            "to": "Ibexa$1Validator",
+            "regexp": true
+        },
+        "^Ez(.*?)Field$": {
+            "to": "Ibexa$1Field",
+            "regexp": true
+        },
+        "_EZ_": {
+            "to": "_IBEXA_",
+            "regexp": true
+        },
+        "ez": {
+            "to": "ibexa",
+            "fullMatch": true
+        },
+        "ezSiteLocationId": {
+            "to": "ibexaSiteLocationId",
+            "fullMatch": true
+        }
+    },
+    "ibexa-rename-string-values": {
+        "\\.ez-": {
+            "to": ".ibexa-",
+            "regexp": true
+        },
+        "#ez-": {
+            "to": "#ibexa-",
+            "regexp": true
+        },
+        "^ez-": {
+            "to": "ibexa-",
+            "regexp": true
+        },
+        "^ezplatform-": {
+            "to": "ibexa-",
+            "regexp": true
+        },
+        "^ezplatform.": {
+            "to": "ibexa.",
+            "regexp": true
+        },
+        "ibexa-field-edit--ez([A-Za-z0-9]+)": {
+            "to": "ibexa-field-edit--ibexa$1",
+            "regexp": true
+        }
+    },
+    "ibexa-rename-trans-id": {
+        "^ez": {
+            "to": "ibexa",
+            "regexp": true
+        }
+    },
+    "ibexa-rename-in-translations": {
+        "ez-": {
+            "to": "ibexa-",
+            "regexp": true,
+            "selectors-only": true
+        }
+    }
+}
