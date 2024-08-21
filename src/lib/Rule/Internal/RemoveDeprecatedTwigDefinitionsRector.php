@@ -17,8 +17,6 @@ use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 /**
  * @internal This rule is internal, for Ibexa 1st party packages
@@ -97,6 +95,10 @@ CODE_SAMPLE
             return null;
         }
 
+        if ($node->stmts === null) {
+            return null;
+        }
+
         // Look for the return statement within the method
         foreach ($node->stmts as $stmt) {
             if ($stmt instanceof Node\Stmt\Return_ && $stmt->expr instanceof Array_) {
@@ -113,20 +115,24 @@ CODE_SAMPLE
 
                     // Ensure it's a 'Twig\TwigFunction' instantiation
                     if (!$newExpr->class instanceof Node\Name
-                        || (!$this->isName($newExpr->class, TwigFunction::class)
-                         && !$this->isName($newExpr->class, TwigFilter::class))
+                        || (!$this->isName($newExpr->class, 'Twig\TwigFunction')
+                         && !$this->isName($newExpr->class, 'Twig\TwigFilter'))
                     ) {
                         return true;
                     }
 
                     // Check if the third argument (options array) contains the 'deprecated' key
-                    if (isset($newExpr->args[2]) && $newExpr->args[2]->value instanceof Array_) {
+                    if (isset($newExpr->args[2])
+                        && $newExpr->args[2] instanceof Node\Arg
+                        && $newExpr->args[2]->value instanceof Array_
+                    ) {
                         $optionsArray = $newExpr->args[2]->value;
 
                         foreach ($optionsArray->items as $optionItem) {
                             if ($optionItem instanceof ArrayItem &&
                                 $optionItem->key instanceof Node\Scalar\String_ &&
                                 $optionItem->key->value === 'deprecated' &&
+                                $optionItem->value instanceof Node\Scalar\String_ &&
                                 $optionItem->value->value === $this->version
                             ) {
                                 // Skip this item if 'deprecated' is found
