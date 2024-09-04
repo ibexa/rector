@@ -15,6 +15,7 @@ use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\Rector\PropertyFetch\RenamePropertyRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
+use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Rector\Renaming\ValueObject\RenameProperty;
 
@@ -77,6 +78,24 @@ return static function (RectorConfig $rectorConfig): void {
             'method_name' => 'serializeContentFieldValue',
             'argument_index_to_remove' => 1,
             'more_than' => 2,
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassAndConstFetch(
+                'Ibexa\Bundle\FieldTypePage\DependencyInjection\Compiler\BlockDefinitionConfigurationCompilerPass',
+                'EXTENSION_CONFIG_KEY',
+                'Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension',
+                'EXTENSION_NAME'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\Bundle\FieldTypePage\DependencyInjection\Compiler\AbstractConfigurationAwareCompilerPass',
+                'EXTENSION_CONFIG_KEY',
+                'Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension',
+                'EXTENSION_NAME'
+            ),
         ]
     );
 };
