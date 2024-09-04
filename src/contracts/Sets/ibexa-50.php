@@ -63,7 +63,7 @@ return static function (RectorConfig $rectorConfig): void {
                 'generateMediaTypeWithVendor'
             ),
             new MethodCallRename(
-                'Ibexa\Contracts\Rest\Output\Generator',
+                'Ibexa\Rest\Output\FieldTypeSerializer',
                 'serializeFieldValue',
                 'serializeContentFieldValue'
             ),
@@ -73,7 +73,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(
         RemoveArgumentFromMethodCallRector::class,
         [
-            'class_name' => '\Ibexa\Rest\Output\FieldTypeSerializer',
+            'class_name' => 'Ibexa\Rest\Output\FieldTypeSerializer',
             'method_name' => 'serializeContentFieldValue',
             'argument_index_to_remove' => 1,
             'more_than' => 2,
