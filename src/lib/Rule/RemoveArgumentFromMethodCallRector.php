@@ -31,7 +31,7 @@ final class RemoveArgumentFromMethodCallRector extends AbstractRector implements
      */
     public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Remove legacy eZ Systems & Ibexa class_alias calls', [new ConfiguredCodeSample(
+        return new RuleDefinition('Remove argument with given index from method call', [new ConfiguredCodeSample(
             <<<'CODE_SAMPLE'
 class SomeClass
 {
