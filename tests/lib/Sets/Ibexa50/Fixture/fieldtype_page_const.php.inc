@@ -21,14 +21,15 @@ class Foo {
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
+use Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension;
 use Ibexa\Bundle\FieldTypePage\DependencyInjection\Compiler\BlockDefinitionConfigurationCompilerPass;
 
 class Foo {
     public function foo(): array
     {
         return [
-            \Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension::EXTENSION_NAME,
-            \Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension::EXTENSION_NAME
+            IbexaFieldTypePageExtension::EXTENSION_NAME,
+            IbexaFieldTypePageExtension::EXTENSION_NAME
         ];
     }
 
