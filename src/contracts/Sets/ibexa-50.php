@@ -114,4 +114,11 @@ return static function (RectorConfig $rectorConfig): void {
             ],
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\Cart\Money\MoneyFactory' => 'Ibexa\ProductCatalog\Money\IntlMoneyFactory',
+        ]
+    );
 };
