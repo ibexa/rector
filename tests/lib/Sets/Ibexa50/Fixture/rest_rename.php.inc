@@ -2,23 +2,26 @@
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Rest\Output\Generator;
+use Ibexa\Rest\Output\FieldTypeSerializer;
 
 class Foo {
     public function mediaTypeGenerator(): void
     {
-        $generator = new \Ibexa\Contracts\Rest\Output\Generator();
+        $generator = new Generator();
 
         return $generator->generateMediaType('name', 'type');
     }
 
     public function fieldTypeSerializer(): void
     {
-        $serializer = new \Ibexa\Rest\Output\FieldTypeSerializer();
+        $serializer = new FieldTypeSerializer();
 
-        $generator = new \Ibexa\Contracts\Rest\Output\Generator();
-        $contentType = new \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType();
-        $field = new \Ibexa\Contracts\Core\Repository\Values\Content\Field();
+        $generator = new Generator();
+        $contentType = new ContentType();
+        $field = new Field();
 
         return $serializer->serializeFieldValue($generator, $contentType, $field);
     }
@@ -30,23 +33,26 @@ class Foo {
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
-use Ibexa\Bundle\Core\ApiLoader\RepositoryConfigurationProvider;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Rest\Output\Generator;
+use Ibexa\Rest\Output\FieldTypeSerializer;
 
 class Foo {
     public function mediaTypeGenerator(): void
     {
-        $generator = new \Ibexa\Contracts\Rest\Output\Generator();
+        $generator = new Generator();
 
         return $generator->generateMediaTypeWithVendor('name', 'type');
     }
 
     public function fieldTypeSerializer(): void
     {
-        $serializer = new \Ibexa\Rest\Output\FieldTypeSerializer();
+        $serializer = new FieldTypeSerializer();
 
-        $generator = new \Ibexa\Contracts\Rest\Output\Generator();
-        $contentType = new \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType();
-        $field = new \Ibexa\Contracts\Core\Repository\Values\Content\Field();
+        $generator = new Generator();
+        $contentType = new ContentType();
+        $field = new Field();
 
         return $serializer->serializeContentFieldValue($generator, $field);
     }
