@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Rector\Tests\Rule\RemoveArgumentFromMethodCallRector;
+namespace Ibexa\Rector\Tests\Rule\PropertyToGetterRector;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-final class RemoveArgumentFromMethodCallRectorTest extends AbstractRectorTestCase
+final class PropertyToGetterRectorTest extends AbstractRectorTestCase
 {
     /**
      * @throws \Rector\Exception\ShouldNotHappenException

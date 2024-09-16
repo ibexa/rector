@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
+use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use Rector\Config\RectorConfig;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
@@ -96,6 +97,21 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension',
                 'EXTENSION_NAME'
             ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        PropertyToGetterRector::class,
+        [
+            'Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest' => [
+                'scheme' => 'getScheme',
+                'host' => 'getHost',
+                'port' => 'getPort',
+                'pathinfo' => 'getPathInfo',
+                'queryParams' => 'getQueryParams',
+                'languages' => 'getLanguages',
+                'headers' => 'getHeaders',
+            ],
         ]
     );
 };
