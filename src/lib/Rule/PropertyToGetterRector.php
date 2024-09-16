@@ -18,9 +18,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class PropertyToGetterRector extends AbstractRector implements ConfigurableRectorInterface
 {
-    /**
-     * @var array<string, array<string, string>>
-     */
+    /** @var array<string, array<string, string>> */
     private array $classPropertyToGetterMap = [];
 
     /**
