@@ -69,6 +69,11 @@ return static function (RectorConfig $rectorConfig): void {
                 'serializeFieldValue',
                 'serializeContentFieldValue'
             ),
+            new MethodCallRename(
+                'Ibexa\Contracts\Core\Repository\ContentService',
+                'loadContentDrafts',
+                'loadContentDraftList'
+            ),
         ]
     );
 
