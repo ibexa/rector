@@ -153,4 +153,16 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassAndConstFetch(
+                'Ibexa\Migration\ValueObject\ContentType\Matcher',
+                'CONTENT_TYPE_IDENTIFIER',
+                'Ibexa\Migration\StepExecutor\ContentType\IdentifierFinder',
+                'CONTENT_TYPE_IDENTIFIER'
+            ),
+        ]
+    );
 };
