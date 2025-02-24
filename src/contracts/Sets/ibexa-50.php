@@ -179,4 +179,15 @@ return static function (RectorConfig $rectorConfig): void {
             'Ibexa\\Solr\\Query\\Content\\CriterionVisitor\\Field' => 'Ibexa\\Solr\\Query\\Common\\CriterionVisitor\\Field',
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenamePropertyRector::class,
+        [
+            new RenameProperty(
+                'Ibexa\Contracts\Core\Repository\Values\Content\Trash\SearchResult',
+                'count',
+                'totalCount',
+            ),
+        ]
+    );
 };
