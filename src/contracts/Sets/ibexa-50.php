@@ -190,4 +190,15 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenamePropertyRector::class,
+        [
+            new RenameProperty(
+                'Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult',
+                'spellSuggestion',
+                'spellcheck',
+            ),
+        ]
+    );
 };
