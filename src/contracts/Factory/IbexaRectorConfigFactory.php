@@ -27,29 +27,29 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
     public function __invoke(): RectorConfigBuilder
     {
         return RectorConfig::configure()
-                           ->withPaths($this->pathsToProcess)
-                           ->withSets(
-                               array_merge(
-                                   [
-                                       IbexaSetList::IBEXA_50->value,
-                                       SymfonySetList::SYMFONY_50,
-                                       SymfonySetList::SYMFONY_50_TYPES,
-                                       SymfonySetList::SYMFONY_51,
-                                       SymfonySetList::SYMFONY_52,
-                                       SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES,
-                                       SymfonySetList::SYMFONY_53,
-                                       SymfonySetList::SYMFONY_54,
-                                       SymfonySetList::SYMFONY_CODE_QUALITY,
-                                       SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
-                                       SymfonySetList::SYMFONY_60,
-                                       SymfonySetList::SYMFONY_61,
-                                       SymfonySetList::SYMFONY_62,
-                                       SymfonySetList::SYMFONY_63,
-                                       SymfonySetList::SYMFONY_64,
-                                   ],
-                                   $this->extraSets
-                               )
-                           )
+           ->withPaths($this->pathsToProcess)
+           ->withSets(
+               array_merge(
+                   [
+                       IbexaSetList::IBEXA_50->value,
+                       SymfonySetList::SYMFONY_50,
+                       SymfonySetList::SYMFONY_50_TYPES,
+                       SymfonySetList::SYMFONY_51,
+                       SymfonySetList::SYMFONY_52,
+                       SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES,
+                       SymfonySetList::SYMFONY_53,
+                       SymfonySetList::SYMFONY_54,
+                       SymfonySetList::SYMFONY_CODE_QUALITY,
+                       SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
+                       SymfonySetList::SYMFONY_60,
+                       SymfonySetList::SYMFONY_61,
+                       SymfonySetList::SYMFONY_62,
+                       SymfonySetList::SYMFONY_63,
+                       SymfonySetList::SYMFONY_64,
+                   ],
+                   $this->extraSets
+               )
+           )
         ;
     }
 }
