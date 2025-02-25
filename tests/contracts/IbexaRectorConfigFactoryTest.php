@@ -81,7 +81,10 @@ final class IbexaRectorConfigFactoryTest extends TestCase
     {
         $factory = new IbexaRectorConfigFactory([__DIR__], $extraSets);
 
-        self::assertEqualsCanonicalizing($expectedSets, self::getRectorParameterFromFactory(Option::REGISTERED_RECTOR_SETS, $factory));
+        self::assertEqualsCanonicalizing(
+            $expectedSets,
+            self::getRectorParameterFromFactory(Option::REGISTERED_RECTOR_SETS, $factory)
+        );
     }
 
     /**
