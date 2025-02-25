@@ -15,5 +15,5 @@ use Rector\Configuration\RectorConfigBuilder;
  */
 interface IbexaRectorConfigFactoryInterface
 {
-    public function __invoke(): RectorConfigBuilder;
+    public function createConfig(): RectorConfigBuilder;
 }

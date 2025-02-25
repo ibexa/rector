@@ -24,7 +24,7 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
     {
     }
 
-    public function __invoke(): RectorConfigBuilder
+    public function createConfig(): RectorConfigBuilder
     {
         return RectorConfig::configure()
            ->withPaths($this->pathsToProcess)

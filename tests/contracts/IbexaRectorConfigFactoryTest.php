@@ -95,7 +95,7 @@ final class IbexaRectorConfigFactoryTest extends TestCase
         string $parameterName,
         IbexaRectorConfigFactory $ibexaRectorConfigFactory
     ): array {
-        $configBuilder = $ibexaRectorConfigFactory();
+        $configBuilder = $ibexaRectorConfigFactory->createConfig();
         $config = new RectorConfig();
         $configBuilder($config);
 
