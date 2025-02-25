@@ -8,5 +8,8 @@
         <testsuite name="lib">
             <directory>tests/lib</directory>
         </testsuite>
+        <testsuite name="contracts">
+            <directory>tests/contracts</directory>
+        </testsuite>
     </testsuites>
 </phpunit>
