@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^PHPDoc tag @var with type array\<PhpParser\\Node\\Stmt\>\|null is not subtype of native type array\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: src/lib/Rule/Internal/RemoveInterfaceWithMethodsRector.php
+
+		-
+			message: '#^Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
+			count: 1
+			path: src/lib/Rule/PropertyToGetterRector.php
+
+		-
+			message: '#^Doing instanceof PHPStan\\Type\\ObjectType is error\-prone and deprecated\. Use Type\:\:isObject\(\) or Type\:\:getObjectClassNames\(\) instead\.$#'
+			identifier: phpstanApi.instanceofType
+			count: 1
+			path: src/lib/Rule/RemoveArgumentFromMethodCallRector.php
+
+		-
+			message: '#^Method Ibexa\\Rector\\Visitor\\DependentMethodCallRemovingVisitor\:\:leaveNode\(\) never returns array\<PhpParser\\Node\> so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/lib/Visitor/DependentMethodCallRemovingVisitor.php
+
+		-
+			message: '#^Method Ibexa\\Rector\\Visitor\\DependentMethodCallRemovingVisitor\:\:leaveNode\(\) never returns int so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/lib/Visitor/DependentMethodCallRemovingVisitor.php
