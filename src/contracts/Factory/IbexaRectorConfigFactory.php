@@ -11,6 +11,9 @@ namespace Ibexa\Contracts\Rector\Factory;
 use Ibexa\Contracts\Rector\Sets\IbexaSetList;
 use Rector\Config\RectorConfig;
 use Rector\Configuration\RectorConfigBuilder;
+use Rector\Symfony\CodeQuality\Rector\BinaryOp\ResponseStatusCodeRector;
+use Rector\Symfony\CodeQuality\Rector\Class_\EventListenerToEventSubscriberRector;
+use Rector\Symfony\CodeQuality\Rector\MethodCall\LiteralGetToRequestClassConstantRector;
 use Rector\Symfony\Set\SymfonySetList;
 
 final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactoryInterface
@@ -30,8 +33,9 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
            ->withPaths($this->pathsToProcess)
            ->withRules(
                [
-                    EventListenerToEventSubscriberRector::class,
-                    LiteralGetToRequestClassConstantRector::class,
+                   EventListenerToEventSubscriberRector::class,
+                   LiteralGetToRequestClassConstantRector::class,
+                   ResponseStatusCodeRector::class,
                ]
            )
            ->withSets(
