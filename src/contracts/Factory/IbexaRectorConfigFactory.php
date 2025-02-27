@@ -28,6 +28,12 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
     {
         return RectorConfig::configure()
            ->withPaths($this->pathsToProcess)
+           ->withRules(
+               [
+                    EventListenerToEventSubscriberRector::class,
+                    LiteralGetToRequestClassConstantRector::class,
+               ]
+           )
            ->withSets(
                array_merge(
                    [
@@ -39,7 +45,6 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
                        SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES,
                        SymfonySetList::SYMFONY_53,
                        SymfonySetList::SYMFONY_54,
-                       SymfonySetList::SYMFONY_CODE_QUALITY,
                        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
                        SymfonySetList::SYMFONY_60,
                        SymfonySetList::SYMFONY_61,
