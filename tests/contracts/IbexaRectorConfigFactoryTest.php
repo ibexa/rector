@@ -16,6 +16,9 @@ use Rector\Configuration\Option;
 use Rector\Configuration\Parameter\SimpleParameterProvider;
 use Rector\Symfony\Set\SymfonySetList;
 
+/**
+ * @covers \Ibexa\Contracts\Rector\Factory\IbexaRectorConfigFactory
+ */
 final class IbexaRectorConfigFactoryTest extends TestCase
 {
     /**
@@ -46,7 +49,6 @@ final class IbexaRectorConfigFactoryTest extends TestCase
             SymfonySetList::SYMFONY_52,
             SymfonySetList::SYMFONY_53,
             SymfonySetList::SYMFONY_54,
-            SymfonySetList::SYMFONY_CODE_QUALITY,
             SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
             SymfonySetList::SYMFONY_60,
             SymfonySetList::SYMFONY_61,
