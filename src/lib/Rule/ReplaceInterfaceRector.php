@@ -55,7 +55,7 @@ final class ReplaceInterfaceRector extends AbstractRector implements Configurabl
     /**
      * @param \PhpParser\Node\Stmt\Class_ $node
      */
-    public function refactor(Node $node): ?Node
+    public function refactor(Node $node): Node
     {
         foreach ($node->implements as $key => $implement) {
             if ($this->isName($implement, $this->interfaceToBeReplaced)) {
