@@ -228,4 +228,15 @@ return static function (RectorConfig $rectorConfig): void {
             'isContainer' => 'isContainer',
         ],
     ]);
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameMethodRector::class,
+        [
+            new MethodCallRename(
+                'Ibexa\Core\Search\Common\FieldNameResolver',
+                'getFieldNames',
+                'getFieldTypes'
+            ),
+        ]
+    );
 };
