@@ -8,24 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50;
 
-use PHPUnit\Framework\Attributes\DataProvider;
-use Rector\Testing\PHPUnit\AbstractRectorTestCase;
+use Ibexa\Rector\Tests\Sets\AbstractIbexaRectorSetTestCase;
 
-final class Ibexa50Test extends AbstractRectorTestCase
+final class Ibexa50Test extends AbstractIbexaRectorSetTestCase
 {
-    #[DataProvider('provideData')]
-    public function test(string $filePath): void
+    protected static function getCurrentDirectory(): string
     {
-        $this->doTestFile($filePath);
-    }
-
-    public static function provideData(): \Iterator
-    {
-        return self::yieldFilesFromDirectory(__DIR__ . '/Fixture');
-    }
-
-    public function provideConfigFilePath(): string
-    {
-        return __DIR__ . '/config/configured_rule.php';
+        return __DIR__;
     }
 }
