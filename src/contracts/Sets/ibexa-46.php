@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
-enum IbexaSetList: string
-{
-    case IBEXA_46 = __DIR__ . '/ibexa-46.php';
-    case IBEXA_50 = __DIR__ . '/ibexa-50.php';
-}
+use Rector\Config\RectorConfig;
+
+return static function (RectorConfig $rectorConfig): void {
+    // List of rector rules to upgrade Ibexa projects to Ibexa DXP 4.6
+};
