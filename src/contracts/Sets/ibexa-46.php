@@ -127,4 +127,12 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\\Bundle\\Shipping\\Form\\Type\\RegionChoiceType' => 'Ibexa\\Bundle\\ProductCatalog\\Form\\Type\\RegionChoiceType',
+            'Ibexa\\Contracts\\Shipping\\Iterator\\BatchIteratorAdapter\\RegionFetchAdapter' => 'Ibexa\\Contracts\\ProductCatalog\\Iterator\\BatchIteratorAdapter\\RegionFetchAdapter',
+        ],
+    );
 };
