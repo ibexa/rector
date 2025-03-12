@@ -59,7 +59,7 @@ final class ReplaceInterfaceRector extends AbstractRector implements Configurabl
     {
         foreach ($node->implements as $key => $implement) {
             if ($this->isName($implement, $this->interfaceToBeReplaced)) {
-                $node->implements[$key] = new Name($this->interfaceToReplaceWith);
+                $node->implements[$key] = new Name\FullyQualified($this->interfaceToReplaceWith);
             }
         }
 
