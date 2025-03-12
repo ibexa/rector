@@ -135,4 +135,16 @@ return static function (RectorConfig $rectorConfig): void {
             'Ibexa\\Contracts\\Shipping\\Iterator\\BatchIteratorAdapter\\RegionFetchAdapter' => 'Ibexa\\Contracts\\ProductCatalog\\Iterator\\BatchIteratorAdapter\\RegionFetchAdapter',
         ],
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassAndConstFetch(
+                'Ibexa\Bundle\FormBuilder\DependencyInjection\Configuration',
+                'TREE_ROOT',
+                'Ibexa\Bundle\FormBuilder\DependencyInjection\IbexaFormBuilderExtension',
+                'EXTENSION_NAME'
+            ),
+        ]
+    );
 };
