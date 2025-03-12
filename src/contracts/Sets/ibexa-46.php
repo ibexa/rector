@@ -195,4 +195,11 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\Bundle\Core\Imagine\VariationPathGenerator' => 'Ibexa\Contracts\Core\Variation\VariationPathGenerator',
+        ]
+    );
 };
