@@ -159,4 +159,18 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\\Solr\\Gateway\\UpdateSerializer' => 'Ibexa\\Solr\\Gateway\\UpdateSerializer\\XmlUpdateSerializer',
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\\Solr\\Query\\Content\\CriterionVisitor\\Field' => 'Ibexa\\Solr\\Query\\Common\\CriterionVisitor\\Field',
+        ]
+    );
 };
