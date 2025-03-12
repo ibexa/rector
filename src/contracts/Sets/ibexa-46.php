@@ -202,4 +202,22 @@ return static function (RectorConfig $rectorConfig): void {
             'Ibexa\Bundle\Core\Imagine\VariationPathGenerator' => 'Ibexa\Contracts\Core\Variation\VariationPathGenerator',
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(PropertyToGetterRector::class, [
+        'Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType' => [
+            'isContainer' => 'isContainer',
+        ],
+    ]);
+
+    $rectorConfig->ruleWithConfiguration(PropertyToGetterRector::class, [
+        'Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft' => [
+            'isContainer' => 'isContainer',
+        ],
+    ]);
+
+    $rectorConfig->ruleWithConfiguration(PropertyToGetterRector::class, [
+        'Ibexa\Core\Repository\Values\ContentType\ContentTypeDraft' => [
+            'isContainer' => 'isContainer',
+        ],
+    ]);
 };
