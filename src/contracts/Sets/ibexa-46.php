@@ -115,4 +115,16 @@ return static function (RectorConfig $rectorConfig): void {
             'Ibexa\Cart\Money\MoneyFactory' => 'Ibexa\ProductCatalog\Money\IntlMoneyFactory',
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassAndConstFetch(
+                'Ibexa\Bundle\SiteFactory\DependencyInjection\Configuration',
+                'TREE_ROOT',
+                'Ibexa\Bundle\SiteFactory\DependencyInjection\IbexaSiteFactoryExtension',
+                'EXTENSION_NAME'
+            ),
+        ]
+    );
 };
