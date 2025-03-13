@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46\Fixture;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 
@@ -11,7 +11,7 @@ $pathInfo = $request->pathinfo;
 -----
 <?php
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46\Fixture;
 
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 

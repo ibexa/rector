@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46\Fixture;
 
 use Ibexa\Bundle\FieldTypePage\DependencyInjection\Compiler\BlockDefinitionConfigurationCompilerPass;
 
@@ -19,7 +19,7 @@ class Foo {
 -----
 <?php
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46\Fixture;
 
 use Ibexa\Bundle\FieldTypePage\DependencyInjection\IbexaFieldTypePageExtension;
 use Ibexa\Bundle\FieldTypePage\DependencyInjection\Compiler\BlockDefinitionConfigurationCompilerPass;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46\Fixture;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -31,7 +31,7 @@ class Foo {
 -----
 <?php
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46\Fixture;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
