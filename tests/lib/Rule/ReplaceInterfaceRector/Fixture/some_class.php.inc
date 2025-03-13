@@ -12,7 +12,7 @@ class SomeClass implements \SomeInterface
 
 namespace Ibexa\Rector\Tests\Rule\ReplaceInterfaceRector\Fixture;
 
-class SomeClass implements SomeOtherInterface
+class SomeClass implements \SomeOtherInterface
 {
 }
 
