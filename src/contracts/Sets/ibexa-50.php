@@ -10,7 +10,6 @@ namespace Ibexa\Contracts\Rector\Sets;
 
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
-use Ibexa\Rector\Rule\ReplaceInterfaceRector;
 use Rector\Config\RectorConfig;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
@@ -204,10 +203,9 @@ return static function (RectorConfig $rectorConfig): void {
     );
 
     $rectorConfig->ruleWithConfiguration(
-        ReplaceInterfaceRector::class,
+        RenameClassRector::class,
         [
-            'to_replace' => 'Ibexa\Bundle\Core\Imagine\VariationPathGenerator',
-            'replace_with' => 'Ibexa\Contracts\Core\Variation\VariationPathGenerator',
+            'Ibexa\Bundle\Core\Imagine\VariationPathGenerator' => 'Ibexa\Contracts\Core\Variation\VariationPathGenerator',
         ]
     );
 
