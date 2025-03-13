@@ -2,7 +2,7 @@
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator; // kept as-is by Rector
+use Ibexa\Bundle\Core\Imagine\VariationPathGenerator;
 
 class SomeFormatVariationGenerator implements VariationPathGenerator
 {
@@ -14,9 +14,9 @@ class SomeFormatVariationGenerator implements VariationPathGenerator
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
-use Ibexa\Bundle\Core\Imagine\VariationPathGenerator; // kept as-is by Rector
+use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
 
-class SomeFormatVariationGenerator implements \Ibexa\Contracts\Core\Variation\VariationPathGenerator
+class SomeFormatVariationGenerator implements VariationPathGenerator
 {
 }
 
