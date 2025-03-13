@@ -6,11 +6,11 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Rector\Tests\Sets\Ibexa50;
+namespace Ibexa\Rector\Tests\Sets\Ibexa46;
 
 use Ibexa\Rector\Tests\Sets\AbstractIbexaRectorSetTestCase;
 
-final class Ibexa50Test extends AbstractIbexaRectorSetTestCase
+final class Ibexa46Test extends AbstractIbexaRectorSetTestCase
 {
     protected static function getCurrentDirectory(): string
     {
