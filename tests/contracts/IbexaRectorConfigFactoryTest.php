@@ -100,6 +100,10 @@ final class IbexaRectorConfigFactoryTest extends TestCase
         string $parameterName,
         IbexaRectorConfigFactory $ibexaRectorConfigFactory
     ): array {
+        // unset static parameter to make tests independent
+        SimpleParameterProvider::setParameter($parameterName, []);
+
+        // the parameter gets sets again as a result of those calls
         $configBuilder = $ibexaRectorConfigFactory->createConfig();
         $config = new RectorConfig();
         $configBuilder($config);
