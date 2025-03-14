@@ -11,7 +11,7 @@ below.
 ## Installation
 
 ```
-composer require --dev ibexa/rector:~4.0.x-dev
+composer require --dev ibexa/rector:^4.6
 ```
 
 ## Usage
