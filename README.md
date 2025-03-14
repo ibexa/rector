@@ -32,7 +32,7 @@ composer require --dev ibexa/rector:^4.6
                       )
                       ->withSets(
                           [
-                              IbexaSetList::IBEXA_50->value // rule set for upgrading to Ibexa DXP 5.0
+                              IbexaSetList::IBEXA_46->value // rule set for upgrading to Ibexa DXP 5.0
                           ]
                       )
    ;
