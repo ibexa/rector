@@ -11,7 +11,7 @@ below.
 ## Installation
 
 ```
-composer require --dev ibexa/rector:~4.0.x-dev
+composer require --dev ibexa/rector:^4.6
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ composer require --dev ibexa/rector:~4.0.x-dev
                       )
                       ->withSets(
                           [
-                              IbexaSetList::IBEXA_50->value // rule set for upgrading to Ibexa DXP 5.0
+                              IbexaSetList::IBEXA_46->value // rule set for upgrading to Ibexa DXP 5.0
                           ]
                       )
    ;

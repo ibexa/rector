@@ -11,5 +11,4 @@ namespace Ibexa\Contracts\Rector\Sets;
 enum IbexaSetList: string
 {
     case IBEXA_46 = __DIR__ . '/ibexa-46.php';
-    case IBEXA_50 = __DIR__ . '/ibexa-50.php';
 }
