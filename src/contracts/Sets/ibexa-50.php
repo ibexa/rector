@@ -228,9 +228,38 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->ruleWithConfiguration(
-        RenameClassRector::class,
-        [
-            'Ibexa\Contracts\Core\Repository\Values\Content\Relation' => 'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+        RenameClassConstFetchRector::class,
+            [
+                new RenameClassAndConstFetch(
+                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
+                    'COMMON',
+                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'COMMON'
+                ),
+                new RenameClassAndConstFetch(
+                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
+                    'EMBED',
+                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'EMBED'
+                ),
+                new RenameClassAndConstFetch(
+                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
+                    'LINK',
+                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'LINK'
+                ),
+                new RenameClassAndConstFetch(
+                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
+                    'FIELD',
+                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'FIELD'
+                ),
+                new RenameClassAndConstFetch(
+                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
+                    'ASSET',
+                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'ASSET'
+                ),
         ]
     );
 };
