@@ -226,4 +226,11 @@ return static function (RectorConfig $rectorConfig): void {
             'isContainer' => 'isContainer',
         ],
     ]);
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\Contracts\Core\Repository\Values\Content\Relation' => 'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+        ]
+    );
 };
