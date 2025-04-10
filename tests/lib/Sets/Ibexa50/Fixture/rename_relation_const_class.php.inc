@@ -25,7 +25,7 @@ readonly class Foo
 {
     public function bar(Relation $relation)
     {
-        $type = RelationType::FIELD;
+        $type = RelationType::FIELD->value;
     }
 }
 

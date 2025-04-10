@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
+use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use Rector\Config\RectorConfig;
@@ -228,38 +229,18 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     $rectorConfig->ruleWithConfiguration(
-        RenameClassConstFetchRector::class,
-            [
-                new RenameClassAndConstFetch(
-                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
-                    'COMMON',
-                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
-                    'COMMON'
-                ),
-                new RenameClassAndConstFetch(
-                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
-                    'EMBED',
-                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
-                    'EMBED'
-                ),
-                new RenameClassAndConstFetch(
-                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
-                    'LINK',
-                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
-                    'LINK'
-                ),
-                new RenameClassAndConstFetch(
-                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
-                    'FIELD',
-                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
-                    'FIELD'
-                ),
-                new RenameClassAndConstFetch(
-                    'Ibexa\Contracts\Core\Repository\Values\Content\Relation',
-                    'ASSET',
-                    'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
-                    'ASSET'
-                ),
-        ]
+        ConstToEnumValueRector::class,
+        [
+                'Ibexa\Contracts\Core\Repository\Values\Content\Relation' => [
+                    'enumClass' => 'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'constants' => [
+                        'COMMON' => 'COMMON',
+                        'EMBED' => 'EMBED',
+                        'LINK' => 'LINK',
+                        'FIELD' => 'FIELD',
+                        'ASSET' => 'ASSET',
+                    ],
+                ],
+            ]
     );
 };
