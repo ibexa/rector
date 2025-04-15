@@ -8,14 +8,14 @@ CONFIG=./config.js INPUT=input OUTPUT=output RUN_ESLINT=1 yarn --cwd ./vendor/ib
 ### CONFIG
 **Required**: no
 
-**Default**: `removeez.config.js`/`none`
+**Default**: `rector.config.js`/`none`
 
 Points to configuration file, where you can modify plugins and transformers config. 
 
 ### INPUT
 **Required**: no
 
-**Default**: `src/bundle/Resources/public`
+**Default**: `src/bundle/Resources/public,src/bundle/ui-dev/src/modules`
 
 Used to point which directory should be parsed.
 
@@ -24,7 +24,7 @@ Used to point which directory should be parsed.
 
 **Default**: copied from `INPUT`
 
-Used to point where files should be saved.
+Used to point where files should be saved. If it's not provided or is same as INPUT, it will overwrite files on execution.
 
 ### RUN_ESLINT
 **Required**: no
@@ -34,7 +34,7 @@ Used to point where files should be saved.
 Eslint parsing is switched off by default, because older code (below 4.1) was using obsolete eslint config, and in between 4.1 and current version there were different iterations, this package uses `eslint-config-ibexa` in version **1.1.1**
 
 ## Configuration file
-If you need to modify default plugins or configuration for rules, put `removeez.config.js` in main directory.
+If you need to modify default plugins or configuration for rules, put `rector.config.js` in main directory.
 ```
 module.exports = {
     plugins: (plugins) => {
@@ -55,10 +55,10 @@ Example config:
 ```
 {
     "ibexa-rename-string-values": {
-        "ezform-error": "ibexaform-error",
-        "ezselection-settings": {
-            "to": "ibexaselection-settings",
-            "fullMatch": true
+        "ez-form-error": "ibexa-form-error",
+        "ez-selection-settings": {
+            "to": "ibexa-selection-settings",
+            "exactMatch": true
         },
         "(^|\\s)\\.ez-": {
             "to": ".ibexa-",
@@ -77,15 +77,15 @@ Property key inside this object is string that is supposed to be changed, can be
 
 ### Shorthand expression
 
-`"ezform-error": "ibexaform-error"` - change all `ezform-error` occurences to `ibexaform-error`
+`"ez-form-error": "ibexa-form-error"` - change all `ez-form-error` occurences to `ibexa-form-error`
 
 ### Full object config properties
 
-`"to": "ibexaselection-settings"` - what string should be replaced with
+`"to": "ibexa-selection-settings"` - what string should be replaced with
 
 `"regexp": true/false` - should config use regexp to match original value
 
-`"fullMatch": true` - should match only full values, using example config, this won't change `ezselection-settings__field` as `ezselection-settings` is not exact match.
+`"exactMatch": true` - should match only full values, using example config, this won't change `ez-selection-settings__field` as `ez-selection-settings` is not exact match.
 
 
 ## Default plugins
