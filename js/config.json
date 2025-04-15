@@ -14,11 +14,11 @@
         },
         "ez": {
             "to": "ibexa",
-            "fullMatch": true
+            "exactMatch": true
         },
         "ezSiteLocationId": {
             "to": "ibexaSiteLocationId",
-            "fullMatch": true
+            "exactMatch": true
         }
     },
     "ibexa-rename-string-values": {
