@@ -4,10 +4,10 @@ const path = require('path');
 const DEFAULT_CONFIG_FILE = 'removeez.config.js';
 
 const getModifyMethod = (method) => {
-    const { INIT_CWD, REMOVEEZ_CONFIG } = process.env;
-    const configPath = path.join(INIT_CWD, REMOVEEZ_CONFIG ?? DEFAULT_CONFIG_FILE);
+    const { INIT_CWD, CONFIG } = process.env;
+    const configPath = path.join(INIT_CWD, CONFIG ?? DEFAULT_CONFIG_FILE);
     const defaultModifyMethod = (config) => config;
-
+console.log(configPath)
     if (fs.existsSync(configPath)) {
         const modifyMethods = require(configPath);
 
@@ -57,7 +57,6 @@ const getValues = (oldValue, newValueConfig) => {
 };
 
 const traverse = (moduleConfig, originalValue, replaceData) => {
-    // should it end after first replace to avoid nested replace?
     Object.entries(moduleConfig).forEach(([oldValueRaw, newValueConfig]) => {
         if (shouldReplace(originalValue, oldValueRaw, newValueConfig)) {
             const { oldValue, newValue } = getValues(oldValueRaw, newValueConfig);

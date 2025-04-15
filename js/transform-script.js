@@ -10,9 +10,17 @@ const outputValue = OUTPUT ?? DEFAULT_INPUT_DIR;
 const inputPaths = inputValue.split(',');
 const outputPaths = outputValue.split(',');
 
+const getAbsolutePath = (pathToDir) => {
+    if (path.isAbsolute(pathToDir)) {
+        return pathToDir;
+    }
+
+    return path.join(INIT_CWD, pathToDir);
+};
+
 inputPaths.forEach((inputPath, index) => {
-    const inputAbsolutePath = path.join(INIT_CWD, inputPath);
-    const outputAbsolutePath = outputPaths[index] ? path.join(INIT_CWD, outputPaths[index]) : inputAbsolutePath;
+    const inputAbsolutePath = getAbsolutePath(inputPath);
+    const outputAbsolutePath = outputPaths[index] ? getAbsolutePath(outputPaths[index]) : inputAbsolutePath;
 
     if (!fs.existsSync(inputAbsolutePath)) {
         return;

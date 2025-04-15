@@ -1,11 +1,11 @@
 # How to run
 ```
-REMOVEEZ_CONFIG=./config.js INPUT=input OUTPUT=output RUN_ESLINT=1  yarn --cwd ./vendor/ibexa/rector/js transform
+CONFIG=./config.js INPUT=input OUTPUT=output RUN_ESLINT=1 yarn --cwd ./vendor/ibexa/rector/js transform
 ```
 `--cwd` argument should point to directory where JS transform module is installed (for example `./vendor/ibexa/rector/js`).
 
 ## Customizable variables
-### REMOVEEZ_CONFIG
+### CONFIG
 **Required**: no
 
 **Default**: `removeez.config.js`/`none`
