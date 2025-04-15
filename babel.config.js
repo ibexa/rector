@@ -2,7 +2,6 @@ const { getModifyMethod } = require('./js/helpers.js');
 
 module.exports = function (api) {
     const modifyPlugins = getModifyMethod('plugins');
-
     const ibexaPlugins = [
         './js/ibexa-rename-ez-global.js',
         './js/ibexa-rename-variables.js',
