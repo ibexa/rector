@@ -1,3 +1,9 @@
+# Get ready to run
+```
+yarn --cwd ./vendor/ibexa/rector/js install
+```
+`--cwd` argument should point to directory where JS transform module is installed (for example `./vendor/ibexa/rector/js`). This installs node_modules inside vendor bundle.
+
 # How to run
 ```
 CONFIG=./config.js INPUT=input OUTPUT=output RUN_ESLINT=1 yarn --cwd ./vendor/ibexa/rector/js transform
