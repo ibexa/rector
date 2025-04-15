@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const DEFAULT_CONFIG_FILE = 'removeez.config.js';
+const DEFAULT_CONFIG_FILE = 'rector.config.js';
 
 const getModifyMethod = (method) => {
     const { INIT_CWD, CONFIG } = process.env;
     const configPath = path.join(INIT_CWD, CONFIG ?? DEFAULT_CONFIG_FILE);
     const defaultModifyMethod = (config) => config;
-console.log(configPath)
+
     if (fs.existsSync(configPath)) {
         const modifyMethods = require(configPath);
 
@@ -33,7 +33,7 @@ const getConfig = (name) => {
 };
 
 const shouldReplace = (original, oldValue, newValueConfig) => {
-    if (newValueConfig.fullMatch) {
+    if (newValueConfig.exactMatch) {
         return original === oldValue;
     } else if (newValueConfig.regexp) {
         return !!original.match(oldValue);
