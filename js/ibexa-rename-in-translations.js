@@ -1,6 +1,6 @@
-const { getConfig, traverse } = require('./helpers.js');
+const { getRulesConfig, traverse } = require('./helpers.js');
 
-const moduleConfig = getConfig('ibexa-rename-in-translations');
+const moduleConfig = getRulesConfig('ibexa-rename-in-translations');
 
 module.exports = function () {
     return {

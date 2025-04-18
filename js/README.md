@@ -6,49 +6,27 @@ yarn --cwd ./vendor/ibexa/rector/js install
 
 # How to run
 ```
-CONFIG=./config.js INPUT=input OUTPUT=output RUN_ESLINT=1 yarn --cwd ./vendor/ibexa/rector/js transform
+yarn --cwd ./vendor/ibexa/rector/js transform
 ```
 `--cwd` argument should point to directory where JS transform module is installed (for example `./vendor/ibexa/rector/js`).
 
-## Customizable variables
-### CONFIG
-**Required**: no
-
-**Default**: `rector.config.js`/`none`
-
-Points to configuration file, where you can modify plugins and transformers config. 
-
-### INPUT
-**Required**: no
-
-**Default**: `src/bundle/Resources/public,src/bundle/ui-dev/src/modules`
-
-Used to point which directory should be parsed.
-
-### OUTPUT
-**Required**: no
-
-**Default**: copied from `INPUT`
-
-Used to point where files should be saved. If it's not provided or is same as INPUT, it will overwrite files on execution.
-
-### RUN_ESLINT
-**Required**: no
-
-**Default**: 0
-
-Eslint parsing is switched off by default, because older code (below 4.1) was using obsolete eslint config, and in between 4.1 and current version there were different iterations, this package uses `eslint-config-ibexa` in version **1.1.1**
-
 ## Configuration file
-If you need to modify default plugins or configuration for rules, put `rector.config.js` in main directory.
+If you need to modify default config, plugins or configuration for rules, use `rector.config.js` from main directory of bundle.
 ```
 module.exports = {
+    config: {
+        paths: [{
+            input: 'src/bundle/Resources/public',
+            output: 'src/bundle/Resources/public',
+        }],
+        prettierConfigPath: './prettier.js',
+    }
     plugins: (plugins) => {
         // modify enabled plugins
 
         return plugins;
     },
-    config: (config) => {
+    pluginsConfig: (config) => {
         // modify plugins config
 
         return config;
@@ -56,7 +34,19 @@ module.exports = {
 };
 ```
 
-## Plugins config
+### config
+
+#### paths
+Array of objects with input and output directories for transformed files. By default it's relative to main bundle root. While transforming, structure of directories is maintained.
+
+#### prettierConfigPath
+Optional. At the end of transform there's mandatory prettier execution, which by default is taken from package https://github.com/ibexa/eslint-config-ibexa/blob/main/prettier.js
+
+### plugins
+Allows to modify enabled plugins (more about plugin below).
+
+### pluginsConfig
+Allows to modify config for plugins.
 Example config:
 ```
 {
@@ -81,11 +71,11 @@ Plugin config is kept as object with key being plugin name (`ibexa-rename-string
 
 Property key inside this object is string that is supposed to be changed, can be either standard string or regex (`(^|\\s)\\.ez-`, `ezform-error"` in example)
 
-### Shorthand expression
+#### Shorthand expression
 
 `"ez-form-error": "ibexa-form-error"` - change all `ez-form-error` occurences to `ibexa-form-error`
 
-### Full object config properties
+#### Full object config properties
 
 `"to": "ibexa-selection-settings"` - what string should be replaced with
 
@@ -93,6 +83,16 @@ Property key inside this object is string that is supposed to be changed, can be
 
 `"exactMatch": true` - should match only full values, using example config, this won't change `ez-selection-settings__field` as `ez-selection-settings` is not exact match.
 
+#### Special "shared" property
+Except named plugins config, there is also possibility to create config for all plugins - its rules are later overwritten by specific plugin config if there is intersection in rules names.
+```
+    "shared": {
+        "ez": {
+            "to": "ibexa",
+            "exactMatch": true,
+        }
+    }
+```
 
 ## Default plugins
 ### Rename eZ global variables

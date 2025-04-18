@@ -1,6 +1,6 @@
-const { getConfig, traverse, isFunctionArgument } = require('./helpers.js');
+const { getRulesConfig, traverse, isFunctionArgument } = require('./helpers.js');
 
-const moduleConfig = getConfig('ibexa-rename-trans-id');
+const moduleConfig = getRulesConfig('ibexa-rename-trans-id');
 
 module.exports = function () {
     return {
