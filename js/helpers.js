@@ -1,26 +1,55 @@
 const fs = require('fs');
 const path = require('path');
 
-const DEFAULT_CONFIG_FILE = 'rector.config.js';
+const CONFIG_FILENAME = 'rector.config.js';
 
-const getModifyMethod = (method) => {
-    const { INIT_CWD, CONFIG } = process.env;
-    const configPath = path.join(INIT_CWD, CONFIG ?? DEFAULT_CONFIG_FILE);
-    const defaultModifyMethod = (config) => config;
+let savedMainConfig = null;
 
-    if (fs.existsSync(configPath)) {
-        const modifyMethods = require(configPath);
-
-        return modifyMethods[method] ?? defaultModifyMethod;
+const getMainConfig = () => {
+    if (savedMainConfig) {
+        return savedMainConfig;
     }
 
-    return defaultModifyMethod;
+    const { INIT_CWD } = process.env;
+    const fallbackConfigPath = path.resolve('js', CONFIG_FILENAME);
+    const customConfigPath = path.resolve(INIT_CWD, CONFIG_FILENAME);
+
+    if (fs.existsSync(customConfigPath)) {
+        savedMainConfig = require(customConfigPath);
+    } else if (fs.existsSync(fallbackConfigPath)) {
+        savedMainConfig = require(fallbackConfigPath);
+    } else {
+        throw new Error(`Config file not found: ${customConfigPath} or ${fallbackConfigPath}`);
+    }
+
+    return savedMainConfig;
 };
 
-const getConfig = (name) => {
+const getPrettierConfigFile = (prettierConfigPath) => {
+    if (fs.existsSync(prettierConfigPath)) {
+        return prettierConfigPath;
+    }
+
+    return require.resolve('eslint-config-ibexa/prettier');
+};
+const getAbsolutePath = (pathToDir) => {
+    if (path.isAbsolute(pathToDir)) {
+        return pathToDir;
+    }
+
+    return path.join(process.env.INIT_CWD, pathToDir);
+};
+
+const getModifyMethod = (method) => {
+    const mainConfig = getMainConfig();
+
+    return mainConfig[method] ?? ((config) => config);
+};
+
+const getRulesConfig = (name) => {
     const modifyConfig = getModifyMethod('config');
-    const configPath = path.join(__dirname, 'config.json');
-    const rawData = fs.readFileSync(configPath);
+    const rulesConfigPath = path.join(__dirname, 'rules.config.json');
+    const rawData = fs.readFileSync(rulesConfigPath);
     const parsedData = JSON.parse(rawData);
     const modifiedData = modifyConfig(parsedData);
     const sharedConfig = modifiedData.shared ?? {};
@@ -75,8 +104,11 @@ const isFunctionArgument = ({ parentPath }, functionName) => {
 };
 
 module.exports = {
+    getMainConfig,
+    getPrettierConfigFile,
+    getAbsolutePath,
     getModifyMethod,
-    getConfig,
+    getRulesConfig,
     shouldReplace,
     getValues,
     traverse,
