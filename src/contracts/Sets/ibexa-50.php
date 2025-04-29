@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
+use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use Rector\Config\RectorConfig;
@@ -226,4 +227,20 @@ return static function (RectorConfig $rectorConfig): void {
             'isContainer' => 'isContainer',
         ],
     ]);
+
+    $rectorConfig->ruleWithConfiguration(
+        ConstToEnumValueRector::class,
+        [
+                'Ibexa\Contracts\Core\Repository\Values\Content\Relation' => [
+                    'enumClass' => 'Ibexa\Contracts\Core\Repository\Values\Content\RelationType',
+                    'constants' => [
+                        'COMMON' => 'COMMON',
+                        'EMBED' => 'EMBED',
+                        'LINK' => 'LINK',
+                        'FIELD' => 'FIELD',
+                        'ASSET' => 'ASSET',
+                    ],
+                ],
+            ]
+    );
 };
