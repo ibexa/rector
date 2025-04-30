@@ -91,6 +91,25 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         return $returnType->describe(VerbosityLevel::typeOnly());
     }
 
+    private function tryGetReturnTypeFromParent(ClassReflection $currentClass, string $methodName): ?string
+    {
+        $parentClass = $currentClass->getParentClass();
+
+        return $parentClass ? $this->getMethodReturnType($parentClass, $methodName) : null;
+    }
+
+    private function tryGetReturnTypeFromInterfaces(ClassReflection $currentClass, string $methodName): ?string
+    {
+        foreach ($currentClass->getInterfaces() as $interface) {
+            $typeName = $this->getMethodReturnType($interface, $methodName);
+            if ($typeName !== null) {
+                return $typeName;
+            }
+        }
+
+        return null;
+    }
+
     public function refactor(Node $node): ?Node
     {
         if (!$node instanceof ClassMethod || $node->returnType !== null) {
@@ -98,37 +117,27 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         }
 
         $methodName = $this->getName($node);
-        if (!$methodName) {
-            return null;
-        }
 
         $currentClass = $node->getAttribute('scope')->getClassReflection();
-        if (!$currentClass) {
+        if ($currentClass === null) {
             return null;
         }
 
-        // Check parent classes
-        $parentClass = $currentClass->getParentClass();
-        if ($parentClass) {
-            $typeName = $this->getMethodReturnType($parentClass, $methodName);
-            if ($typeName) {
-                $node->returnType = new Node\Name($typeName);
+        $typeName = $this->tryGetReturnTypeFromParent($currentClass, $methodName)
+            ?? $this->tryGetReturnTypeFromInterfaces($currentClass, $methodName);
 
-                return $node;
-            }
+        if ($typeName === null) {
+            return null;
         }
 
-        // Check interfaces
-        foreach ($currentClass->getInterfaces() as $interface) {
-            $typeName = $this->getMethodReturnType($interface, $methodName);
-            if ($typeName) {
-                $node->returnType = new Node\Name($typeName);
+        $node->returnType = $this->createReturnTypeNode($typeName);
 
-                return $node;
-            }
-        }
+        return $node;
+    }
 
-        return null;
+    private function createReturnTypeNode(?string $typeName): ?Node\Name
+    {
+        return $typeName !== null ? new Node\Name($typeName) : null;
     }
 
     /**

@@ -11,6 +11,7 @@ namespace Ibexa\Rector\Rule;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\MixedType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
@@ -91,18 +92,30 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
         }
 
         $methodName = $this->getName($node);
+        $matchingConfig = $this->findMatchingConfiguration($currentClass, $methodName);
 
+        if ($matchingConfig === null) {
+            return null;
+        }
+
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+        $returnType = $phpDocInfo->getReturnType();
+
+        if ($returnType instanceof MixedType) {
+            return null;
+        }
+
+        $node->returnType = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($returnType, TypeKind::RETURN);
+
+        return $node;
+    }
+
+    private function findMatchingConfiguration(ClassReflection $currentClass, string $methodName): ?MethodReturnTypeConfiguration
+    {
         foreach ($this->methodConfigurations as $config) {
             foreach ($currentClass->getInterfaces() as $interface) {
                 if ($interface->getName() === $config->getClass() && $methodName === $config->getMethod()) {
-                    $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
-                    $returnType = $phpDocInfo->getReturnType();
-
-                    if (!$returnType instanceof MixedType) {
-                        $node->returnType = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($returnType, TypeKind::RETURN);
-
-                        return $node;
-                    }
+                    return $config;
                 }
             }
         }
@@ -111,7 +124,7 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
     }
 
     /**
-     * @param mixed[] $configuration
+     * @param \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[] $configuration
      */
     public function configure(array $configuration): void
     {
