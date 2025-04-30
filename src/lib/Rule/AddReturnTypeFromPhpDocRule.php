@@ -1,25 +1,29 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace Ibexa\Rector\Rule;
 
+use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Type\MixedType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
+use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\Rector\AbstractRector;
-use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\StaticTypeMapper\StaticTypeMapper;
-use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class AddReturnTypeFromPhpDocRule extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var MethodReturnTypeConfiguration[]
+     * @var \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[]
      */
     private array $methodConfigurations = [];
 
@@ -72,6 +76,9 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
         );
     }
 
+    /**
+     * @param \PhpParser\Node\Stmt\ClassMethod $node
+     */
     public function refactor(Node $node): ?Node
     {
         if ($node->returnType !== null) {
@@ -84,9 +91,6 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
         }
 
         $methodName = $this->getName($node);
-        if ($methodName === null) {
-            return null;
-        }
 
         foreach ($this->methodConfigurations as $config) {
             foreach ($currentClass->getInterfaces() as $interface) {
@@ -96,6 +100,7 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
 
                     if (!$returnType instanceof MixedType) {
                         $node->returnType = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($returnType, TypeKind::RETURN);
+
                         return $node;
                     }
                 }
