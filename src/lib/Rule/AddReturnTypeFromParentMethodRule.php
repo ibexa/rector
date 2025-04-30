@@ -1,21 +1,26 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace Ibexa\Rector\Rule;
 
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
-use PHPStan\Type\VerbosityLevel;
 use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
-use Rector\Rector\AbstractRector;
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Type\VerbosityLevel;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
+use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class AddReturnTypeFromParentMethodRule extends AbstractRector implements ConfigurableRectorInterface
 {
-    private ?MethodReturnTypeConfiguration $methodConfiguration = null;
+    private MethodReturnTypeConfiguration $methodConfiguration;
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -61,12 +66,13 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
             ]
         );
     }
+
     public function getNodeTypes(): array
     {
         return [ClassMethod::class];
     }
 
-    private function getMethodReturnType($classOrInterface, string $methodName): ?string
+    private function getMethodReturnType(ClassReflection $classOrInterface, string $methodName): ?string
     {
         if ($classOrInterface->getName() !== $this->methodConfiguration->getClass()
             || $methodName !== $this->methodConfiguration->getMethod()) {
@@ -74,9 +80,6 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         }
 
         $method = $classOrInterface->getNativeMethod($methodName);
-        if (!$method) {
-            return null;
-        }
 
         $variants = $method->getVariants();
         if (!isset($variants[0])) {
@@ -84,9 +87,6 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         }
 
         $returnType = $variants[0]->getReturnType();
-        if (!$returnType) {
-            return null;
-        }
 
         return $returnType->describe(VerbosityLevel::typeOnly());
     }
@@ -113,6 +113,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
             $typeName = $this->getMethodReturnType($parentClass, $methodName);
             if ($typeName) {
                 $node->returnType = new Node\Name($typeName);
+
                 return $node;
             }
         }
@@ -122,6 +123,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
             $typeName = $this->getMethodReturnType($interface, $methodName);
             if ($typeName) {
                 $node->returnType = new Node\Name($typeName);
+
                 return $node;
             }
         }
@@ -130,7 +132,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
     }
 
     /**
-     * @param MethodReturnTypeConfiguration[] $configuration
+     * @param \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[] $configuration
      */
     public function configure(array $configuration): void
     {
