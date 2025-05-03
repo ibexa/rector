@@ -55,6 +55,8 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
                        SymfonySetList::SYMFONY_62,
                        SymfonySetList::SYMFONY_63,
                        SymfonySetList::SYMFONY_64,
+                       SymfonySetList::SYMFONY_70,
+                       SymfonySetList::SYMFONY_71,
                    ],
                    $this->extraSets
                )

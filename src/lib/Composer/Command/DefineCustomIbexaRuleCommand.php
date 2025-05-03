@@ -10,6 +10,7 @@ namespace Ibexa\Rector\Composer\Command;
 
 use Ibexa\Rector\Composer\Command\CustomRule\RectorTemplateContentsProcessor;
 use Ibexa\Rector\Composer\Command\CustomRule\RectorTemplatePathProcessor;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,10 +23,9 @@ use Symfony\Component\Finder\Finder;
 /**
  * @internal use composer define-custom-rule instead
  */
+#[AsCommand(name: 'define-custom-rule')]
 final class DefineCustomIbexaRuleCommand extends Command
 {
-    protected static $defaultName = 'define-custom-rule';
-
     private RectorTemplatePathProcessor $pathNameProcessor;
 
     private RectorTemplateContentsProcessor $templateContentsProcessor;
