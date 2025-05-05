@@ -24,7 +24,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class AddReturnTypeFromPhpDocRule extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[]
+     * @var MethodReturnTypeConfiguration[]
      */
     private array $methodConfigurations = [];
 
@@ -87,61 +87,70 @@ CODE_SAMPLE
         );
     }
 
-    /**
-     * @param \PhpParser\Node\Stmt\ClassMethod $node
-     */
-    public function refactor(Node $node): ?Node
+    private function getReturnTypeFromPhpDoc(ClassMethod $node, string $methodName): ?Node\Name
     {
-        if ($node->returnType !== null) {
-            return null;
-        }
-
-        $currentClass = $node->getAttribute('scope')->getClassReflection();
-        if (!$currentClass) {
-            return null;
-        }
-
-        $methodName = $this->getName($node);
-        $matchingConfig = $this->findMatchingConfiguration($currentClass, $methodName);
-
-        if ($matchingConfig === null) {
-            return null;
-        }
-
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
-        $returnType = $phpDocInfo->getReturnType();
-
-        if ($returnType instanceof MixedType) {
-            return null;
-        }
-
-        $node->returnType = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($returnType, TypeKind::RETURN);
-
-        return $node;
-    }
-
-    private function findMatchingConfiguration(ClassReflection $currentClass, string $methodName): ?MethodReturnTypeConfiguration
-    {
-        foreach ($this->methodConfigurations as $config) {
-            // Check interfaces
-            foreach ($currentClass->getInterfaces() as $interface) {
-                if ($interface->getName() === $config->getClass() && $methodName === $config->getMethod()) {
-                    return $config;
-                }
+        foreach ($this->methodConfigurations as $methodConfiguration) {
+            if ($methodName !== $methodConfiguration->getMethod()) {
+                continue;
             }
 
-            // Check parent class
+            $currentClass = $node->getAttribute('scope')->getClassReflection();
+            if (!$currentClass) {
+                continue;
+            }
+
+            // Check parent hierarchy
             $parentClass = $currentClass->getParentClass();
-            if ($parentClass && $parentClass->getName() === $config->getClass() && $methodName === $config->getMethod()) {
-                return $config;
+            while ($parentClass !== null) {
+                if ($parentClass->getName() === $methodConfiguration->getClass()) {
+                    $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+                    $returnType = $phpDocInfo->getReturnType();
+
+                    if (!$returnType instanceof MixedType) {
+                        return $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($returnType, TypeKind::RETURN);
+                    }
+                }
+                $parentClass = $parentClass->getParentClass();
+            }
+
+            // Check interfaces
+            foreach ($currentClass->getInterfaces() as $interface) {
+                if ($interface->getName() === $methodConfiguration->getClass()) {
+                    $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
+                    $returnType = $phpDocInfo->getReturnType();
+
+                    if (!$returnType instanceof MixedType) {
+                        return $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($returnType, TypeKind::RETURN);
+                    }
+                }
             }
         }
 
         return null;
     }
 
+    public function refactor(Node $node): ?Node
+    {
+        if (!$node instanceof ClassMethod || $node->returnType !== null) {
+            return null;
+        }
+
+        $methodName = $this->getName($node);
+        if ($methodName === null) {
+            return null;
+        }
+
+        $returnType = $this->getReturnTypeFromPhpDoc($node, $methodName);
+        if ($returnType === null) {
+            return null;
+        }
+
+        $node->returnType = $returnType;
+        return $node;
+    }
+
     /**
-     * @param \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[] $configuration
+     * @param MethodReturnTypeConfiguration[] $configuration
      */
     public function configure(array $configuration): void
     {

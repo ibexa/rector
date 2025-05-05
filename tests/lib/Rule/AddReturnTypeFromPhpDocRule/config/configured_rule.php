@@ -18,12 +18,6 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\Rector\Tests\Rule\AddReturnTypeFromPhpDocRule\Fixture\SomeInterface',
                 'someFunction'
             ),
-        ]
-    );
-
-    $rectorConfig->ruleWithConfiguration(
-        AddReturnTypeFromPhpDocRule::class,
-        [
             new MethodReturnTypeConfiguration(
                 'Ibexa\Rector\Tests\Rule\AddReturnTypeFromPhpDocRule\Fixture\SomeAbstract',
                 'someFunction'
