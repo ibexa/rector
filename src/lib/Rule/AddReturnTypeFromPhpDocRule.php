@@ -10,8 +10,10 @@ namespace Ibexa\Rector\Rule;
 
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use PhpParser\Node;
+use PhpParser\Node\ComplexType;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\ClassMethod;
-use PHPStan\Reflection\ClassReflection;
 use PHPStan\Type\MixedType;
 use Rector\BetterPhpDocParser\PhpDocInfo\PhpDocInfoFactory;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
@@ -24,7 +26,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class AddReturnTypeFromPhpDocRule extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var MethodReturnTypeConfiguration[]
+     * @var \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[]
      */
     private array $methodConfigurations = [];
 
@@ -87,7 +89,7 @@ CODE_SAMPLE
         );
     }
 
-    private function getReturnTypeFromPhpDoc(ClassMethod $node, string $methodName): ?Node\Name
+    private function getReturnTypeFromPhpDoc(ClassMethod $node, string $methodName): ComplexType|Identifier|Name|null
     {
         foreach ($this->methodConfigurations as $methodConfiguration) {
             if ($methodName !== $methodConfiguration->getMethod()) {
@@ -136,9 +138,6 @@ CODE_SAMPLE
         }
 
         $methodName = $this->getName($node);
-        if ($methodName === null) {
-            return null;
-        }
 
         $returnType = $this->getReturnTypeFromPhpDoc($node, $methodName);
         if ($returnType === null) {
@@ -146,11 +145,12 @@ CODE_SAMPLE
         }
 
         $node->returnType = $returnType;
+
         return $node;
     }
 
     /**
-     * @param MethodReturnTypeConfiguration[] $configuration
+     * @param \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[] $configuration
      */
     public function configure(array $configuration): void
     {

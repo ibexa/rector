@@ -2,6 +2,10 @@
 
 namespace Ibexa\Contracts\Rest\Input;
 
+abstract class BaseParser extends Parser
+{
+}
+
 abstract class Parser
 {
     abstract public function parse(array $data, ParsingDispatcher $parsingDispatcher): mixed;
@@ -12,10 +16,10 @@ abstract class Parser
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
-use Ibexa\Contracts\Rest\Input\Parser;
+use Ibexa\Contracts\Rest\Input\BaseParser;
 use Ibexa\Contracts\Rest\Input\ParsingDispatcher;
 
-class SomeParserWithDoc extends Parser
+class SomeParserWithDoc extends BaseParser
 {
     /**
      * @return \stdClass
@@ -25,7 +29,7 @@ class SomeParserWithDoc extends Parser
     }
 }
 
-class SomeParserWithoutDoc extends Parser
+class SomeParserWithoutDoc extends BaseParser
 {
     public function parse(array $data, ParsingDispatcher $parsingDispatcher)
     {
@@ -38,6 +42,10 @@ class SomeParserWithoutDoc extends Parser
 
 namespace Ibexa\Contracts\Rest\Input;
 
+abstract class BaseParser extends Parser
+{
+}
+
 abstract class Parser
 {
     abstract public function parse(array $data, ParsingDispatcher $parsingDispatcher): mixed;
@@ -48,10 +56,10 @@ abstract class Parser
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
-use Ibexa\Contracts\Rest\Input\Parser;
+use Ibexa\Contracts\Rest\Input\BaseParser;
 use Ibexa\Contracts\Rest\Input\ParsingDispatcher;
 
-class SomeParserWithDoc extends Parser
+class SomeParserWithDoc extends BaseParser
 {
     /**
      * @return \stdClass
@@ -61,7 +69,7 @@ class SomeParserWithDoc extends Parser
     }
 }
 
-class SomeParserWithoutDoc extends Parser
+class SomeParserWithoutDoc extends BaseParser
 {
     public function parse(array $data, ParsingDispatcher $parsingDispatcher): mixed
     {
