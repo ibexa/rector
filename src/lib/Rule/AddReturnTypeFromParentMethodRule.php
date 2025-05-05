@@ -21,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class AddReturnTypeFromParentMethodRule extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var MethodReturnTypeConfiguration[]
+     * @var \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[]
      */
     private array $methodConfigurations = [];
 
@@ -75,29 +75,6 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         return [ClassMethod::class];
     }
 
-    private function isConfiguredParent(ClassReflection $currentClass): bool
-    {
-        foreach ($this->methodConfigurations as $methodConfiguration) {
-            // Check if current class extends configured class
-            $parentClass = $currentClass->getParentClass();
-            while ($parentClass !== null) {
-                if ($parentClass->getName() === $methodConfiguration->getClass()) {
-                    return true;
-                }
-                $parentClass = $parentClass->getParentClass();
-            }
-
-            // Check if current class implements configured interface
-            foreach ($currentClass->getInterfaces() as $interface) {
-                if ($interface->getName() === $methodConfiguration->getClass()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     private function getMethodReturnTypeFromConfiguredParent(ClassReflection $currentClass, string $methodName): ?string
     {
         foreach ($this->methodConfigurations as $methodConfiguration) {
@@ -112,7 +89,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
                 if ($classReflection->getName() === $configuredClass) {
                     $method = $classReflection->getNativeMethod($methodName);
                     $variants = $method->getVariants();
-                    if (isset($variants[0]) && $variants[0]->getReturnType()) {
+                    if (isset($variants[0])) {
                         return $variants[0]->getReturnType()->describe(VerbosityLevel::typeOnly());
                     }
                 }
@@ -124,7 +101,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
                 if ($interface->getName() === $configuredClass) {
                     $method = $interface->getNativeMethod($methodName);
                     $variants = $method->getVariants();
-                    if (isset($variants[0]) && $variants[0]->getReturnType()) {
+                    if (isset($variants[0])) {
                         return $variants[0]->getReturnType()->describe(VerbosityLevel::typeOnly());
                     }
                 }
@@ -152,6 +129,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         }
 
         $node->returnType = new Node\Name($typeName);
+
         return $node;
     }
 
