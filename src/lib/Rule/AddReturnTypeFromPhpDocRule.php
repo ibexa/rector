@@ -46,31 +46,41 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
             [
                 new ConfiguredCodeSample(
                     <<<'CODE_SAMPLE'
-                    class SomeClass
-                    {
-                        /** @return SomeObject */
-                        public function someFunction()
-                        {
-                        }
-                    }
-                    CODE_SAMPLE
+abstract class BaseClass 
+{
+    /** @return SomeObject */
+    abstract public function someFunction();
+}
+
+class SomeClass extends BaseClass
+{
+    /** @return SomeObject */
+    public function someFunction()
+    {
+    }
+}
+CODE_SAMPLE
                     ,
                     <<<'CODE_SAMPLE'
-                    class SomeClass
-                    {
-                        public function someFunction(): SomeObject
-                        {
-                        }
-                    }
-                    CODE_SAMPLE
+abstract class BaseClass 
+{
+    /** @return SomeObject */
+    abstract public function someFunction();
+}
+
+class SomeClass extends BaseClass
+{
+    public function someFunction(): SomeObject
+    {
+    }
+}
+CODE_SAMPLE
                     ,
                     [
-                        'configurations' => [
-                            new MethodReturnTypeConfiguration(
-                                'SomeInterface',
-                                'someFunction',
-                            ),
-                        ],
+                        new MethodReturnTypeConfiguration(
+                            'BaseClass',
+                            'someFunction',
+                        ),
                     ]
                 ),
             ]
@@ -113,10 +123,17 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
     private function findMatchingConfiguration(ClassReflection $currentClass, string $methodName): ?MethodReturnTypeConfiguration
     {
         foreach ($this->methodConfigurations as $config) {
+            // Check interfaces
             foreach ($currentClass->getInterfaces() as $interface) {
                 if ($interface->getName() === $config->getClass() && $methodName === $config->getMethod()) {
                     return $config;
                 }
+            }
+
+            // Check parent class
+            $parentClass = $currentClass->getParentClass();
+            if ($parentClass && $parentClass->getName() === $config->getClass() && $methodName === $config->getMethod()) {
+                return $config;
             }
         }
 

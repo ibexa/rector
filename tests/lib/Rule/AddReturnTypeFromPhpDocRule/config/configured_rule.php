@@ -20,4 +20,14 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeFromPhpDocRule::class,
+        [
+            new MethodReturnTypeConfiguration(
+                'Ibexa\Rector\Tests\Rule\AddReturnTypeFromPhpDocRule\Fixture\SomeAbstract',
+                'someFunction'
+            ),
+        ]
+    );
 };
