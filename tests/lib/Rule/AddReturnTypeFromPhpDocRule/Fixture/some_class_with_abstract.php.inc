@@ -2,12 +2,16 @@
 
 namespace Ibexa\Rector\Tests\Rule\AddReturnTypeFromPhpDocRule\Fixture;
 
-abstract Class SomeAbstract
+abstract class SomeMiddleAbstract extends SomeAbstract
+{
+}
+
+abstract class SomeAbstract
 {
     public function someFunction(): mixed;
 }
 
-class SomeClass extends SomeAbstract
+class SomeClass extends SomeMiddleAbstract
 {
     /** @return SomeObject */
     public function someFunction()
@@ -26,12 +30,16 @@ class SomeObject
 
 namespace Ibexa\Rector\Tests\Rule\AddReturnTypeFromPhpDocRule\Fixture;
 
-abstract Class SomeAbstract
+abstract class SomeMiddleAbstract extends SomeAbstract
+{
+}
+
+abstract class SomeAbstract
 {
     public function someFunction(): mixed;
 }
 
-class SomeClass extends SomeAbstract
+class SomeClass extends SomeMiddleAbstract
 {
     /** @return SomeObject */
     public function someFunction(): \Ibexa\Rector\Tests\Rule\AddReturnTypeFromPhpDocRule\Fixture\SomeObject
