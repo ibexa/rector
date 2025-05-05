@@ -40,8 +40,6 @@ final class IbexaRectorConfigFactoryTest extends TestCase
     {
         $expectedSetList = [
             SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES,
-            // SYMFONY_53 adds this extra set
-            SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
             IbexaSetList::IBEXA_50->value,
             SymfonySetList::SYMFONY_50,
             SymfonySetList::SYMFONY_50_TYPES,
