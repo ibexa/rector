@@ -18,6 +18,10 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\Rector\Tests\Rule\AddReturnTypeFromParentMethodRule\Fixture\SomeInterface',
                 'someFunction'
             ),
+            new MethodReturnTypeConfiguration(
+                'Ibexa\Rector\Tests\Rule\AddReturnTypeFromParentMethodRule\Fixture\SomeAbstract',
+                'someFunction'
+            ),
         ]
     );
 };

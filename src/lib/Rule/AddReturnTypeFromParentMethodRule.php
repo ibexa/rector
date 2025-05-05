@@ -20,7 +20,10 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 final class AddReturnTypeFromParentMethodRule extends AbstractRector implements ConfigurableRectorInterface
 {
-    private MethodReturnTypeConfiguration $methodConfiguration;
+    /**
+     * @var MethodReturnTypeConfiguration[]
+     */
+    private array $methodConfigurations = [];
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -72,38 +75,59 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         return [ClassMethod::class];
     }
 
-    private function getMethodReturnType(ClassReflection $classOrInterface, string $methodName): ?string
+    private function isConfiguredParent(ClassReflection $currentClass): bool
     {
-        if ($classOrInterface->getName() !== $this->methodConfiguration->getClass()
-            || $methodName !== $this->methodConfiguration->getMethod()) {
-            return null;
+        foreach ($this->methodConfigurations as $methodConfiguration) {
+            // Check if current class extends configured class
+            $parentClass = $currentClass->getParentClass();
+            while ($parentClass !== null) {
+                if ($parentClass->getName() === $methodConfiguration->getClass()) {
+                    return true;
+                }
+                $parentClass = $parentClass->getParentClass();
+            }
+
+            // Check if current class implements configured interface
+            foreach ($currentClass->getInterfaces() as $interface) {
+                if ($interface->getName() === $methodConfiguration->getClass()) {
+                    return true;
+                }
+            }
         }
 
-        $method = $classOrInterface->getNativeMethod($methodName);
-
-        $variants = $method->getVariants();
-        if (!isset($variants[0])) {
-            return null;
-        }
-
-        $returnType = $variants[0]->getReturnType();
-
-        return $returnType->describe(VerbosityLevel::typeOnly());
+        return false;
     }
 
-    private function tryGetReturnTypeFromParent(ClassReflection $currentClass, string $methodName): ?string
+    private function getMethodReturnTypeFromConfiguredParent(ClassReflection $currentClass, string $methodName): ?string
     {
-        $parentClass = $currentClass->getParentClass();
+        foreach ($this->methodConfigurations as $methodConfiguration) {
+            $configuredClass = $methodConfiguration->getClass();
+            if ($methodName !== $methodConfiguration->getMethod()) {
+                continue;
+            }
 
-        return $parentClass ? $this->getMethodReturnType($parentClass, $methodName) : null;
-    }
+            // Try to find in parent hierarchy
+            $classReflection = $currentClass->getParentClass();
+            while ($classReflection !== null) {
+                if ($classReflection->getName() === $configuredClass) {
+                    $method = $classReflection->getNativeMethod($methodName);
+                    $variants = $method->getVariants();
+                    if (isset($variants[0]) && $variants[0]->getReturnType()) {
+                        return $variants[0]->getReturnType()->describe(VerbosityLevel::typeOnly());
+                    }
+                }
+                $classReflection = $classReflection->getParentClass();
+            }
 
-    private function tryGetReturnTypeFromInterfaces(ClassReflection $currentClass, string $methodName): ?string
-    {
-        foreach ($currentClass->getInterfaces() as $interface) {
-            $typeName = $this->getMethodReturnType($interface, $methodName);
-            if ($typeName !== null) {
-                return $typeName;
+            // Try to find in interfaces
+            foreach ($currentClass->getInterfaces() as $interface) {
+                if ($interface->getName() === $configuredClass) {
+                    $method = $interface->getNativeMethod($methodName);
+                    $variants = $method->getVariants();
+                    if (isset($variants[0]) && $variants[0]->getReturnType()) {
+                        return $variants[0]->getReturnType()->describe(VerbosityLevel::typeOnly());
+                    }
+                }
             }
         }
 
@@ -117,27 +141,18 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         }
 
         $methodName = $this->getName($node);
-
         $currentClass = $node->getAttribute('scope')->getClassReflection();
         if ($currentClass === null) {
             return null;
         }
 
-        $typeName = $this->tryGetReturnTypeFromParent($currentClass, $methodName)
-            ?? $this->tryGetReturnTypeFromInterfaces($currentClass, $methodName);
-
+        $typeName = $this->getMethodReturnTypeFromConfiguredParent($currentClass, $methodName);
         if ($typeName === null) {
             return null;
         }
 
-        $node->returnType = $this->createReturnTypeNode($typeName);
-
+        $node->returnType = new Node\Name($typeName);
         return $node;
-    }
-
-    private function createReturnTypeNode(?string $typeName): ?Node\Name
-    {
-        return $typeName !== null ? new Node\Name($typeName) : null;
     }
 
     /**
@@ -145,6 +160,6 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
      */
     public function configure(array $configuration): void
     {
-        $this->methodConfiguration = $configuration[0];
+        $this->methodConfigurations = $configuration;
     }
 }
