@@ -1,18 +1,29 @@
-# Get ready to run
-```
+# JavaScript Transform module
+
+The JavaScript Transform module is a command-line tool you can use to automatically refactor your JavaScript code.
+
+# Usage
+
+## Install dependencies
+
+To install the dependencies, execute the following command:
+``` bash
 yarn --cwd ./vendor/ibexa/rector/js install
 ```
-`--cwd` argument should point to directory where JS transform module is installed (for example `./vendor/ibexa/rector/js`). This installs node_modules inside vendor bundle.
+`--cwd` argument must point to the directory where the transform module is installed, by default `./vendor/ibexa/rector/js`.
 
-# How to run
-```
+# Running transformations
+
+``` bash
 yarn --cwd ./vendor/ibexa/rector/js transform
 ```
-`--cwd` argument should point to directory where JS transform module is installed (for example `./vendor/ibexa/rector/js`).
+`--cwd` argument must point to the directory where the transform module is installed, by default `./vendor/ibexa/rector/js`.
 
-## Configuration file
-If you need to modify default config, plugins or configuration for rules, use `rector.config.js` from main directory of bundle.
-```
+## Configuration
+
+To adjust the default configuration, plugins, or rules, modify the `rector.config.js` file present in your project or bundle directory:
+
+``` js
 module.exports = {
     config: {
         paths: [{
@@ -34,21 +45,27 @@ module.exports = {
 };
 ```
 
-### config
+### Configuration options
 
-#### paths
-Array of objects with input and output directories for transformed files. By default it's relative to main bundle root. While transforming, structure of directories is maintained.
+#### `paths`
 
-#### prettierConfigPath
-Optional. At the end of transform there's mandatory prettier execution, which by default is taken from package https://github.com/ibexa/eslint-config-ibexa/blob/main/prettier.js
+Array of objects with input and output directories for transformed files, relative to your project or bundle root. 
+Directory structure is not modified during thetransformation.
 
-### plugins
-Allows to modify enabled plugins (more about plugin below).
+#### `prettierConfigPath`
 
-### pluginsConfig
-Allows to modify config for plugins.
-Example config:
-```
+[Prettier](https://prettier.io/) is run at the end of the transformation. 
+You can provide the path to your own configuration file, otherwise [the default file](https://github.com/ibexa/eslint-config-ibexa/blob/main/prettier.js) is used.
+
+### `plugins`
+
+Use it to modify enabled plugins. 
+To learn more about plugins, see [the list of plugins](#list-of-plugins).
+
+### `pluginsConfig`
+
+Use this setting to modify the plugins configuration, as in the example below:
+``` js
 {
     "ibexa-rename-string-values": {
         "ez-form-error": "ibexa-form-error",
@@ -67,25 +84,29 @@ Example config:
     }
 }
 ```
-Plugin config is kept as object with key being plugin name (`ibexa-rename-string-values` in example).
 
-Property key inside this object is string that is supposed to be changed, can be either standard string or regex (`(^|\\s)\\.ez-`, `ezform-error"` in example)
+The plugin configuration is an object with plugin names as keys, for example `ibexa-rename-string-values`.
+Inside a single plugin configuration, the property names are values that should be replaced.
+They can be specified explicitly (`ezform-error`) or by using regexp (`(^|\\s)\\.ez-`).
 
 #### Shorthand expression
 
-`"ez-form-error": "ibexa-form-error"` - change all `ez-form-error` occurences to `ibexa-form-error`
+You can use a shorthand form to specify the configuration:
 
-#### Full object config properties
+- `"ez-form-error": "ibexa-form-error"` - changes all `ez-form-error` occurrences to `ibexa-form-error`
 
-`"to": "ibexa-selection-settings"` - what string should be replaced with
+#### Complete plugin configuration
 
-`"regexp": true/false` - should config use regexp to match original value
+When not using the shorthand configuration, the following options are available:
 
-`"exactMatch": true` - should match only full values, using example config, this won't change `ez-selection-settings__field` as `ez-selection-settings` is not exact match.
+- `"to": "ibexa-selection-settings"` - specifies the new value
+- `"regexp": true/false` - use regexp to find the matching values. Use capture groups to reuse parts of the original value in the new value
+- `"exactMatch": true` - replace matching values only when the whole value is matched. Using the example configuration, `ez-selection-settings__field` would not be replaced as it doesn't match `ez-selection-settings` exactly
 
 #### Special "shared" property
-Except named plugins config, there is also possibility to create config for all plugins - its rules are later overwritten by specific plugin config if there is intersection in rules names.
-```
+
+You can create a shared configuration for all plugins by using the `shared` keyword, as in the example below:
+``` js
     "shared": {
         "ez": {
             "to": "ibexa",
@@ -94,21 +115,26 @@ Except named plugins config, there is also possibility to create config for all 
     }
 ```
 
-## Default plugins
+Values specifies in the `shared` configuration can be overwritten using configuration for specific plugins.
+
+## List of plugins
+
 ### Rename eZ global variables
+
 This plugin changes all `eZ` variables to `ibexa`.
 
-**Plugin name in config:** `./ibexa-rename-ez-global.js`
+**Name:** `ibexa-rename-ez-global`
 
-**Example config:** none
+**Configuration:** none
 
 ### Rename variables
-This plugin allows to change any variable to any other value.
+This plugin allows to rename any variable.
 
-**Plugin name in config:** `./ibexa-rename-variables.js`
+**Name:** `ibexa-rename-variables`
 
-**Example config:**
-```
+**Configuration example:**
+
+``` js
 {
     "^Ez(.*?)Validator$": {
         "to": "Ibexa$1Validator",
@@ -121,18 +147,20 @@ This plugin allows to change any variable to any other value.
 }
 ```
 
-**Example output:**
+**Example:**
 
-`class EzBooleanValidator extends eZ.BaseFieldValidator` => `class IbexaBooleanValidator extends ibexa.BaseFieldValidator`
-
-`const EZ_INPUT_SELECTOR = 'ezselection-settings__input';` => `const IBEXA_INPUT_SELECTOR = 'ezselection-settings__input';`
+| Before | After |
+|---|---|
+| `class EzBooleanValidator extends eZ.BaseFieldValidator` | `class IbexaBooleanValidator extends ibexa.BaseFieldValidator` |
+| `const EZ_INPUT_SELECTOR = 'ezselection-settings__input';` | `const IBEXA_INPUT_SELECTOR = 'ezselection-settings__input';` |
 
 ### Rename string values
-This plugin allows to change any string value - except translations. Can be used to transform selectors etc.
 
-**Plugin name in config:** `./ibexa-rename-string-values.js`
+This plugin changes any string value - except translations. You can use it to transform selectors and other values.
 
-**Example config:**
+**Name:** `ibexa-rename-string-values`
+
+**Configuration example:**
 ```
 {
     "(^|\\s)\\.ez-": {
@@ -149,17 +177,19 @@ This plugin allows to change any string value - except translations. Can be used
 
 **Example output:**
 
-`const SELECTOR_FIELD = '.ez-field-edit--ezboolean';` => `const SELECTOR_FIELD = ".ibexa-field-edit--ezboolean"`
-
-`const SELECTOR_FIELD = '.ibexa-field-edit--ezboolean';` => `const SELECTOR_FIELD = '.ibexa-field-edit--ibexaboolean';`
+| Before | After |
+|---|---|
+|`const SELECTOR_FIELD = '.ez-field-edit--ezboolean';` | `const SELECTOR_FIELD = ".ibexa-field-edit--ezboolean"` |
+| `const SELECTOR_FIELD = '.ibexa-field-edit--ezboolean';` | `const SELECTOR_FIELD = '.ibexa-field-edit--ibexaboolean';` |
 
 ### Rename translation IDs
-This plugin allows to change translation ids. Remember to extract translations afterwards!
+This plugin allows to change translation ids.
+Extract translations after running this transformation.
 
-**Plugin name in config:** `./ibexa-rename-trans-id.js`
+**Name:** `ibexa-rename-trans-id`
 
-**Example config:**
-```
+**Configuration example:**
+``` js
 {
     "^ez": {
         "to": "ibexa",
@@ -170,15 +200,19 @@ This plugin allows to change translation ids. Remember to extract translations a
 
 **Example output:**
 
-`'ez_boolean.limitation.pick.ez_error'` => `'ibexa_boolean.limitation.pick.ez_error'`
+| Before | After |
+|---|---|
+|`'ez_boolean.limitation.pick.ez_error'` | `'ibexa_boolean.limitation.pick.ez_error'` |
 
 ### Rename translation strings
-This plugin allows to change translations. Remember to extract translations afterwards!
+This plugin changes values in translations.
+Extract translations after running this transformation.
 
-**Plugin name in config:** `./ibexa-rename-in-translations.js`
+**Name:** `ibexa-rename-in-translations`
 
-**Example config:**
-```
+**Configuration example:**
+
+``` js
 {
     "to": "ibexa-not-$1--show-modal",
     "regexp": true,
@@ -186,14 +220,14 @@ This plugin allows to change translations. Remember to extract translations afte
 }
 ```
 
-**selectors-only config:** 
+**`selectors-only`:** 
 
-If this property is set to `true`, this plugin changes only strings inside html tags (like classes and other html parameters). Set to `false` or remove property to change also normal strings as well.
+If this property is set to `true`, this plugin changes only strings inside HTML tags.
+Set to `false` or remove property to change text values as well.
 
-**Example output with selectors-only=true:**
+**Example output:**
 
-`/*@Desc("<p class='ez-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/` => `/*@Desc("<p class='ibexa-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/`
-
-**Example output with selectors-only=false:**
-
-`/*@Desc("<p class='ez-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/` => `/*@Desc("<p class='ibexa-not-error--show-modal'>Show message</p> for ibexa-not-error--show-modal")*/`
+| `selectors-only` value | Before | After |
+|---|---|---|
+| true | `/*@Desc("<p class='ez-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/`  | `/*@Desc("<p class='ibexa-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/` |
+| false | `/*@Desc("<p class='ez-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/` |  `/*@Desc("<p class='ibexa-not-error--show-modal'>Show message</p> for ibexa-not-error--show-modal")*/` |
