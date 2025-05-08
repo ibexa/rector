@@ -50,7 +50,7 @@ module.exports = {
 #### `paths`
 
 Array of objects with input and output directories for transformed files, relative to your project or bundle root. 
-Directory structure is not modified during thetransformation.
+Directory structure is not modified during the transformation.
 
 #### `prettierConfigPath`
 
@@ -179,7 +179,7 @@ This plugin changes any string value - except translations. You can use it to tr
 
 | Before | After |
 |---|---|
-|`const SELECTOR_FIELD = '.ez-field-edit--ezboolean';` | `const SELECTOR_FIELD = ".ibexa-field-edit--ezboolean"` |
+| `const SELECTOR_FIELD = '.ez-field-edit--ezboolean';` | `const SELECTOR_FIELD = '.ibexa-field-edit--ezboolean'` |
 | `const SELECTOR_FIELD = '.ibexa-field-edit--ezboolean';` | `const SELECTOR_FIELD = '.ibexa-field-edit--ibexaboolean';` |
 
 ### Rename translation IDs
