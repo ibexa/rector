@@ -73,7 +73,7 @@ CODE_SAMPLE
         if ($className !== $this->className) {
             return null;
         }
-        if ($this->nodeNameResolver->isName($node->name, $this->methodName)
+        if ($this->isName($node->name, $this->methodName)
             && count($node->args) > $this->moreThan
         ) {
             if (isset($node->args[$this->argumentIndex])) {
