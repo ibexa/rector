@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
+use Ibexa\Rector\Rule\AddReturnTypeFromParentMethodRule;
+use Ibexa\Rector\Rule\AddReturnTypeFromPhpDocRule;
+use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use Rector\Config\RectorConfig;
@@ -220,4 +223,24 @@ return static function (RectorConfig $rectorConfig): void {
             'isContainer' => 'isContainer',
         ],
     ]);
+
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeFromPhpDocRule::class,
+        [
+            new MethodReturnTypeConfiguration(
+                'Ibexa\Contracts\Rest\Input\Parser',
+                'parse'
+            ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeFromParentMethodRule::class,
+        [
+            new MethodReturnTypeConfiguration(
+                'Ibexa\Contracts\Rest\Input\Parser',
+                'parse'
+            ),
+        ]
+    );
 };
