@@ -39,14 +39,13 @@ final class IbexaRectorConfigFactoryTest extends TestCase
     public static function getSetsForIbexaConfigFactory(): iterable
     {
         $expectedSetList = [
-            SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES,
             // SYMFONY_53 adds this extra set
-            SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
             IbexaSetList::IBEXA_50->value,
             SymfonySetList::SYMFONY_50,
             SymfonySetList::SYMFONY_50_TYPES,
             SymfonySetList::SYMFONY_51,
             SymfonySetList::SYMFONY_52,
+            SymfonySetList::SYMFONY_52_VALIDATOR_ATTRIBUTES,
             SymfonySetList::SYMFONY_53,
             SymfonySetList::SYMFONY_54,
             SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
