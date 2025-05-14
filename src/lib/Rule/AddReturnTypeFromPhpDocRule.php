@@ -48,35 +48,35 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
             [
                 new ConfiguredCodeSample(
                     <<<'CODE_SAMPLE'
-abstract class BaseClass 
-{
-    /** @return SomeObject */
-    abstract public function someFunction();
-}
-
-class SomeClass extends BaseClass
-{
-    /** @return SomeObject */
-    public function someFunction()
-    {
-    }
-}
-CODE_SAMPLE
+                        abstract class BaseClass 
+                        {
+                            /** @return SomeObject */
+                            abstract public function someFunction();
+                        }
+                        
+                        class SomeClass extends BaseClass
+                        {
+                            /** @return SomeObject */
+                            public function someFunction()
+                            {
+                            }
+                        }
+                    CODE_SAMPLE
                     ,
                     <<<'CODE_SAMPLE'
-abstract class BaseClass 
-{
-    /** @return SomeObject */
-    abstract public function someFunction();
-}
-
-class SomeClass extends BaseClass
-{
-    public function someFunction(): SomeObject
-    {
-    }
-}
-CODE_SAMPLE
+                        abstract class BaseClass 
+                        {
+                            /** @return SomeObject */
+                            abstract public function someFunction();
+                        }
+                        
+                        class SomeClass extends BaseClass
+                        {
+                            public function someFunction(): SomeObject
+                            {
+                            }
+                        }
+                    CODE_SAMPLE
                     ,
                     [
                         new MethodReturnTypeConfiguration(

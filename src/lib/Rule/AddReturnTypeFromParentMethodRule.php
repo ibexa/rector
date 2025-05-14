@@ -32,31 +32,31 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
             [
                 new ConfiguredCodeSample(
                     <<<'CODE_SAMPLE'
-                    interface SomeInterface
-                    {
-                        public function someFunction(): SomeObject;
-                    }
-                    
-                    class SomeClass implements SomeInterface
-                    {
-                        public function someFunction()
+                        interface SomeInterface
                         {
+                            public function someFunction(): SomeObject;
                         }
+                        
+                        class SomeClass implements SomeInterface
+                        {
+                            public function someFunction()
+                            {
+                            }
                     }
                     CODE_SAMPLE
                     ,
                     <<<'CODE_SAMPLE'
-                    interface SomeInterface
-                    {
-                        public function someFunction(): SomeObject;
-                    }
-                    
-                    class SomeClass implements SomeInterface
-                    {
-                        public function someFunction(): SomeObject
+                        interface SomeInterface
                         {
+                            public function someFunction(): SomeObject;
                         }
-                    }
+                        
+                        class SomeClass implements SomeInterface
+                        {
+                            public function someFunction(): SomeObject
+                            {
+                            }
+                        }
                     CODE_SAMPLE
                     ,
                     [
