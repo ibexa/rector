@@ -1,0 +1,19 @@
+{
+    "name": "rector",
+    "repository": "git@github.com:ibexa/rector.git",
+    "private": true,
+    "prettier": "eslint-config-ibexa/prettier",
+    "dependencies": {
+        "@babel/cli": "^7.27.0",
+        "@babel/core": "^7.26.10",
+        "@babel/plugin-syntax-jsx": "^7.25.9",
+        "eslint-config-ibexa": "https://github.com/ibexa/eslint-config-ibexa.git#~v1.1.1"
+    },
+    "scripts": {
+        "test": "yarn prettier-test && yarn eslint-test",
+        "fix": "yarn prettier-test --write && yarn eslint-test --fix",
+        "eslint-test": "eslint \"./js/**/*.js\"",
+        "prettier-test": "yarn prettier \"./js/**/*.{js,scss}\" --check",
+        "transform": "node ./js/transform-script.js"
+    }
+}
