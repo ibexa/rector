@@ -26,7 +26,7 @@ interface SubType extends Type
     public function evaluate(
         mixed $value,
         mixed $currentUser,
-        \object $object,
+        object $object,
         array $targets = null,
         bool $foo = false
     ): ?bool;

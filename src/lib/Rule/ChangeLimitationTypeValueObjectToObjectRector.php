@@ -13,6 +13,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\Type;
 use Rector\Exception\ShouldNotHappenException;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
@@ -81,7 +82,7 @@ final class ChangeLimitationTypeValueObjectToObjectRector extends AbstractRector
 
         $this->addClassMethodParam(
             $evaluateMethod,
-            new ObjectType('object'),
+            new ObjectWithoutClassType(),
             $param->var->name,
         );
 

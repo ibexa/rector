@@ -27,7 +27,7 @@ class Foo implements Type
     public function evaluate(
         mixed $value,
         mixed $currentUser,
-        \object $differentName,
+        object $differentName,
         array $targets = null
     ): ?bool {
         return null;
