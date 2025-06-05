@@ -10,6 +10,7 @@ namespace Ibexa\Contracts\Rector\Sets;
 
 use Ibexa\Rector\Rule\AddReturnTypeFromParentMethodRule;
 use Ibexa\Rector\Rule\AddReturnTypeFromPhpDocRule;
+use Ibexa\Rector\Rule\ChangeLimitationTypeValueObjectToObjectRector;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
@@ -265,5 +266,9 @@ return static function (RectorConfig $rectorConfig): void {
                 'parse'
             ),
         ]
+    );
+
+    $rectorConfig->rule(
+        ChangeLimitationTypeValueObjectToObjectRector::class,
     );
 };
