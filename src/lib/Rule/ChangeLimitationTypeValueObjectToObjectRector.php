@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
 declare(strict_types=1);
 
 namespace Ibexa\Rector\Rule;
@@ -39,7 +43,7 @@ final class ChangeLimitationTypeValueObjectToObjectRector extends AbstractRector
     {
         return [
             Node\Stmt\Class_::class,
-            Node\Stmt\Interface_::class
+            Node\Stmt\Interface_::class,
         ];
     }
 
@@ -87,7 +91,7 @@ final class ChangeLimitationTypeValueObjectToObjectRector extends AbstractRector
         ClassMethod $classMethod,
         Type $type,
         string $paramName
-    ) : void {
+    ): void {
         $param = new Param(new Variable($paramName));
         $param->type = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($type, TypeKind::PARAM);
 
