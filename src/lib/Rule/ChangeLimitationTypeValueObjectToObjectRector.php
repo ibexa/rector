@@ -27,6 +27,7 @@ final class ChangeLimitationTypeValueObjectToObjectRector extends AbstractRector
     private const string IBEXA_LIMITATION_TYPE_INTERFACE = 'Ibexa\\Contracts\\Core\\Limitation\\Type';
     private const string IBEXA_LIMITATION_TYPE_EVALUATE_METHOD = 'evaluate';
     private const int IBEXA_LIMITATION_TYPE_EVALUATE_METHOD_POSITION = 2;
+    private const string IBEXA_VALUE_OBJECT_TYPE = 'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject';
 
     private StaticTypeMapper $staticTypeMapper;
 
@@ -66,7 +67,7 @@ final class ChangeLimitationTypeValueObjectToObjectRector extends AbstractRector
         }
 
         $param = $evaluateMethod->params[self::IBEXA_LIMITATION_TYPE_EVALUATE_METHOD_POSITION];
-        if ($this->isObjectType($param, new ObjectType('object'))) {
+        if (!$this->isObjectType($param, new ObjectType(self::IBEXA_VALUE_OBJECT_TYPE))) {
             return null;
         }
 
