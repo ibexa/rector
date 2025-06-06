@@ -47,7 +47,7 @@ const getModifyMethod = (method) => {
 };
 
 const getRulesConfig = (name) => {
-    const modifyConfig = getModifyMethod('config');
+    const modifyConfig = getModifyMethod('pluginsConfig');
     const rulesConfigPath = path.join(__dirname, 'rules.config.json');
     const rawData = fs.readFileSync(rulesConfigPath);
     const parsedData = JSON.parse(rawData);
@@ -100,7 +100,7 @@ const isFunctionArgument = ({ parentPath }, functionName) => {
         return false;
     }
 
-    return parentPath.node.callee.property?.name === functionName;
+    return parentPath.node.callee.property?.name === functionName || parentPath.node.callee.name === functionName;
 };
 
 module.exports = {
