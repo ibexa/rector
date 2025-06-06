@@ -239,9 +239,15 @@ This plugin allows to rename any icon name that is used as an argument in getIco
 
 **Configuration example:**
 
+!IMPORTANT by default in this plugin shorthand expression is treated as `exactMatch: true`.
+
 ``` js
 {
-    "browse": "folder-browse"
+    "browse": "folder-browse",
+    "content-": {
+        to: "file-",
+        exactMatch: false
+    }
 }
 ```
 
