@@ -32,7 +32,10 @@
         "psr-4": {
             "Ibexa\\Rector\\Tests\\": "tests/lib/",
             "Ibexa\\Contracts\\Rector\\Tests\\": "tests/contracts/"
-        }
+        },
+        "classmap": [
+            "stubs"
+        ]
     },
     "scripts": {
         "define-custom-rule": "Ibexa\\Rector\\Composer\\Command\\DefineCustomIbexaRuleCommand",
