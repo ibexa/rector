@@ -1,5 +1,4 @@
 const { execSync } = require('child_process');
-const path = require('path');
 const fs = require('fs');
 
 const { getMainConfig, getPrettierConfigFile, getAbsolutePath } = require('./helpers');
@@ -17,7 +16,7 @@ paths.forEach(({ input, output }) => {
     }
 
     let command = `babel ${inputAbsolutePath} -d ${outputAbsolutePath} --retain-lines`;
-    command += ` && yarn prettier "${outputAbsolutePath}/**/*.js" --config ${prettierConfigFile} --write`;
+    command += ` && yarn prettier "${outputAbsolutePath}/**/*.js" --config ${prettierConfigFile} --write --log-level warn`;
 
     try {
         execSync(command, { stdio: 'inherit' });

@@ -231,3 +231,28 @@ Set to `false` or remove property to change text values as well.
 |---|---|---|
 | true | `/*@Desc("<p class='ez-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/`  | `/*@Desc("<p class='ibexa-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/` |
 | false | `/*@Desc("<p class='ez-not-error--show-modal'>Show message</p> for ez-not-error--show-modal")*/` |  `/*@Desc("<p class='ibexa-not-error--show-modal'>Show message</p> for ibexa-not-error--show-modal")*/` |
+
+### Rename icons names used in getIconPath method
+This plugin allows you to rename any icon name that is passed as an argument to the `getIconPath` method.
+
+**Name:** `ibexa-rename-icons`
+
+**Configuration example:**
+
+In this plugin, the `exactMatch` default value is set `true` when using the shorthand expression.
+
+``` js
+{
+    "browse": "folder-browse",
+    "content-": {
+        to: "file-",
+        exactMatch: false
+    }
+}
+```
+
+**Example:**
+
+| Before | After |
+|---|---|
+| `getIconPath('browse')` | `getIconPath('folder-browse')` |

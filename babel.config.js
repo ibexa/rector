@@ -8,6 +8,7 @@ module.exports = function (api) {
         './js/ibexa-rename-string-values.js',
         './js/ibexa-rename-trans-id.js',
         './js/ibexa-rename-in-translations.js',
+        './js/ibexa-rename-icons.js',
     ];
     const finalPlugins = modifyPlugins(ibexaPlugins);
 
