@@ -30,16 +30,13 @@ final class ChangeArgumentTypeRector extends AbstractRector implements Configura
     /** @var array<\Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration> */
     private array $configurations = [];
 
-    private StaticTypeMapper $staticTypeMapper;
-
     public function __construct(
-        StaticTypeMapper $staticTypeMapper
+        private readonly StaticTypeMapper $staticTypeMapper
     ) {
-        $this->staticTypeMapper = $staticTypeMapper;
     }
 
     /**
-     * @return array<class-string<Node>>
+     * @return array<class-string<\PhpParser\Node>>
      */
     public function getNodeTypes(): array
     {
