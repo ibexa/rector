@@ -51,14 +51,21 @@ final class ChangeArgumentTypeRector extends AbstractRector implements Configura
 
     /**
      * @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $node
+     *
+     * @return array<\PhpParser\Node>|null
      */
-    public function refactor(Node $node): ?Node
+    public function refactor(Node $node): array|null
     {
+        $nodes = [];
         foreach ($this->findConfigurationForClass($node) as $configuration) {
             $nextNode = $this->doRefactor($node, $configuration);
+
+            if ($nextNode !== null) {
+                $nodes[] = $nextNode;
+            }
         }
 
-        return $nextNode ?? null;
+        return $nodes ?: null;
     }
 
     /**
