@@ -6,12 +6,12 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Rector\Tests\Rule\ChangeLimitationTypeValueObjectToObjectRector;
+namespace Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
-final class ChangeLimitationTypeValueObjectToObjectRectorTest extends AbstractRectorTestCase
+final class ChangeArgumentTypeRectorTest extends AbstractRectorTestCase
 {
     #[DataProvider('provideData')]
     public function test(string $filePath): void
