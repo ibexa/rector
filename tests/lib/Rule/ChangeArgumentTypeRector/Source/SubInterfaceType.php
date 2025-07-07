@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Rector\Tests\Rule\ChangeLimitationTypeValueObjectToObjectRector\Source;
+namespace Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector\Source;
 
 use Ibexa\Contracts\Core\Limitation\Type;
 

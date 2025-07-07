@@ -10,7 +10,8 @@ namespace Ibexa\Contracts\Rector\Sets;
 
 use Ibexa\Rector\Rule\AddReturnTypeFromParentMethodRule;
 use Ibexa\Rector\Rule\AddReturnTypeFromPhpDocRule;
-use Ibexa\Rector\Rule\ChangeLimitationTypeValueObjectToObjectRector;
+use Ibexa\Rector\Rule\ChangeArgumentTypeRector;
+use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
@@ -268,7 +269,40 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
-    $rectorConfig->rule(
-        ChangeLimitationTypeValueObjectToObjectRector::class,
+    $rectorConfig->ruleWithConfiguration(
+        ChangeArgumentTypeRector::class,
+        [
+            new ChangeArgumentTypeConfiguration(
+                'Ibexa\\Migration\\Generator\\StepBuilder\\StepFactoryInterface',
+                'create',
+                0,
+                'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject',
+            ),
+            new ChangeArgumentTypeConfiguration(
+                'Ibexa\\Migration\\Generator\\StepBuilder\\AbstractStepFactory',
+                'prepareLogMessage',
+                0,
+                'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject',
+            ),
+            new ChangeArgumentTypeConfiguration(
+                'Ibexa\\Migration\\StepExecutor\\ReferenceDefinition\\ResolverInterface',
+                'resolve',
+                1,
+                'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
+            ),
+            new ChangeArgumentTypeConfiguration(
+                'Ibexa\\Migration\\Generator\\StepBuilder\\StepBuilderInterface',
+                'build',
+                0,
+                'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
+            ),
+
+            new ChangeArgumentTypeConfiguration(
+                'Ibexa\\Contracts\\Core\\Limitation\\Type',
+                'evaluate',
+                2,
+                'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
+            ),
+        ]
     );
 };

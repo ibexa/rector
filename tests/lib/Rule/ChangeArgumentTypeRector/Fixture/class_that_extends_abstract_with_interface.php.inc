@@ -1,14 +1,14 @@
 <?php
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use Ibexa\Rector\Tests\Rule\ChangeLimitationTypeValueObjectToObjectRector\Source\BasicType;
+use Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector\Source\AbstractType;
 
-final class FooBar extends BasicType
+class Foo extends AbstractType
 {
     public function evaluate(
         mixed $value,
         mixed $currentUser,
-        ValueObject $object,
+        ValueObject $differentName,
         array $targets = null
     ): ?bool {
         return null;
@@ -20,14 +20,14 @@ final class FooBar extends BasicType
 <?php
 
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use Ibexa\Rector\Tests\Rule\ChangeLimitationTypeValueObjectToObjectRector\Source\BasicType;
+use Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector\Source\AbstractType;
 
-final class FooBar extends BasicType
+class Foo extends AbstractType
 {
     public function evaluate(
         mixed $value,
         mixed $currentUser,
-        object $object,
+        object $differentName,
         array $targets = null
     ): ?bool {
         return null;
