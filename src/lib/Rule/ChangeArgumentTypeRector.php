@@ -64,7 +64,7 @@ final class ChangeArgumentTypeRector extends AbstractRector implements Configura
     /**
      * @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $node
      */
-    public function doRefactor(Node $node, ChangeArgumentTypeConfiguration $configuration): ?Node
+    private function doRefactor(Node $node, ChangeArgumentTypeConfiguration $configuration): ?Node
     {
         $evaluateMethod = $node->getMethod($configuration->getMethod());
         if ($evaluateMethod === null) {
