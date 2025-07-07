@@ -291,6 +291,13 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
             ),
             new ChangeArgumentTypeConfiguration(
+                'Ibexa\\Migration\\Generator\\StepBuilder\\StepBuilderInterface',
+                'build',
+                0,
+                'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
+            ),
+
+            new ChangeArgumentTypeConfiguration(
                 'Ibexa\\Contracts\\Core\\Limitation\\Type',
                 'evaluate',
                 2,
