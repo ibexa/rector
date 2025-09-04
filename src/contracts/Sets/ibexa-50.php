@@ -25,6 +25,7 @@ use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Rector\Renaming\ValueObject\RenameProperty;
+use Rector\Symfony\Symfony62\Rector\MethodCall\SimplifyFormRenderingRector;
 
 return static function (RectorConfig $rectorConfig): void {
     // List of rector rules to upgrade Ibexa projects to Ibexa DXP 5.0
@@ -303,6 +304,13 @@ return static function (RectorConfig $rectorConfig): void {
                 2,
                 'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
             ),
+        ]
+    );
+
+    $rectorConfig->skip(
+        [
+            // skip removing `createView` method call from `Form` objects, per SF 7 recommendation
+            SimplifyFormRenderingRector::class,
         ]
     );
 };
