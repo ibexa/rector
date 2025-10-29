@@ -26,6 +26,9 @@
         "phpunit/phpunit": "^10",
         "qossmic/deptrac-shim": "^0.24.0 || ^1.0.2"
     },
+    "conflict": {
+        "rector/rector": "2.2.6"
+    },
     "autoload": {
         "psr-4": {
             "Ibexa\\Contracts\\Rector\\": "src/contracts/",
