@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
+use Ibexa\Rector\Configuration\AnnotationToAttributeConfigurationBuilder;
 use Ibexa\Rector\Rule\AddReturnTypeFromParentMethodRule;
 use Ibexa\Rector\Rule\AddReturnTypeFromPhpDocRule;
 use Ibexa\Rector\Rule\ChangeArgumentTypeRector;
@@ -17,6 +18,7 @@ use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use Rector\Config\RectorConfig;
+use Rector\Php80\Rector\Class_\AnnotationToAttributeRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
@@ -305,6 +307,10 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
             ),
         ]
+    );
+    $rectorConfig->ruleWithConfiguration(
+        AnnotationToAttributeRector::class,
+        iterator_to_array((new AnnotationToAttributeConfigurationBuilder())->build())
     );
 
     $rectorConfig->skip(
