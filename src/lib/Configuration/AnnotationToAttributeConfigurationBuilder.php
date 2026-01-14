@@ -10,7 +10,7 @@ namespace Ibexa\Rector\Configuration;
 
 use Rector\Php80\ValueObject\AnnotationToAttribute;
 
-final class AnnotationToAttributeConfigurationBuilder
+final readonly class AnnotationToAttributeConfigurationBuilder
 {
     /**
      * @return iterable<\Rector\Php80\ValueObject\AnnotationToAttribute>
