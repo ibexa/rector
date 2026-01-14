@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 
@@ -25,6 +26,7 @@ class Foo
 ?>
 -----
 <?php
+declare(strict_types=1);
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa50\Fixture;
 

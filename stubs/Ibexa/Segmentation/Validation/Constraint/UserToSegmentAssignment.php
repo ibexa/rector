@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace Ibexa\Segmentation\Validation\Constraint;
 
 use Symfony\Component\Validator\Constraint;
