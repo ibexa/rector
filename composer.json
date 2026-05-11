@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "ibexa/code-style": "~2.0.0",
-        "nikic/php-parser": "^4.18",
+        "nikic/php-parser": "^5.7",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpstan/phpstan-symfony": "^2.0",

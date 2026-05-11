@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Rector\Rule\Internal;
 
 use PhpParser\Node;
+use PhpParser\Node\ArrayItem;
 use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
@@ -129,8 +129,7 @@ CODE_SAMPLE
                         $optionsArray = $newExpr->args[2]->value;
 
                         foreach ($optionsArray->items as $optionItem) {
-                            if ($optionItem instanceof ArrayItem &&
-                                $optionItem->key instanceof Node\Scalar\String_ &&
+                            if ($optionItem->key instanceof Node\Scalar\String_ &&
                                 $optionItem->key->value === 'deprecated' &&
                                 $optionItem->value instanceof Node\Scalar\String_ &&
                                 $optionItem->value->value === $this->version
