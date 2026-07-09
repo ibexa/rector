@@ -216,6 +216,13 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\Bundle\Messenger\Stamp\DeduplicateStamp' => 'Ibexa\Contracts\Messenger\Stamp\DeduplicateStamp',
+        ]
+    );
+
     $rectorConfig->ruleWithConfiguration(PropertyToGetterRector::class, [
         'Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType' => [
             'isContainer' => 'isContainer',
