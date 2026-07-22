@@ -40,7 +40,7 @@ final class IbexaRectorConfigFactoryTest extends TestCase
     {
         $expectedSetList = [
             // SYMFONY_53 adds this extra set
-            IbexaSetList::IBEXA_50->value,
+            IbexaSetList::IBEXA_60->value,
             SymfonySetList::SYMFONY_50,
             SymfonySetList::SYMFONY_50_TYPES,
             SymfonySetList::SYMFONY_51,
