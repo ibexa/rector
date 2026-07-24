@@ -41,7 +41,7 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
            ->withSets(
                array_merge(
                    [
-                       IbexaSetList::IBEXA_50->value,
+                       IbexaSetList::IBEXA_60->value,
                        SymfonySetList::SYMFONY_50,
                        SymfonySetList::SYMFONY_50_TYPES,
                        SymfonySetList::SYMFONY_51,

@@ -12,4 +12,5 @@ enum IbexaSetList: string
 {
     case IBEXA_46 = __DIR__ . '/ibexa-46.php';
     case IBEXA_50 = __DIR__ . '/ibexa-50.php';
+    case IBEXA_60 = __DIR__ . '/ibexa-60.php';
 }
