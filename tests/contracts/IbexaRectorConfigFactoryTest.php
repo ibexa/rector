@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Rector\Config\RectorConfig;
 use Rector\Configuration\Option;
 use Rector\Configuration\Parameter\SimpleParameterProvider;
+use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\SymfonySetList;
 
 /**
@@ -57,6 +58,7 @@ final class IbexaRectorConfigFactoryTest extends TestCase
             SymfonySetList::SYMFONY_70,
             SymfonySetList::SYMFONY_71,
             SymfonySetList::SYMFONY_72,
+            SetList::BEHAT_ANNOTATIONS_TO_ATTRIBUTES,
         ];
 
         yield 'default set list' => [
