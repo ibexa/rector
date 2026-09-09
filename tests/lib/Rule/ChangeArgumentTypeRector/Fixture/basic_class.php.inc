@@ -9,7 +9,7 @@ class Foo implements Type
         mixed $value,
         mixed $currentUser,
         ValueObject $differentName,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         return null;
     }
@@ -28,7 +28,7 @@ class Foo implements Type
         mixed $value,
         mixed $currentUser,
         object $differentName,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         return null;
     }

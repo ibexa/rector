@@ -8,7 +8,7 @@ class WithParamThatShouldNotBeChanged implements Type {
         mixed $value,
         mixed $currentUser,
         object $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {}
 }
 
