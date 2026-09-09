@@ -9,7 +9,7 @@ final class FooBar extends BasicType
         mixed $value,
         mixed $currentUser,
         ValueObject $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         return null;
     }
@@ -28,7 +28,7 @@ final class FooBar extends BasicType
         mixed $value,
         mixed $currentUser,
         object $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {
         return null;
     }
