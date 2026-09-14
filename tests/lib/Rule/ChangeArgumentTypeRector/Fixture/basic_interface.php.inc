@@ -9,7 +9,7 @@ interface SubType extends Type
         mixed $value,
         mixed $currentUser,
         ValueObject $object,
-        array $targets = null,
+        ?array $targets = null,
         bool $foo = false
     ): ?bool;
 }
@@ -27,7 +27,7 @@ interface SubType extends Type
         mixed $value,
         mixed $currentUser,
         object $object,
-        array $targets = null,
+        ?array $targets = null,
         bool $foo = false
     ): ?bool;
 }

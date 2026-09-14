@@ -7,7 +7,7 @@ class ShouldNotBeChanged {
         mixed $value,
         mixed $currentUser,
         ValueObject $object,
-        array $targets = null
+        ?array $targets = null
     ): ?bool {}
 }
 
