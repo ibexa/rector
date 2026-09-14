@@ -8,7 +8,7 @@
     ],
     "require": {
         "php": ">=8.3",
-        "rector/rector": "^2.0, <2.6.2",
+        "rector/rector": "^2.0",
         "symfony/console": "^7.4",
         "symfony/finder": "^7.4",
         "symfony/filesystem": "^7.4"
@@ -23,7 +23,7 @@
         "qossmic/deptrac-shim": "^0.24.0 || ^1.0.2"
     },
     "conflict": {
-        "rector/rector": "2.2.6"
+        "rector/rector": "2.2.6 || >=2.6.2"
     },
     "autoload": {
         "psr-4": {
