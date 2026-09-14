@@ -65,7 +65,7 @@ final class PropertyToGetterRector extends AbstractRector implements Configurabl
 
         $propertyName = $this->getName($node->name);
 
-        if (!isset($this->classPropertyToGetterMap[$className][$propertyName])) {
+        if ($propertyName === null || !isset($this->classPropertyToGetterMap[$className][$propertyName])) {
             return null;
         }
 
