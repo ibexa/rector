@@ -62,6 +62,7 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
                    $this->extraSets
                )
            )
+           ->withAttributesSets(symfony: true, doctrine: true)
         ;
     }
 }
