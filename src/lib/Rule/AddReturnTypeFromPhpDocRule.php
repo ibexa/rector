@@ -26,15 +26,14 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class AddReturnTypeFromPhpDocRule extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[]
+     * @var MethodReturnTypeConfiguration[]
      */
     private array $methodConfigurations = [];
 
     public function __construct(
         private PhpDocInfoFactory $phpDocInfoFactory,
         private StaticTypeMapper $staticTypeMapper
-    ) {
-    }
+    ) {}
 
     public function getNodeTypes(): array
     {
@@ -89,8 +88,10 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
         );
     }
 
-    private function getReturnTypeFromPhpDoc(ClassMethod $node, string $methodName): ComplexType|Identifier|Name|null
-    {
+    private function getReturnTypeFromPhpDoc(
+        ClassMethod $node,
+        string $methodName
+    ): ComplexType|Identifier|Name|null {
         foreach ($this->methodConfigurations as $methodConfiguration) {
             if ($methodName !== $methodConfiguration->getMethod()) {
                 continue;
@@ -150,7 +151,7 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
     }
 
     /**
-     * @param \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[] $configuration
+     * @param MethodReturnTypeConfiguration[] $configuration
      */
     public function configure(array $configuration): void
     {

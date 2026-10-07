@@ -8,23 +8,29 @@ declare(strict_types=1);
 
 namespace Ibexa\Rector\Composer\Command\CustomRule;
 
-use const DIRECTORY_SEPARATOR;
 use LogicException;
-use function str_replace;
 use Symfony\Component\Finder\SplFileInfo;
+
+use function str_replace;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * @internal
  */
 final class RectorTemplatePathProcessor extends AbstractRectorTemplateProcessor
 {
-    public function processPathName(string $ruleName, SplFileInfo $fileInfo): string
-    {
+    public function processPathName(
+        string $ruleName,
+        SplFileInfo $fileInfo
+    ): string {
         return $this->fixPath($this->replacePathVariables($ruleName, $fileInfo->getRelativePathname()));
     }
 
-    public function resolveTemplateContents(string $ruleName, SplFileInfo $fileInfo): string
-    {
+    public function resolveTemplateContents(
+        string $ruleName,
+        SplFileInfo $fileInfo
+    ): string {
         $rectorName = $this->buildRectorName($ruleName);
         $relativeDirname = str_contains($rectorName, DIRECTORY_SEPARATOR) ? dirname($rectorName) : '';
         $className = basename($rectorName);
@@ -32,13 +38,17 @@ final class RectorTemplatePathProcessor extends AbstractRectorTemplateProcessor
         return $this->replaceNameVariable($className, $this->replaceNamespace($relativeDirname, $fileInfo->getContents()));
     }
 
-    private function replaceNameVariable(string $rectorName, string $contents): string
-    {
+    private function replaceNameVariable(
+        string $rectorName,
+        string $contents
+    ): string {
         return str_replace('__Name__', $rectorName, $contents);
     }
 
-    private function replacePathVariables(string $ruleName, string $relativePathname): string
-    {
+    private function replacePathVariables(
+        string $ruleName,
+        string $relativePathname
+    ): string {
         $rectorName = $this->buildRectorName($ruleName);
         $className = basename($rectorName);
 
@@ -60,8 +70,10 @@ final class RectorTemplatePathProcessor extends AbstractRectorTemplateProcessor
         return $fixedPath;
     }
 
-    private function replaceNamespace(string $relativeDirname, string $fileContents): string
-    {
+    private function replaceNamespace(
+        string $relativeDirname,
+        string $fileContents
+    ): string {
         $relativeNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $relativeDirname);
         if (!empty($relativeNamespace)) {
             $relativeNamespace = "\\$relativeNamespace";

@@ -110,7 +110,7 @@ CODE_SAMPLE
                         return true;
                     }
 
-                    /** @var \PhpParser\Node\Expr\New_ $newExpr */
+                    /** @var New_ $newExpr */
                     $newExpr = $item->value;
 
                     // Ensure it's a 'Twig\TwigFunction' instantiation

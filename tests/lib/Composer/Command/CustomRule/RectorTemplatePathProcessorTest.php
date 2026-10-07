@@ -20,8 +20,11 @@ final class RectorTemplatePathProcessorTest extends TestCase
     /**
      * @dataProvider getDataForTestProcessPathName
      */
-    public function testProcessPathName(string $ruleName, string $templateRelativePath, string $expectedName): void
-    {
+    public function testProcessPathName(
+        string $ruleName,
+        string $templateRelativePath,
+        string $expectedName
+    ): void {
         $pathNameResolver = new RectorTemplatePathProcessor();
 
         self::assertSame(
