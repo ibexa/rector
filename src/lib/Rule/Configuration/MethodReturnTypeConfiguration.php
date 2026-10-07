@@ -13,8 +13,7 @@ final readonly class MethodReturnTypeConfiguration
     public function __construct(
         private string $class,
         private string $method,
-    ) {
-    }
+    ) {}
 
     public function getClass(): string
     {

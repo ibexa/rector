@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Rector\Rule\Internal;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\NodeTraverser;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -48,11 +50,11 @@ CODE_SAMPLE
      */
     public function getNodeTypes(): array
     {
-        return [Node\Stmt\Expression::class];
+        return [Expression::class];
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\Expression $node
+     * @param Expression $node
      */
     public function refactor(Node $node): ?int
     {
@@ -70,7 +72,7 @@ CODE_SAMPLE
     }
 
     /**
-     * @param \PhpParser\Node\Arg[] $args
+     * @param Arg[] $args
      */
     private function isLegacyClassAlias(array $args): bool
     {

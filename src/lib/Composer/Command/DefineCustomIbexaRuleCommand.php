@@ -50,8 +50,10 @@ final class DefineCustomIbexaRuleCommand extends Command
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output): int
-    {
+    public function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $io = new SymfonyStyle($input, $output);
         $ruleName = $input->getArgument('rule-name');
         $templateDir = $input->getOption('template-dir');

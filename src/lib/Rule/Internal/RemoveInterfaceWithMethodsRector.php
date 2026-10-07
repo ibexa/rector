@@ -10,6 +10,8 @@ namespace Ibexa\Rector\Rule\Internal;
 
 use Ibexa\Rector\Visitor\DependentMethodCallRemovingVisitor;
 use PhpParser\Node;
+use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\NodeTraverser;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
@@ -59,7 +61,7 @@ final class RemoveInterfaceWithMethodsRector extends AbstractRector implements C
     }
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
@@ -67,7 +69,7 @@ final class RemoveInterfaceWithMethodsRector extends AbstractRector implements C
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\Class_ $node
+     * @param Class_ $node
      */
     public function refactor(Node $node): ?int
     {
@@ -99,7 +101,7 @@ final class RemoveInterfaceWithMethodsRector extends AbstractRector implements C
                         );
 
                         if ($classMethod->stmts !== null) {
-                            /** @var array<\PhpParser\Node\Stmt>|null $traversedStmts */
+                            /** @var array<Stmt>|null $traversedStmts */
                             $traversedStmts = $nodeTraverser->traverse($classMethod->stmts);
                             $classMethod->stmts = $traversedStmts;
                         }

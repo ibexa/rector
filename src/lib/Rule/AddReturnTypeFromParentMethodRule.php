@@ -21,7 +21,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class AddReturnTypeFromParentMethodRule extends AbstractRector implements ConfigurableRectorInterface
 {
     /**
-     * @var \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[]
+     * @var MethodReturnTypeConfiguration[]
      */
     private array $methodConfigurations = [];
 
@@ -75,8 +75,10 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
         return [ClassMethod::class];
     }
 
-    private function getMethodReturnTypeFromConfiguredParent(ClassReflection $currentClass, string $methodName): ?string
-    {
+    private function getMethodReturnTypeFromConfiguredParent(
+        ClassReflection $currentClass,
+        string $methodName
+    ): ?string {
         foreach ($this->methodConfigurations as $methodConfiguration) {
             $configuredClass = $methodConfiguration->getClass();
             if ($methodName !== $methodConfiguration->getMethod()) {
@@ -134,7 +136,7 @@ final class AddReturnTypeFromParentMethodRule extends AbstractRector implements 
     }
 
     /**
-     * @param \Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration[] $configuration
+     * @param MethodReturnTypeConfiguration[] $configuration
      */
     public function configure(array $configuration): void
     {

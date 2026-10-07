@@ -54,7 +54,7 @@ final class PropertyToGetterRector extends AbstractRector implements Configurabl
     }
 
     /**
-     * @param \PhpParser\Node\Expr\PropertyFetch $node
+     * @param PropertyFetch $node
      */
     public function refactor(Node $node): ?Node
     {
