@@ -70,7 +70,7 @@ final class RectorTemplatePathProcessorTest extends TestCase
 
     private function createSymfonySplFileInfoMock(string $relativePathName): SplFileInfo
     {
-        $splFileInfoMock = $this->createMock(SplFileInfo::class);
+        $splFileInfoMock = $this->createStub(SplFileInfo::class);
         $splFileInfoMock->method('getRelativePathname')->willReturn($relativePathName);
 
         return $splFileInfoMock;
