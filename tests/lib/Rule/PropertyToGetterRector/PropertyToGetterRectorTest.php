@@ -9,12 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Rector\Tests\Rule\PropertyToGetterRector;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Rector\Exception\ShouldNotHappenException;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
 final class PropertyToGetterRectorTest extends AbstractRectorTestCase
 {
     /**
-     * @throws \Rector\Exception\ShouldNotHappenException
+     * @throws ShouldNotHappenException
      */
     #[DataProvider('provideData')]
     public function test(string $filePath): void

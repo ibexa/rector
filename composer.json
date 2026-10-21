@@ -18,7 +18,7 @@
         "symfony/yaml": "^5.4"
     },
     "require-dev": {
-        "ibexa/code-style": "~2.0.0",
+        "ibexa/code-style": "~2.3.1",
         "nikic/php-parser": "^4.18",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",

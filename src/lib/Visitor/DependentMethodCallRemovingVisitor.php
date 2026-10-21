@@ -26,8 +26,10 @@ final class DependentMethodCallRemovingVisitor extends NodeVisitorAbstract
     /**
      * @param string[] $methods
      */
-    public function __construct(NodeNameResolver $nodeNameResolver, array $methods)
-    {
+    public function __construct(
+        NodeNameResolver $nodeNameResolver,
+        array $methods
+    ) {
         $this->nodeNameResolver = $nodeNameResolver;
         $this->methods = $methods;
     }
