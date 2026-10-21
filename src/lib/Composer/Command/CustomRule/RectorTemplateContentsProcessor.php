@@ -10,10 +10,6 @@ namespace Ibexa\Rector\Composer\Command\CustomRule;
 
 use Symfony\Component\Finder\SplFileInfo;
 
-use function str_replace;
-
-use const DIRECTORY_SEPARATOR;
-
 /**
  * @internal
  */
@@ -24,7 +20,7 @@ final class RectorTemplateContentsProcessor extends AbstractRectorTemplateProces
         SplFileInfo $fileInfo
     ): string {
         $rectorName = $this->buildRectorName($ruleName);
-        $relativeDirname = str_contains($rectorName, DIRECTORY_SEPARATOR) ? dirname($rectorName) : '';
+        $relativeDirname = str_contains($rectorName, \DIRECTORY_SEPARATOR) ? dirname($rectorName) : '';
         $className = basename($rectorName);
 
         return $this->replaceNameVariable(
@@ -44,7 +40,7 @@ final class RectorTemplateContentsProcessor extends AbstractRectorTemplateProces
         string $relativeDirname,
         string $fileContents
     ): string {
-        $relativeNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $relativeDirname);
+        $relativeNamespace = str_replace(\DIRECTORY_SEPARATOR, '\\', $relativeDirname);
         if (!empty($relativeNamespace)) {
             $relativeNamespace = "\\$relativeNamespace";
         }
