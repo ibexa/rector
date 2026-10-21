@@ -62,7 +62,7 @@ final class ConstToEnumValueRector extends AbstractRector implements Configurabl
     }
 
     /**
-     * @param \PhpParser\Node\Expr\ClassConstFetch $node
+     * @param ClassConstFetch $node
      */
     public function refactor(Node $node): ?PropertyFetch
     {

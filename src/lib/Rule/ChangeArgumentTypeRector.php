@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace Ibexa\Rector\Rule;
 
 use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
+use Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector\ChangeArgumentTypeRectorTest;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Param;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\Node\Stmt\Interface_;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\ObjectWithoutClassType;
 use PHPStan\Type\Type;
@@ -23,35 +26,34 @@ use Rector\Rector\AbstractRector;
 use Rector\StaticTypeMapper\StaticTypeMapper;
 
 /**
- * @see \Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector\ChangeArgumentTypeRectorTest
+ * @see ChangeArgumentTypeRectorTest
  */
 final class ChangeArgumentTypeRector extends AbstractRector implements ConfigurableRectorInterface
 {
-    /** @var array<\Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration> */
+    /** @var array<ChangeArgumentTypeConfiguration> */
     private array $configurations = [];
 
     public function __construct(
         private readonly StaticTypeMapper $staticTypeMapper
-    ) {
-    }
+    ) {}
 
     /**
-     * @return array<class-string<\PhpParser\Node>>
+     * @return array<class-string<Node>>
      */
     public function getNodeTypes(): array
     {
         return [
-            Node\Stmt\Class_::class,
-            Node\Stmt\Interface_::class,
+            Class_::class,
+            Interface_::class,
         ];
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $node
+     * @param Class_|Interface_ $node
      *
-     * @return array<\PhpParser\Node>|null
+     * @return array<Node>|null
      */
-    public function refactor(Node $node): array|null
+    public function refactor(Node $node): array | null
     {
         $nodes = [];
         foreach ($this->findConfigurationForClass($node) as $configuration) {
@@ -66,10 +68,12 @@ final class ChangeArgumentTypeRector extends AbstractRector implements Configura
     }
 
     /**
-     * @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_ $node
+     * @param Class_|Interface_ $node
      */
-    private function doRefactor(Node $node, ChangeArgumentTypeConfiguration $configuration): ?Node
-    {
+    private function doRefactor(
+        Node $node,
+        ChangeArgumentTypeConfiguration $configuration
+    ): ?Node {
         $evaluateMethod = $node->getMethod($configuration->getMethod());
         if ($evaluateMethod === null) {
             return null;
@@ -106,12 +110,12 @@ final class ChangeArgumentTypeRector extends AbstractRector implements Configura
     }
 
     /**
-     * @return iterable<\Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration>
+     * @return iterable<ChangeArgumentTypeConfiguration>
      *
      * @throws \PHPStan\ShouldNotHappenException
      */
     private function findConfigurationForClass(
-        Node\Stmt\Class_|Node\Stmt\Interface_ $class
+        Class_ | Interface_ $class
     ): iterable {
         foreach ($this->configurations as $configuration) {
             $interface = $configuration->getInterface();
@@ -126,7 +130,7 @@ final class ChangeArgumentTypeRector extends AbstractRector implements Configura
     }
 
     private function addClassMethodParam(
-        Configuration\ChangeArgumentTypeConfiguration $configuration,
+        ChangeArgumentTypeConfiguration $configuration,
         ClassMethod $classMethod,
         Type $type,
         string $paramName

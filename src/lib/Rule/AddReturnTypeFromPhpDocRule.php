@@ -91,7 +91,7 @@ final class AddReturnTypeFromPhpDocRule extends AbstractRector implements Config
     private function getReturnTypeFromPhpDoc(
         ClassMethod $node,
         string $methodName
-    ): ComplexType|Identifier|Name|null {
+    ): ComplexType | Identifier | Name | null {
         foreach ($this->methodConfigurations as $methodConfiguration) {
             if ($methodName !== $methodConfiguration->getMethod()) {
                 continue;
