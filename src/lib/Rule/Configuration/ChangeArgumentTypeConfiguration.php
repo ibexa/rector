@@ -16,8 +16,7 @@ final readonly class ChangeArgumentTypeConfiguration
         private int $argumentPosition,
         private string $argumentClassName,
         private ?string $newArgumentClass = null,
-    ) {
-    }
+    ) {}
 
     public function getInterface(): string
     {

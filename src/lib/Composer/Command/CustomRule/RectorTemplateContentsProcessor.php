@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Rector\Composer\Command\CustomRule;
 
-use const DIRECTORY_SEPARATOR;
-use function str_replace;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -17,10 +15,12 @@ use Symfony\Component\Finder\SplFileInfo;
  */
 final class RectorTemplateContentsProcessor extends AbstractRectorTemplateProcessor
 {
-    public function processTemplateContents(string $ruleName, SplFileInfo $fileInfo): string
-    {
+    public function processTemplateContents(
+        string $ruleName,
+        SplFileInfo $fileInfo
+    ): string {
         $rectorName = $this->buildRectorName($ruleName);
-        $relativeDirname = str_contains($rectorName, DIRECTORY_SEPARATOR) ? dirname($rectorName) : '';
+        $relativeDirname = str_contains($rectorName, \DIRECTORY_SEPARATOR) ? dirname($rectorName) : '';
         $className = basename($rectorName);
 
         return $this->replaceNameVariable(
@@ -29,14 +29,18 @@ final class RectorTemplateContentsProcessor extends AbstractRectorTemplateProces
         );
     }
 
-    private function replaceNameVariable(string $rectorName, string $contents): string
-    {
+    private function replaceNameVariable(
+        string $rectorName,
+        string $contents
+    ): string {
         return str_replace('__Name__', $rectorName, $contents);
     }
 
-    private function replaceNamespace(string $relativeDirname, string $fileContents): string
-    {
-        $relativeNamespace = str_replace(DIRECTORY_SEPARATOR, '\\', $relativeDirname);
+    private function replaceNamespace(
+        string $relativeDirname,
+        string $fileContents
+    ): string {
+        $relativeNamespace = str_replace(\DIRECTORY_SEPARATOR, '\\', $relativeDirname);
         if (!empty($relativeNamespace)) {
             $relativeNamespace = "\\$relativeNamespace";
         }

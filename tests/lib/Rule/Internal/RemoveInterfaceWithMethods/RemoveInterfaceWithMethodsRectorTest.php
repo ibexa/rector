@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Rector\Tests\Rule\Internal\RemoveInterfaceWithMethods;
 
 use PHPUnit\Framework\Attributes\DataProvider;
+use Rector\Exception\ShouldNotHappenException;
 use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 
 /**
@@ -17,7 +18,7 @@ use Rector\Testing\PHPUnit\AbstractRectorTestCase;
 final class RemoveInterfaceWithMethodsRectorTest extends AbstractRectorTestCase
 {
     /**
-     * @throws \Rector\Exception\ShouldNotHappenException
+     * @throws ShouldNotHappenException
      */
     #[DataProvider('provideData')]
     public function test(string $filePath): void

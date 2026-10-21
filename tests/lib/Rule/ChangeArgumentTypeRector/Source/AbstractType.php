@@ -10,6 +10,4 @@ namespace Ibexa\Rector\Tests\Rule\ChangeArgumentTypeRector\Source;
 
 use Ibexa\Contracts\Core\Limitation\Type;
 
-abstract class AbstractType implements Type
-{
-}
+abstract class AbstractType implements Type {}

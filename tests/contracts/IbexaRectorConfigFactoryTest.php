@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Rector\Config\RectorConfig;
 use Rector\Configuration\Option;
 use Rector\Configuration\Parameter\SimpleParameterProvider;
+use Rector\Exception\Configuration\InvalidConfigurationException;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\SymfonySetList;
 
@@ -23,7 +24,7 @@ use Rector\Symfony\Set\SymfonySetList;
 final class IbexaRectorConfigFactoryTest extends TestCase
 {
     /**
-     * @throws \Rector\Exception\Configuration\InvalidConfigurationException
+     * @throws InvalidConfigurationException
      */
     public function testInvokeWithPaths(): void
     {
@@ -81,10 +82,12 @@ final class IbexaRectorConfigFactoryTest extends TestCase
      * @param string[] $extraSets
      * @param string[] $expectedSets
      *
-     * @throws \Rector\Exception\Configuration\InvalidConfigurationException
+     * @throws InvalidConfigurationException
      */
-    public function testInvokeWithExtraSets(array $extraSets, array $expectedSets): void
-    {
+    public function testInvokeWithExtraSets(
+        array $extraSets,
+        array $expectedSets
+    ): void {
         $factory = new IbexaRectorConfigFactory([__DIR__], $extraSets);
 
         self::assertEqualsCanonicalizing(
@@ -94,11 +97,11 @@ final class IbexaRectorConfigFactoryTest extends TestCase
     }
 
     /**
-     * @phpstan-param \Rector\Configuration\Option::* $parameterName
+     * @phpstan-param Option::* $parameterName
      *
      * @return array<mixed>
      *
-     * @throws \Rector\Exception\Configuration\InvalidConfigurationException
+     * @throws InvalidConfigurationException
      */
     private static function getRectorParameterFromFactory(
         string $parameterName,
