@@ -22,6 +22,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * Doctrine DBAL 4 removed AbstractPlatform::getName(), ibexa/doctrine-schema's DatabasePlatformResolver replaces it.
+ * Same names for MySQL/MariaDB, PostgreSQL and SQLite; platforms Ibexa does not support resolve to null.
  *
  * @see PlatformGetNameToDatabasePlatformResolverRectorTest
  */
@@ -34,7 +35,7 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Replace AbstractPlatform::getName() with DatabasePlatformResolver::resolveName()',
+            'Replace AbstractPlatform::getName() with DatabasePlatformResolver::resolveName(), which returns null for platforms other than MySQL/MariaDB, PostgreSQL and SQLite',
             [
                 new CodeSample(
                     '$connection->getDatabasePlatform()->getName();',
