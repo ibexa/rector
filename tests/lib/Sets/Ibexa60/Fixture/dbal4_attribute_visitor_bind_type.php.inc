@@ -2,13 +2,15 @@
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa60\Fixture;
 
+use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\ProductCatalog\Values\Product\Query\Criterion\AbstractAttribute;
 use Ibexa\ProductCatalog\Local\Repository\Search\Legacy\Criterion\SingleFieldAttributeVisitor;
 
 final class CustomAttributeVisitor extends SingleFieldAttributeVisitor
 {
-    protected function getCriterionBindType(object $criterion): int
+    protected function getCriterionBindType(AbstractAttribute $criterion): int
     {
-        return 1;
+        return ParameterType::INTEGER;
     }
 }
 
@@ -19,13 +21,14 @@ final class CustomAttributeVisitor extends SingleFieldAttributeVisitor
 namespace Ibexa\Rector\Tests\Sets\Ibexa60\Fixture;
 
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\ProductCatalog\Values\Product\Query\Criterion\AbstractAttribute;
 use Ibexa\ProductCatalog\Local\Repository\Search\Legacy\Criterion\SingleFieldAttributeVisitor;
 
 final class CustomAttributeVisitor extends SingleFieldAttributeVisitor
 {
-    protected function getCriterionBindType(object $criterion): ParameterType
+    protected function getCriterionBindType(AbstractAttribute $criterion): ParameterType
     {
-        return 1;
+        return ParameterType::INTEGER;
     }
 }
 
