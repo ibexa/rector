@@ -18,6 +18,7 @@ use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use PHPStan\Type\ObjectType;
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
@@ -317,6 +318,9 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    // Doctrine upgrade rules (DBAL 3.8, 4.0, 4.2, ORM, ...), each applied only when the project has the matching version installed
+    $rectorConfig->sets([DoctrineSetList::COMPOSER_BASED]);
 
     // Doctrine DBAL 4 binding types are enums instead of integers
     $rectorConfig->ruleWithConfiguration(

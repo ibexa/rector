@@ -64,7 +64,6 @@ final readonly class IbexaRectorConfigFactory implements IbexaRectorConfigFactor
                )
            )
            ->withAttributesSets(behat: true)
-           ->withComposerBased(doctrine: true)
         ;
     }
 }
