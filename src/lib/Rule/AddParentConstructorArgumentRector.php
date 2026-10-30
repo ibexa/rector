@@ -37,7 +37,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class AddParentConstructorArgumentRector extends AbstractRector implements ConfigurableRectorInterface
 {
-    /** @var array<AddParentConstructorArgumentConfiguration> */
+    /** @var list<AddParentConstructorArgumentConfiguration> */
     private array $configurations = [];
 
     public function __construct(
@@ -158,6 +158,15 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
     public function configure(array $configuration): void
     {
         foreach ($configuration as $c) {
+            if (!$c instanceof AddParentConstructorArgumentConfiguration) {
+                throw new \InvalidArgumentException(sprintf(
+                    '%s expects a list of %s, got %s',
+                    self::class,
+                    AddParentConstructorArgumentConfiguration::class,
+                    get_debug_type($c),
+                ));
+            }
+
             $this->configurations[] = $c;
         }
     }
