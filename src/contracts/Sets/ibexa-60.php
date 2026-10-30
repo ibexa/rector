@@ -8,9 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Rector\Sets;
 
+use Ibexa\Rector\Rule\AddParentConstructorArgumentRector;
 use Ibexa\Rector\Rule\AddReturnTypeFromParentMethodRule;
 use Ibexa\Rector\Rule\AddReturnTypeFromPhpDocRule;
 use Ibexa\Rector\Rule\ChangeArgumentTypeRector;
+use Ibexa\Rector\Rule\Configuration\AddParentConstructorArgumentConfiguration;
 use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
@@ -311,6 +313,54 @@ return static function (RectorConfig $rectorConfig): void {
                 'evaluate',
                 2,
                 'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
+            ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        AddParentConstructorArgumentRector::class,
+        [
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler',
+                1,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase',
+                3,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Measurement\ProductCatalog\Form\Attribute\Search\Criterion\AbstractMeasurementAttributeVisitor',
+                2,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller',
+                2,
+                'schemaAssetsFilterBypass',
+                'Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller',
+                3,
+                'dbPlatformFactory',
+                'Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Installer\Installer\AbstractProductInstaller',
+                2,
+                'schemaAssetsFilterBypass',
+                'Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Installer\Installer\AbstractProductInstaller',
+                3,
+                'dbPlatformFactory',
+                'Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface'
             ),
         ]
     );
