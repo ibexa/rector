@@ -2,7 +2,7 @@
 
 final class SkipOtherGetName
 {
-    public function name(\ReflectionClass $class, \Doctrine\DBAL\Connection $connection): string
+    public function name(\ReflectionClass $class): string
     {
         return $class->getName();
     }
