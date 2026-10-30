@@ -58,7 +58,6 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
     public function refactor(Node $node): ?Node
     {
         if (!$this->isName($node->name, 'getName')
-            || $node->args !== []
             // a custom platform calling its own getName() keeps it
             || $this->isName($node->var, 'this')
             || !$this->isObjectType($node->var, new ObjectType(self::PLATFORM_CLASS))
