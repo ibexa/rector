@@ -16,7 +16,9 @@ use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
+use PHPStan\Type\ObjectType;
 use Rector\Config\RectorConfig;
+use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
@@ -26,6 +28,8 @@ use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Rector\Renaming\ValueObject\RenameProperty;
 use Rector\Symfony\Symfony62\Rector\MethodCall\SimplifyFormRenderingRector;
+use Rector\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationRector;
+use Rector\TypeDeclaration\ValueObject\AddReturnTypeDeclaration;
 
 return static function (RectorConfig $rectorConfig): void {
     // List of rector rules to upgrade Ibexa projects to Ibexa DXP 6.0
@@ -311,6 +315,26 @@ return static function (RectorConfig $rectorConfig): void {
                 'evaluate',
                 2,
                 'Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject'
+            ),
+        ]
+    );
+
+    // Doctrine upgrade rules (DBAL 3.8, 4.0, 4.2, ORM, ...), each applied only when the project has the matching version installed
+    $rectorConfig->sets([DoctrineSetList::COMPOSER_BASED]);
+
+    // Doctrine DBAL 4 binding types are enums instead of integers
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeDeclarationRector::class,
+        [
+            new AddReturnTypeDeclaration(
+                'Ibexa\Contracts\CorePersistence\Gateway\DoctrineSchemaMetadataInterface',
+                'getBindingTypeForColumn',
+                new ObjectType('Doctrine\DBAL\ParameterType')
+            ),
+            new AddReturnTypeDeclaration(
+                'Ibexa\ProductCatalog\Local\Repository\Search\Legacy\Criterion\SingleFieldAttributeVisitor',
+                'getCriterionBindType',
+                new ObjectType('Doctrine\DBAL\ParameterType')
             ),
         ]
     );

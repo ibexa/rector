@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Rector\Config\RectorConfig;
 use Rector\Configuration\Option;
 use Rector\Configuration\Parameter\SimpleParameterProvider;
+use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Exception\Configuration\InvalidConfigurationException;
 use Rector\Set\ValueObject\SetList;
 use Rector\Symfony\Set\SymfonySetList;
@@ -60,6 +61,8 @@ final class IbexaRectorConfigFactoryTest extends TestCase
             SymfonySetList::SYMFONY_71,
             SymfonySetList::SYMFONY_72,
             SetList::BEHAT_ANNOTATIONS_TO_ATTRIBUTES,
+            // IBEXA_60 adds this extra set
+            DoctrineSetList::COMPOSER_BASED,
         ];
 
         yield 'default set list' => [
