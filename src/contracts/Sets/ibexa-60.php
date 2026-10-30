@@ -326,6 +326,12 @@ return static function (RectorConfig $rectorConfig): void {
                 'joinedTablesTracker',
                 'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
             ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldBase',
+                3,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
         ]
     );
 
