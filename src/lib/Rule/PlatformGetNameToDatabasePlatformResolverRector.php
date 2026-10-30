@@ -11,12 +11,20 @@ namespace Ibexa\Rector\Rule;
 use Ibexa\Rector\Tests\Rule\PlatformGetNameToDatabasePlatformResolverRector\PlatformGetNameToDatabasePlatformResolverRectorTest;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\BinaryOp\Identical;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\MethodCall;
+use PhpParser\Node\Expr\NullsafeMethodCall;
 use PhpParser\Node\Expr\NullsafePropertyFetch;
+use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
+use PhpParser\Node\Expr\Ternary;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
+use PHPStan\Type\TypeCombinator;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -51,24 +59,43 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class];
+        return [MethodCall::class, NullsafeMethodCall::class];
     }
 
     /**
-     * @param MethodCall $node
+     * @param MethodCall|NullsafeMethodCall $node
      */
     public function refactor(Node $node): ?Node
     {
+        $receiverType = $this->getType($node->var);
+        $platformType = TypeCombinator::removeNull($receiverType);
         if (!$this->isName($node->name, 'getName')
-            || !$this->isObjectType($node->var, new ObjectType(self::PLATFORM_CLASS))
-            || $this->hasOwnGetName($this->getType($node->var))
+            || !(new ObjectType(self::PLATFORM_CLASS))->isSuperTypeOf($platformType)->yes()
+            || $this->hasOwnGetName($platformType)
         ) {
             return null;
         }
 
-        return new NullsafePropertyFetch(
+        $resolvedName = new NullsafePropertyFetch(
             new StaticCall(new FullyQualified(self::RESOLVER_CLASS), 'resolveName', [new Arg($node->var)]),
             'value'
+        );
+
+        if (!$node instanceof NullsafeMethodCall && !TypeCombinator::containsNull($receiverType)) {
+            return $resolvedName;
+        }
+
+        // resolveName() takes no null; only guard receivers that are safe to evaluate twice, anything else needs a human
+        if (!$node->var instanceof Variable
+            && !($node->var instanceof PropertyFetch && $node->var->var instanceof Variable)
+        ) {
+            return null;
+        }
+
+        return new Ternary(
+            new Identical(clone $node->var, new ConstFetch(new Name('null'))),
+            new ConstFetch(new Name('null')),
+            $resolvedName
         );
     }
 
