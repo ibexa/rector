@@ -22,6 +22,7 @@ use PhpParser\Node\Expr\Ternary;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
+use PhpParser\Node\Scalar\Encapsed;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use PHPStan\Type\TypeCombinator;
@@ -41,6 +42,8 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
 
     private const string RESOLVER_CLASS = 'Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver';
 
+    private const string SKIP_ATTRIBUTE = 'ibexa_skip_platform_get_name';
+
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
@@ -59,14 +62,29 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
      */
     public function getNodeTypes(): array
     {
-        return [MethodCall::class, NullsafeMethodCall::class];
+        return [Encapsed::class, MethodCall::class, NullsafeMethodCall::class];
     }
 
     /**
-     * @param MethodCall|NullsafeMethodCall $node
+     * @param Encapsed|MethodCall|NullsafeMethodCall $node
      */
     public function refactor(Node $node): ?Node
     {
+        if ($node instanceof Encapsed) {
+            // "{$platform->getName()}" can't hold a static call, leave it for a human
+            foreach ($node->parts as $part) {
+                if ($part instanceof MethodCall || $part instanceof NullsafeMethodCall) {
+                    $part->setAttribute(self::SKIP_ATTRIBUTE, true);
+                }
+            }
+
+            return null;
+        }
+
+        if ($node->getAttribute(self::SKIP_ATTRIBUTE) === true) {
+            return null;
+        }
+
         $receiverType = $this->getType($node->var);
         $platformType = TypeCombinator::removeNull($receiverType);
         if (!$this->isName($node->name, 'getName')
