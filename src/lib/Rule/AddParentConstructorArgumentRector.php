@@ -24,6 +24,7 @@ use PHPStan\Type\ObjectType;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\NodeAnalyzer\ArgsAnalyzer;
 use Rector\Rector\AbstractRector;
+use Rector\Reflection\ReflectionResolver;
 use Rector\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -41,7 +42,8 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
     private array $configurations = [];
 
     public function __construct(
-        private readonly ArgsAnalyzer $argsAnalyzer
+        private readonly ArgsAnalyzer $argsAnalyzer,
+        private readonly ReflectionResolver $reflectionResolver
     ) {}
 
     public function getRuleDefinition(): RuleDefinition
@@ -91,31 +93,65 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
             return null;
         }
 
+        $parentCall = $this->findParentConstructorCall($constructor);
+        $parentConstructorClass = $this->resolveParentConstructorClass($node);
+        if ($parentCall === null || $parentConstructorClass === null) {
+            return null;
+        }
+
         $hasChanged = false;
         foreach ($this->configurations as $configuration) {
-            if ($this->isName($node, $configuration->getParentClass())
-                || !$this->isObjectType($node, new ObjectType($configuration->getParentClass()))
+            if ($parentConstructorClass !== $configuration->getParentClass()
+                || $this->isArgumentPassed($parentCall, $configuration)
             ) {
                 continue;
             }
 
-            $parentCall = $this->findParentConstructorCall($constructor);
-            // only extend calls passing exactly the arguments before the new one, anything else needs a human
-            if ($parentCall === null || count($parentCall->args) !== $configuration->getPosition()) {
+            $arg = new Arg(new Variable($configuration->getArgumentName()));
+            if ($this->argsAnalyzer->hasNamedArg($parentCall->getArgs())) {
+                $arg->name = new Identifier($configuration->getArgumentName());
+                $parentCall->args[] = $arg;
+            } elseif (count($parentCall->args) >= $configuration->getPosition()) {
+                array_splice($parentCall->args, $configuration->getPosition(), 0, [$arg]);
+            } else {
+                // the call relies on default values before the new argument, needs a human
                 continue;
             }
 
             $this->addConstructorParam($constructor, $configuration);
-
-            $arg = new Arg(new Variable($configuration->getArgumentName()));
-            if ($this->argsAnalyzer->hasNamedArg($parentCall->getArgs())) {
-                $arg->name = new Identifier($configuration->getArgumentName());
-            }
-            $parentCall->args[] = $arg;
             $hasChanged = true;
         }
 
         return $hasChanged ? $node : null;
+    }
+
+    /**
+     * The class declaring the constructor parent::__construct() resolves to, which can be further up than the direct parent.
+     */
+    private function resolveParentConstructorClass(Class_ $class): ?string
+    {
+        $parentClass = $this->reflectionResolver->resolveClassReflection($class)?->getParentClass();
+        if ($parentClass === null || !$parentClass->hasConstructor()) {
+            return null;
+        }
+
+        return $parentClass->getConstructor()->getDeclaringClass()->getName();
+    }
+
+    private function isArgumentPassed(
+        StaticCall $parentCall,
+        AddParentConstructorArgumentConfiguration $configuration
+    ): bool {
+        foreach ($parentCall->getArgs() as $arg) {
+            if ($arg->unpack
+                || $this->isName($arg->name ?? $arg->value, $configuration->getArgumentName())
+                || $this->isObjectType($arg->value, new ObjectType($configuration->getArgumentType()))
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function findParentConstructorCall(ClassMethod $constructor): ?StaticCall
@@ -138,6 +174,12 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
         ClassMethod $constructor,
         AddParentConstructorArgumentConfiguration $configuration
     ): void {
+        foreach ($constructor->params as $param) {
+            if ($this->isName($param, $configuration->getArgumentName())) {
+                return;
+            }
+        }
+
         $newParam = new Param(
             new Variable($configuration->getArgumentName()),
             null,
