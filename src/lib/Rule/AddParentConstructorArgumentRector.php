@@ -100,9 +100,9 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
                 continue;
             }
 
-            $argumentName = $this->resolveArgumentName($constructor, $configuration);
+            $this->addConstructorParam($constructor, $configuration);
 
-            $arg = new Arg(new Variable($argumentName));
+            $arg = new Arg(new Variable($configuration->getArgumentName()));
             foreach ($parentCall->getArgs() as $existingArg) {
                 if ($existingArg->name !== null) {
                     $arg->name = new Identifier($configuration->getArgumentName());
@@ -132,23 +132,10 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
         return null;
     }
 
-    /**
-     * Reuses an already injected argument of the required type, otherwise adds a new constructor parameter.
-     */
-    private function resolveArgumentName(
+    private function addConstructorParam(
         ClassMethod $constructor,
         AddParentConstructorArgumentConfiguration $configuration
-    ): string {
-        foreach ($constructor->params as $param) {
-            if ($param->type !== null
-                && $this->isName($param->type, $configuration->getArgumentType())
-                && $param->var instanceof Variable
-                && is_string($param->var->name)
-            ) {
-                return $param->var->name;
-            }
-        }
-
+    ): void {
         $newParam = new Param(
             new Variable($configuration->getArgumentName()),
             null,
@@ -164,8 +151,6 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
             }
         }
         array_splice($constructor->params, $position, 0, [$newParam]);
-
-        return $configuration->getArgumentName();
     }
 
     public function configure(array $configuration): void
