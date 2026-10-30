@@ -16,6 +16,7 @@ use PhpParser\Node\Expr\NullsafePropertyFetch;
 use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Name\FullyQualified;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -59,9 +60,8 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
     public function refactor(Node $node): ?Node
     {
         if (!$this->isName($node->name, 'getName')
-            // a custom platform calling its own getName() keeps it
-            || $this->isName($node->var, 'this')
             || !$this->isObjectType($node->var, new ObjectType(self::PLATFORM_CLASS))
+            || $this->hasOwnGetName($this->getType($node->var))
         ) {
             return null;
         }
@@ -70,5 +70,21 @@ final class PlatformGetNameToDatabasePlatformResolverRector extends AbstractRect
             new StaticCall(new FullyQualified(self::RESOLVER_CLASS), 'resolveName', [new Arg($node->var)]),
             'value'
         );
+    }
+
+    /**
+     * A custom platform declaring its own getName() keeps it, only DBAL's (removed in DBAL 4) is replaced.
+     */
+    private function hasOwnGetName(Type $platformType): bool
+    {
+        foreach ($platformType->getObjectClassReflections() as $classReflection) {
+            if ($classReflection->hasNativeMethod('getName')
+                && !str_starts_with($classReflection->getNativeMethod('getName')->getDeclaringClass()->getName(), 'Doctrine\DBAL\\')
+            ) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
