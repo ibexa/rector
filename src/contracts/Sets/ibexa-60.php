@@ -16,6 +16,7 @@ use Ibexa\Rector\Rule\Configuration\AddParentConstructorArgumentConfiguration;
 use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
+use Ibexa\Rector\Rule\PlatformGetNameToDatabasePlatformResolverRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use PHPStan\Type\ObjectType;
@@ -406,6 +407,9 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    // Doctrine DBAL 4 removed AbstractPlatform::getName()
+    $rectorConfig->rule(PlatformGetNameToDatabasePlatformResolverRector::class);
 
     $rectorConfig->skip(
         [
