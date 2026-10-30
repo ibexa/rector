@@ -22,6 +22,7 @@ use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
 use PHPStan\Type\ObjectType;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
+use Rector\NodeAnalyzer\ArgsAnalyzer;
 use Rector\Rector\AbstractRector;
 use Rector\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -38,6 +39,10 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
 {
     /** @var array<AddParentConstructorArgumentConfiguration> */
     private array $configurations = [];
+
+    public function __construct(
+        private readonly ArgsAnalyzer $argsAnalyzer
+    ) {}
 
     public function getRuleDefinition(): RuleDefinition
     {
@@ -103,11 +108,8 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
             $this->addConstructorParam($constructor, $configuration);
 
             $arg = new Arg(new Variable($configuration->getArgumentName()));
-            foreach ($parentCall->getArgs() as $existingArg) {
-                if ($existingArg->name !== null) {
-                    $arg->name = new Identifier($configuration->getArgumentName());
-                    break;
-                }
+            if ($this->argsAnalyzer->hasNamedArg($parentCall->getArgs())) {
+                $arg->name = new Identifier($configuration->getArgumentName());
             }
             $parentCall->args[] = $arg;
             $hasChanged = true;
