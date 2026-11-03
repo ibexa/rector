@@ -17,6 +17,7 @@ use PhpParser\Node\ArrayItem;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
+use PhpParser\Node\Expr\Cast\Array_ as ArrayCast;
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\New_;
@@ -248,13 +249,37 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
                 return null;
             }
 
-            // the groups parameter is an array, a single group was accepted as a string
-            $values[$item->key->value] = $item->key->value === 'groups' && !$item->value instanceof Array_
-                ? new Array_([new ArrayItem($item->value)])
-                : $item->value;
+            if ($item->key->value === 'groups') {
+                $groups = $this->convertGroups($item->value);
+                if ($groups !== null) {
+                    $values['groups'] = $groups;
+                }
+
+                continue;
+            }
+
+            $values[$item->key->value] = $item->value;
         }
 
         return $values;
+    }
+
+    /**
+     * The groups parameter is an array, 5.0 cast the option to one: a single group was accepted as a string.
+     */
+    private function convertGroups(Expr $groups): ?Expr
+    {
+        if ($groups instanceof ConstFetch && $this->isName($groups, 'null')) {
+            return null;
+        }
+
+        if ($groups instanceof Array_) {
+            return $groups;
+        }
+
+        return $groups instanceof String_
+            ? new Array_([new ArrayItem($groups)])
+            : new ArrayCast($groups);
     }
 
     private function hasStringKeys(Array_ $array): bool

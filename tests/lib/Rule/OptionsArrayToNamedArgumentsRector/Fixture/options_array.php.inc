@@ -10,7 +10,9 @@ final class OptionsArray
     #[LocationIsContainer(['message' => 'Not a container'])]
     public $location;
 
-    public function constraints(object $cart): array
+    private const GROUPS = ['Default'];
+
+    public function constraints(object $cart, array $groups): array
     {
         return [
             new LocationIsContainer(['message' => 'Not a container']),
@@ -18,6 +20,9 @@ final class OptionsArray
             new LocationIsContainer(['message' => 'Not a container'], ['Default']),
             new LocationIsContainer(options: ['payload' => 'x'], groups: ['Default']),
             new LocationIsContainer(null, ['Default']),
+            new LocationIsContainer(['message' => 'Not a container', 'groups' => $groups]),
+            new LocationIsContainer(['groups' => self::GROUPS]),
+            new LocationIsContainer(['message' => 'Not a container', 'groups' => null]),
             new ProductPriceCurrency($cart, ['message' => 'Wrong currency']),
             new ProductPriceCurrency($cart, null, 'Wrong currency'),
             new ProductPriceCurrency($cart, ['groups' => ['Default']], payload: 'x'),
@@ -39,7 +44,9 @@ final class OptionsArray
     #[LocationIsContainer(message: 'Not a container')]
     public $location;
 
-    public function constraints(object $cart): array
+    private const GROUPS = ['Default'];
+
+    public function constraints(object $cart, array $groups): array
     {
         return [
             new LocationIsContainer(message: 'Not a container'),
@@ -47,6 +54,9 @@ final class OptionsArray
             new LocationIsContainer(message: 'Not a container', groups: ['Default']),
             new LocationIsContainer(groups: ['Default'], payload: 'x'),
             new LocationIsContainer(groups: ['Default']),
+            new LocationIsContainer(message: 'Not a container', groups: (array) $groups),
+            new LocationIsContainer(groups: (array) self::GROUPS),
+            new LocationIsContainer(message: 'Not a container'),
             new ProductPriceCurrency($cart, message: 'Wrong currency'),
             new ProductPriceCurrency($cart, 'Wrong currency'),
             new ProductPriceCurrency($cart, groups: ['Default'], payload: 'x'),
