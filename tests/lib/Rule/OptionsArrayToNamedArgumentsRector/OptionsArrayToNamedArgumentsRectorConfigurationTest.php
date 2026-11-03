@@ -11,14 +11,16 @@ namespace Ibexa\Rector\Tests\Rule\OptionsArrayToNamedArgumentsRector;
 use Ibexa\Rector\Rule\OptionsArrayToNamedArgumentsRector;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 final class OptionsArrayToNamedArgumentsRectorConfigurationTest extends TestCase
 {
     public function testRejectsEntriesOtherThanConfigurationObjects(): void
     {
-        $rector = (new \ReflectionClass(OptionsArrayToNamedArgumentsRector::class))->newInstanceWithoutConstructor();
+        $rector = (new ReflectionClass(OptionsArrayToNamedArgumentsRector::class))->newInstanceWithoutConstructor();
 
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('expects a list of Ibexa\\Rector\\Rule\\Configuration\\OptionsArrayToNamedArgumentsConfiguration, got array');
         $rector->configure([['class' => 'Foo', 'parameters' => ['message']]]);
     }
 }
