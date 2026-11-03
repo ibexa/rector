@@ -21,7 +21,7 @@ final class SkipSetHeader
     {
     }
 
-    public function skip(Visitor $visitor, OtherHeaderHolder $other, string $type, bool $flag, $unknown, array $args): void
+    public function skip(Visitor $visitor, OtherHeaderHolder $other, string $type, bool $flag, $unknown, array $args, array $context): void
     {
         $visitor->setHeader('Content-Type', 'application/json');
         $visitor->setHeader('Content-Type', $type);
@@ -34,6 +34,8 @@ final class SkipSetHeader
         $other->setHeader('Accept-Patch', false);
         $other->setHeader('Content-Length', 0);
         $unknown->setHeader('Accept-Patch', false);
+        // a visitor without a resolvable type can't be told apart from other setHeader() methods
+        $context['visitor']->setHeader('Accept-Patch', false);
     }
 }
 
