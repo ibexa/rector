@@ -20,6 +20,8 @@ final class SkipSetHeader
         $visitor->setHeader('X-Flag', $flag);
         $visitor->setHeader('X-Unknown', $unknown);
         $visitor->setHeader(...$args);
+        $setHeader = $visitor->setHeader(...);
+        $visitor->setHeader('Accept-Patch');
         $other->setHeader('Accept-Patch', false);
         $other->setHeader('Content-Length', 0);
         $unknown->setHeader('Accept-Patch', false);
