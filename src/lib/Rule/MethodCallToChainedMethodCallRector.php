@@ -15,6 +15,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\NullsafeMethodCall;
 use PHPStan\Type\ObjectType;
+use PHPStan\Type\TypeCombinator;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
@@ -63,27 +64,45 @@ final class MethodCallToChainedMethodCallRector extends AbstractRector implement
             return null;
         }
 
+        $receiverType = TypeCombinator::removeNull($this->getType($node->var));
+
+        // a union receiver (A|B) is rewritten when every member is configured with the same chain
+        $typesByChain = [];
+        $chains = [];
         foreach ($this->configurations as $configuration) {
-            if (!$this->isName($node->name, $configuration->getOldMethod())
-                || !$this->isObjectType($node->var, new ObjectType($configuration->getType()))
-            ) {
+            if (!$this->isName($node->name, $configuration->getOldMethod())) {
                 continue;
             }
 
-            $newMethods = $configuration->getNewMethods();
-            $first = array_shift($newMethods);
-            // $a?->b()->c() short-circuits the whole chain, so only the first call stays nullsafe
-            $chain = $node instanceof NullsafeMethodCall
-                ? new NullsafeMethodCall($node->var, $first)
-                : new MethodCall($node->var, $first);
-            foreach ($newMethods as $method) {
-                $chain = new MethodCall($chain, $method);
-            }
+            $key = implode('->', $configuration->getNewMethods());
+            $typesByChain[$key][] = new ObjectType($configuration->getType());
+            $chains[$key] = $configuration->getNewMethods();
+        }
 
-            return $chain;
+        foreach ($typesByChain as $key => $types) {
+            if (TypeCombinator::union(...$types)->isSuperTypeOf($receiverType)->yes()) {
+                return $this->createChain($node, $chains[$key]);
+            }
         }
 
         return null;
+    }
+
+    /**
+     * @param non-empty-list<string> $newMethods
+     */
+    private function createChain(MethodCall|NullsafeMethodCall $node, array $newMethods): MethodCall|NullsafeMethodCall
+    {
+        $first = array_shift($newMethods);
+        // $a?->b()->c() short-circuits the whole chain, so only the first call stays nullsafe
+        $chain = $node instanceof NullsafeMethodCall
+            ? new NullsafeMethodCall($node->var, $first)
+            : new MethodCall($node->var, $first);
+        foreach ($newMethods as $method) {
+            $chain = new MethodCall($chain, $method);
+        }
+
+        return $chain;
     }
 
     public function configure(array $configuration): void

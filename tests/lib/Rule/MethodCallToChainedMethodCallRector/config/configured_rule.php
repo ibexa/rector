@@ -19,6 +19,11 @@ return static function (RectorConfig $rectorConfig): void {
                 'getId',
                 ['getPrice', 'getId'],
             ),
+            new MethodCallToChainedMethodCallConfiguration(
+                'Ibexa\Contracts\ProductCatalog\Values\Price\Delete\Struct\ProductPriceDeleteStructInterface',
+                'getId',
+                ['getPrice', 'getId'],
+            ),
         ]
     );
 };
