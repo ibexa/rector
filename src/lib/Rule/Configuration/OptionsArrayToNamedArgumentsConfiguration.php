@@ -14,7 +14,7 @@ final readonly class OptionsArrayToNamedArgumentsConfiguration
      * @param list<string> $parameters constructor parameters after the change, in order
      * @param list<string> $previousParameters constructor parameters before the change, 'options' being the options array;
      *                                         the default is Symfony's Constraint constructor
-     * @param string|null $defaultOption option a non-array 'options' value was assigned to
+     * @param string|null $defaultOption option a scalar or list 'options' value was assigned to (Constraint::getDefaultOption() on 5.0)
      */
     public function __construct(
         private string $class,
