@@ -11,9 +11,15 @@ namespace Ibexa\Rector\Rule;
 use Ibexa\Rector\Tests\Rule\RestVisitorSetHeaderRector\RestVisitorSetHeaderRectorTest;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast\String_ as StringCast;
+use PhpParser\Node\Expr\ClassConstFetch;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\NullsafeMethodCall;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Ternary;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
@@ -28,7 +34,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * ibexa/rest 6.0 narrowed Visitor::setHeader() to a string value: false now goes through suppressHeader(),
- * true, ints and null are passed as the strings 5.0 sent.
+ * true, ints and null are passed as the strings 5.0 sent, a bool value branches between setHeader() and suppressHeader().
  *
  * @see RestVisitorSetHeaderRectorTest
  */
@@ -39,7 +45,7 @@ final class RestVisitorSetHeaderRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Replace Visitor::setHeader($name, false) with suppressHeader($name) and pass true, ints and null as strings',
+            'Replace Visitor::setHeader($name, false) with suppressHeader($name), branch on bool values and pass true, ints and null as strings',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -107,8 +113,29 @@ final class RestVisitorSetHeaderRector extends AbstractRector
             return $node;
         }
 
-        // strings are fine, a bool that may be either value needs a human
+        // either value is possible, so branch on it; the visitor and name are repeated, only safe without side effects
+        if ($valueType->isBoolean()->yes() && $this->isSafeToRepeat($node->var) && $this->isSafeToRepeat($nameArg->value)) {
+            $setValueArg = clone $valueArg;
+            $setValueArg->value = new String_('1');
+            $set = clone $node;
+            $set->args = array_map(static fn (Node $arg): Node => $arg === $valueArg ? $setValueArg : $arg, $node->args);
+            $suppress = clone $node;
+            $suppress->name = new Identifier('suppressHeader');
+            $suppress->args = [$nameArg];
+
+            return new Ternary($valueArg->value, $set, $suppress);
+        }
+
         return null;
+    }
+
+    private function isSafeToRepeat(Expr $expr): bool
+    {
+        return $expr instanceof Variable
+            || ($expr instanceof PropertyFetch && $expr->var instanceof Variable)
+            || $expr instanceof String_
+            || $expr instanceof ClassConstFetch
+            || $expr instanceof ConstFetch;
     }
 
     /**
