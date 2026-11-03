@@ -26,6 +26,7 @@ final class OptionsArray
             new ProductPriceCurrency($cart, ['message' => 'Wrong currency']),
             new ProductPriceCurrency($cart, null, 'Wrong currency'),
             new ProductPriceCurrency($cart, ['groups' => ['Default']], payload: 'x'),
+            new ProductPriceCurrency($cart, ['message' => 'Wrong currency'], null, ['Default']),
         ];
     }
 }
@@ -60,6 +61,7 @@ final class OptionsArray
             new ProductPriceCurrency($cart, message: 'Wrong currency'),
             new ProductPriceCurrency($cart, 'Wrong currency'),
             new ProductPriceCurrency($cart, groups: ['Default'], payload: 'x'),
+            new ProductPriceCurrency($cart, message: 'Wrong currency', groups: ['Default']),
         ];
     }
 }

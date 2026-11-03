@@ -207,9 +207,12 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
         }
 
         foreach ($optionValues as $name => $value) {
-            if (isset($values[$name])) {
+            // a positional null only held the place, 5.0 constructors fell back to the option
+            if (isset($values[$name]) && !(isset($positional[$name]) && $this->isNull($values[$name]))) {
                 return null;
             }
+
+            unset($positional[$name]);
 
             $values[$name] = $value;
         }
