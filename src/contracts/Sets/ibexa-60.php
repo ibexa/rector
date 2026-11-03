@@ -16,8 +16,10 @@ use Ibexa\Rector\Rule\Configuration\AddParentConstructorArgumentConfiguration;
 use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodCallToChainedMethodCallConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
+use Ibexa\Rector\Rule\Configuration\OptionsArrayToNamedArgumentsConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\MethodCallToChainedMethodCallRector;
+use Ibexa\Rector\Rule\OptionsArrayToNamedArgumentsRector;
 use Ibexa\Rector\Rule\PlatformGetNameToDatabasePlatformResolverRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
@@ -433,6 +435,410 @@ return static function (RectorConfig $rectorConfig): void {
 
     // Visitor::setHeader() takes a string value only, false means suppressHeader()
     $rectorConfig->rule(RestVisitorSetHeaderRector::class);
+
+    // Ibexa constraints (and SimplifiedRequest) take named arguments instead of an options array
+    $rectorConfig->ruleWithConfiguration(
+        OptionsArrayToNamedArgumentsRector::class,
+        [
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\DateRangeConstraint',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\FieldDefinitionDefaultValue',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\FieldSettings',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\LocationHasChildren',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\LocationHaveUniqueAssetRelation',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\LocationIsContainer',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\LocationIsNotRoot',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\LocationIsWithinCopySubtreeLimit',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\UniqueContentTypeIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\UniqueFieldDefinitionIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\UniqueSectionIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\UniqueURL',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\AdminUi\Validator\Constraints\ValidatorConfiguration',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\AtLeastOneLanguageWillRemain',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\AttributeDefinitionOptions',
+                ['type', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\AttributeValue',
+                ['definition', 'product', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueAttributeDefinitionIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueAttributeGroupIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueCatalogIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueCurrencyCode',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueCustomerGroupIdentifier',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueProductCode',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueProductPrice',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueProductPriceCustomerGroup',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ProductCatalog\Validator\Constraints\UniqueProductVariantAttributeCombination',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\DefaultListName',
+                ['defaultWithNameMessage', 'nonDefaultWithoutNameMessage', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\NotAnonymousUser',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\ProductCode',
+                ['maxLength', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\ProductExists',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\ProductNotAlreadyInList',
+                ['message', 'existingProductCodes', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\ShoppingListName',
+                ['maxLength', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\ShoppingList\Validator\Constraints\UniqueProductCodesInBatch',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\BaseProduct',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\CartProductVatCategory',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\Compound\ProductCanBeAddedToCart',
+                ['cart', 'groups', 'payload'],
+                ['cart', 'options'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\EntriesAddedAfterProductModificationDate',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\NoBaseProducts',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductAvailable',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductAvailableForQuantityChange',
+                ['product', 'message', 'groups', 'payload'],
+                ['product', 'options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductAvailableForQuantityIncrease',
+                ['cart', 'message', 'groups', 'payload'],
+                ['cart', 'options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductPriceCurrency',
+                ['cart', 'message', 'groups', 'payload'],
+                ['cart', 'options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductVatCategory',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductWithCodeExists',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductsAvailableInCartCurrency',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductsAvailableInQuantity',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\ProductsExist',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Cart\Validation\Constraint\QuickOrderIncompleteEntry',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\ConnectorAi\Validation\Constraints\ActionConfigurationHandlerOptions',
+                ['optionsPath', 'actionHandlerPath', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\ConnectorAi\Validation\Constraints\ActionConfigurationTypeOptions',
+                ['optionsPath', 'actionTypePath', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\ConnectorAi\Validation\Constraints\UniqueActionConfigurationIdentifier',
+                ['identifierPath', 'existingIdPath', 'reportErrorPath', 'message', 'groups', 'payload'],
+                defaultOption: 'identifierPath',
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\ContentForms\Validator\Constraints\Password',
+                ['contentType', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Contracts\Core\Validation\Constraint\UniqueIdentifier',
+                ['identifierPath', 'existingIdPath', 'reportErrorPath', 'message', 'groups', 'payload'],
+                defaultOption: 'identifierPath',
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest',
+                ['scheme', 'host', 'port', 'pathinfo', 'queryParams', 'languages', 'headers'],
+                ['options'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Core\Repository\Validator\Constraint\LocationIsContainerContentType',
+                ['message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\FieldTypePage\Validator\Constraints\ContentContainerType',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\FieldTypePage\Validator\Constraints\ContentType',
+                ['types', 'message', 'groups', 'payload'],
+                defaultOption: 'types',
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\OrderManagement\Validation\Constraints\CompanyExisting',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\OrderManagement\Validation\Constraints\CurrencyExisting',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\OrderManagement\Validation\Constraints\CustomerExisting',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\OrderManagement\Validation\Constraints\MoneyAmountEqualToOrGreaterThanZero',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\OrderManagement\Validation\Constraints\ProductExisting',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\AllowedPaymentStatusTransition',
+                ['payment', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\AtLeastOneTranslation',
+                ['updateStruct', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\EnabledPaymentMethod',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\MoneyAmountEqualToOrGreaterThanZero',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\PaymentMethodEnabled',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\PaymentMethodOptions',
+                ['type', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\PaymentMethodUsed',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\UniquePaymentIdentifier',
+                ['originalPayment', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Payment\Validation\Constraints\UniquePaymentMethodIdentifier',
+                ['originalPaymentMethod', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Personalization\Validator\Constraints\CategoryPath',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Personalization\Validator\Constraints\FulfilledScenarioStrategyLevel',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Personalization\Validator\Constraints\OutputType',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Personalization\Validator\Constraints\SupportedModelDataType',
+                ['modelList', 'referenceCode', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Personalization\Validator\Constraints\UniqueScenarioName',
+                ['customerId', 'actionType', 'referenceCode', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Personalization\Validator\Constraints\UniqueScenarioReferenceCode',
+                ['customerId', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Segmentation\Validation\Constraint\UserToSegmentAssignment',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\AllowedShipmentStatusTransition',
+                ['shipment', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\EnabledShippingMethod',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\MoneyAmountGreaterThanOrEqualZero',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\REST\MediaType',
+                ['expectedResourceName', 'message', 'groups', 'payload'],
+                ['expectedResourceName', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\ShippingMethodEnabled',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\ShippingMethodOptions',
+                ['type', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\ShippingMethodUsed',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\ShippingMethodVoter',
+                ['cart', 'message', 'groups', 'payload'],
+                ['cart', 'options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\UniqueShipmentIdentifier',
+                ['originalShipment', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Shipping\Validation\Constraints\UniqueShippingMethodIdentifier',
+                ['originalShippingMethod', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Taxonomy\Form\Type\Validation\Constraint\Nested',
+                ['accessor', 'constraints', 'groups', 'payload'],
+                ['accessor', 'constraints', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Taxonomy\Form\Type\Validation\Constraint\UniqueIdentifier',
+                ['taxonomy', 'message', 'groups', 'payload'],
+                ['options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Taxonomy\Validator\Constraint\FieldDefinitionSettingsAreUnique',
+                ['contentTypeDraft', 'message', 'groups', 'payload'],
+                ['contentTypeDraft', 'options', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\User\Validator\Constraints\EmailInvitation',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\User\Validator\Constraints\Password',
+                ['contentType', 'user', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\User\Validator\Constraints\UserPassword',
+                ['message', 'groups', 'payload'],
+            ),
+        ]
+    );
 
     $rectorConfig->skip(
         [
