@@ -569,6 +569,22 @@ return static function (RectorConfig $rectorConfig): void {
                 ['message', 'groups', 'payload'],
             ),
             new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\TranslationsManagement\AutoTranslate\Form\Validation\Constraint\DifferentSourceAndTargetLanguages',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\TranslationsManagement\AutoTranslate\Form\Validation\Constraint\ProviderSupportsSelectedLanguages',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\TranslationsManagement\AutoTranslate\Form\Validation\Constraint\UniqueLanguagePair',
+                ['message', 'messageForDisabledProvider', 'messageForNotConfiguredProvider', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Bundle\TranslationsManagement\AutoTranslate\Form\Validation\Constraint\ValidDefaultProviderSelection',
+                ['providerNotConfiguredMessage', 'providerDisabledMessage', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
                 'Ibexa\Cart\Validation\Constraint\BaseProduct',
                 ['message', 'groups', 'payload'],
                 ['options', 'message', 'groups', 'payload'],
@@ -676,6 +692,80 @@ return static function (RectorConfig $rectorConfig): void {
                 ['options', 'message', 'groups', 'payload'],
             ),
             new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\REST\Validation\Constraint\FieldDefinitionIdentifier',
+                ['contentType', 'groups', 'payload'],
+                ['contentType', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\REST\Validation\Constraint\FieldValuesListInput',
+                ['contentType', 'groups', 'payload'],
+                ['contentType', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\REST\Validation\Constraint\MediaType',
+                ['expectedResourceName', 'message', 'groups', 'payload'],
+                ['expectedResourceName', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\REST\Validation\Constraint\Resource',
+                ['uriParser', 'message', 'groups', 'payload'],
+                ['uriParser', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\Validation\Constraints\IsCorporateSiteAccess',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\Validation\Constraints\UniqueApplicationEmail',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\CorporateAccount\Validation\Constraints\ValidApplicationId',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\DiscountsCodes\Validation\Constraint\UniqueCode',
+                ['codePath', 'reportErrorPath', 'message', 'groups', 'payload'],
+                defaultOption: 'codePath',
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\AtLeastOneDiscountTranslationWillRemain',
+                ['message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\CountCategories',
+                ['min', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\CountCustomerGroup',
+                ['min', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\CountProducts',
+                ['min', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\CurrencyRequired',
+                ['groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\Identifier',
+                ['groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\ValidDiscountRuleType',
+                ['discountTypePropertyPath', 'message', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\Discounts\Validation\Constraint\ValidStep',
+                ['groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\FieldTypeAddress\Validator\Constraints\RequiredAddressFields',
+                ['addressType', 'isFieldDefinitionRequired', 'country', 'message', 'groups', 'payload'],
+                ['addressType', 'isFieldDefinitionRequired', 'country', 'options', 'groups', 'payload'],
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
                 'Ibexa\FieldTypePage\Validator\Constraints\ContentContainerType',
                 ['message', 'groups', 'payload'],
             ),
@@ -683,6 +773,10 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\FieldTypePage\Validator\Constraints\ContentType',
                 ['types', 'message', 'groups', 'payload'],
                 defaultOption: 'types',
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\FieldTypeRichText\Validator\Constraints\RichText',
+                ['message', 'groups', 'payload'],
             ),
             new OptionsArrayToNamedArgumentsConfiguration(
                 'Ibexa\OrderManagement\Validation\Constraints\CompanyExisting',
