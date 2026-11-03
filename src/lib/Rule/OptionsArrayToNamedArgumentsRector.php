@@ -48,6 +48,9 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
     /** @var array<string, OptionsArrayToNamedArgumentsConfiguration> */
     private array $configurations = [];
 
+    /** @var array<string, OptionsArrayToNamedArgumentsConfiguration|null> */
+    private array $subclassConfigurations = [];
+
     public function __construct(
         private readonly ReflectionProvider $reflectionProvider,
     ) {}
@@ -130,6 +133,16 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
             return $this->configurations[$className];
         }
 
+        // every `new` in the project gets here, the subclass lookup is cached per class
+        if (!array_key_exists($className, $this->subclassConfigurations)) {
+            $this->subclassConfigurations[$className] = $this->findSubclassConfiguration($className);
+        }
+
+        return $this->subclassConfigurations[$className];
+    }
+
+    private function findSubclassConfiguration(string $className): ?OptionsArrayToNamedArgumentsConfiguration
+    {
         if (!$this->reflectionProvider->hasClass($className)) {
             return null;
         }
