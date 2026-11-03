@@ -10,6 +10,7 @@ namespace Ibexa\Rector\Rule;
 
 use Ibexa\Rector\Rule\Configuration\MethodCallToChainedMethodCallConfiguration;
 use Ibexa\Rector\Tests\Rule\MethodCallToChainedMethodCallRector\MethodCallToChainedMethodCallRectorTest;
+use InvalidArgumentException;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Expr\NullsafeMethodCall;
@@ -89,7 +90,7 @@ final class MethodCallToChainedMethodCallRector extends AbstractRector implement
     {
         foreach ($configuration as $c) {
             if (!$c instanceof MethodCallToChainedMethodCallConfiguration) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     '%s expects a list of %s, got %s',
                     self::class,
                     MethodCallToChainedMethodCallConfiguration::class,
