@@ -18,6 +18,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Type\IntegerType;
+use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\StringType;
 use PHPStan\Type\TypeCombinator;
@@ -27,7 +28,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 
 /**
  * ibexa/rest 6.0 narrowed Visitor::setHeader() to a string value: false now goes through suppressHeader(),
- * true and ints are passed as the strings 5.0 cast them to.
+ * true, ints and null are passed as the strings 5.0 sent.
  *
  * @see RestVisitorSetHeaderRectorTest
  */
@@ -38,7 +39,7 @@ final class RestVisitorSetHeaderRector extends AbstractRector
     public function getRuleDefinition(): RuleDefinition
     {
         return new RuleDefinition(
-            'Replace Visitor::setHeader($name, false) with suppressHeader($name) and pass true and ints as strings',
+            'Replace Visitor::setHeader($name, false) with suppressHeader($name) and pass true, ints and null as strings',
             [
                 new CodeSample(
                     <<<'CODE_SAMPLE'
@@ -93,13 +94,15 @@ final class RestVisitorSetHeaderRector extends AbstractRector
             return $node;
         }
 
-        // int|string gets a cast too, a string value just passes through it
-        if (TypeCombinator::union(new IntegerType(), new StringType())->isSuperTypeOf($valueType)->yes()
+        // 5.0 sent null as an empty header; int|string gets a cast too, a string value just passes through it
+        if (TypeCombinator::union(new IntegerType(), new StringType(), new NullType())->isSuperTypeOf($valueType)->yes()
             && !$valueType->isString()->yes()
         ) {
-            $valueArg->value = $valueArg->value instanceof Int_
-                ? new String_((string)$valueArg->value->value)
-                : new StringCast($valueArg->value);
+            $valueArg->value = match (true) {
+                $valueArg->value instanceof Int_ => new String_((string)$valueArg->value->value),
+                $valueType->isNull()->yes() => new String_(''),
+                default => new StringCast($valueArg->value),
+            };
 
             return $node;
         }
