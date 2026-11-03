@@ -21,11 +21,13 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Array_ as ArrayCast;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\New_;
+use PhpParser\Node\Expr\StaticCall;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Reflection\ReflectionProvider;
 use Rector\Contract\Rector\ConfigurableRectorInterface;
+use Rector\PHPStan\ScopeFetcher;
 use Rector\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -80,19 +82,23 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
      */
     public function getNodeTypes(): array
     {
-        return [New_::class, Attribute::class];
+        return [New_::class, Attribute::class, StaticCall::class];
     }
 
     /**
-     * @param New_|Attribute $node
+     * @param New_|Attribute|StaticCall $node
      */
     public function refactor(Node $node): ?Node
     {
-        if ($node instanceof New_ && $node->isFirstClassCallable()) {
+        if (!$node instanceof Attribute && $node->isFirstClassCallable()) {
             return null;
         }
 
-        $className = $this->getName($node instanceof New_ ? $node->class : $node->name);
+        $className = match (true) {
+            $node instanceof New_ => $this->getName($node->class),
+            $node instanceof Attribute => $this->getName($node->name),
+            default => $this->resolveParentConstructorClass($node),
+        };
         $configuration = $className === null ? null : $this->findConfiguration($className);
         if ($configuration === null) {
             return null;
@@ -106,6 +112,18 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
         $node->args = $args;
 
         return $node;
+    }
+
+    /**
+     * parent::__construct() of a subclass with its own constructor, e.g. a project's UniqueIdentifier.
+     */
+    private function resolveParentConstructorClass(StaticCall $staticCall): ?string
+    {
+        if (!$this->isName($staticCall->class, 'parent') || !$this->isName($staticCall->name, '__construct')) {
+            return null;
+        }
+
+        return ScopeFetcher::fetch($staticCall)->getClassReflection()?->getParentClass()?->getName();
     }
 
     public function configure(array $configuration): void
