@@ -21,6 +21,7 @@ use Ibexa\Rector\Rule\MethodCallToChainedMethodCallRector;
 use Ibexa\Rector\Rule\PlatformGetNameToDatabasePlatformResolverRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
+use Ibexa\Rector\Rule\RestVisitorSetHeaderRector;
 use PHPStan\Type\ObjectType;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
@@ -429,6 +430,9 @@ return static function (RectorConfig $rectorConfig): void {
             ),
         ]
     );
+
+    // Visitor::setHeader() takes a string value only, false means suppressHeader()
+    $rectorConfig->rule(RestVisitorSetHeaderRector::class);
 
     $rectorConfig->skip(
         [
