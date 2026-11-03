@@ -91,8 +91,10 @@ final class MethodCallToChainedMethodCallRector extends AbstractRector implement
     /**
      * @param non-empty-list<string> $newMethods
      */
-    private function createChain(MethodCall|NullsafeMethodCall $node, array $newMethods): MethodCall|NullsafeMethodCall
-    {
+    private function createChain(
+        MethodCall | NullsafeMethodCall $node,
+        array $newMethods
+    ): MethodCall | NullsafeMethodCall {
         $first = array_shift($newMethods);
         // $a?->b()->c() short-circuits the whole chain, so only the first call stays nullsafe
         $chain = $node instanceof NullsafeMethodCall
