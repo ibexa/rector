@@ -15,6 +15,7 @@ final class DefaultOptionAndSubclass
     {
         return [
             new UniqueProjectIdentifier('identifier'),
+            new UniqueProjectIdentifier('identifier', ['Default']),
             new UniqueProjectIdentifier(['identifierPath' => 'identifier', 'existingIdPath' => 'id']),
             new SimplifiedRequest(['scheme' => 'https', 'host' => 'example.com', 'pathinfo' => '/']),
         ];
@@ -40,6 +41,7 @@ final class DefaultOptionAndSubclass
     {
         return [
             new UniqueProjectIdentifier(identifierPath: 'identifier'),
+            new UniqueProjectIdentifier(identifierPath: 'identifier', groups: ['Default']),
             new UniqueProjectIdentifier(identifierPath: 'identifier', existingIdPath: 'id'),
             new SimplifiedRequest(scheme: 'https', host: 'example.com', pathinfo: '/'),
         ];

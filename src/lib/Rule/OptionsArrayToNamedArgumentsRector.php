@@ -194,6 +194,15 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
             return null;
         }
 
+        // new X('id', 'other') may already be written for the new constructor, only 5.0's groups/payload may follow
+        if (isset($optionValues[$configuration->getDefaultOption() ?? ''])) {
+            foreach (array_keys($positional) as $name) {
+                if (!$values[$name] instanceof Array_ && !$this->isNull($values[$name])) {
+                    return null;
+                }
+            }
+        }
+
         foreach ($optionValues as $name => $value) {
             if (isset($values[$name])) {
                 return null;
@@ -230,7 +239,7 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
         OptionsArrayToNamedArgumentsConfiguration $configuration
     ): ?array {
         $value = $options->value;
-        if ($value instanceof ConstFetch && $this->isName($value, 'null')) {
+        if ($this->isNull($value)) {
             return [];
         }
 
@@ -269,7 +278,7 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
      */
     private function convertGroups(Expr $groups): ?Expr
     {
-        if ($groups instanceof ConstFetch && $this->isName($groups, 'null')) {
+        if ($this->isNull($groups)) {
             return null;
         }
 
@@ -280,6 +289,11 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
         return $groups instanceof String_
             ? new Array_([new ArrayItem($groups)])
             : new ArrayCast($groups);
+    }
+
+    private function isNull(Expr $expr): bool
+    {
+        return $expr instanceof ConstFetch && $this->isName($expr, 'null');
     }
 
     private function hasStringKeys(Array_ $array): bool

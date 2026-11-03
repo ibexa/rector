@@ -37,6 +37,7 @@ final class SkipOptions
             new LocationIsContainer(['message' => 'a'], message: 'b'),
             new LocationIsContainer(['Default']),
             new UniqueInheritingIdentifier($options),
+            new UniqueInheritingIdentifier('identifier', 'id'),
             new UniqueWithOwnConstructor(['identifierPath' => 'identifier']),
             new OtherConstraint(['message' => 'x']),
             new SimplifiedRequest('https', 'example.com'),
