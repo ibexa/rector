@@ -34,6 +34,11 @@ return static function (RectorConfig $rectorConfig): void {
                 defaultOption: 'identifierPath',
             ),
             new OptionsArrayToNamedArgumentsConfiguration(
+                'Ibexa\FieldTypePage\Validator\Constraints\ContentType',
+                ['types', 'message', 'groups', 'payload'],
+                defaultOption: 'types',
+            ),
+            new OptionsArrayToNamedArgumentsConfiguration(
                 'Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest',
                 ['scheme', 'host', 'port', 'pathinfo', 'queryParams', 'languages', 'headers'],
                 ['options'],

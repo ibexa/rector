@@ -5,6 +5,7 @@ namespace Ibexa\Rector\Tests\Rule\OptionsArrayToNamedArgumentsRector\Fixture;
 use Ibexa\AdminUi\Validator\Constraints\LocationIsContainer;
 use Ibexa\Contracts\Core\Validation\Constraint\UniqueIdentifier;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
+use Ibexa\FieldTypePage\Validator\Constraints\ContentType;
 
 final class UniqueWithOwnConstructor extends UniqueIdentifier
 {
@@ -44,6 +45,8 @@ final class SkipOptions
             new UniqueWithOwnConstructor(['identifierPath' => 'identifier']),
             new OtherConstraint(['message' => 'x']),
             new SimplifiedRequest('https', 'example.com'),
+            // the 6.0 constructor no longer takes it
+            new ContentType(['types' => 'folder', 'notAvailableMessage' => 'Gone']),
         ];
     }
 }
