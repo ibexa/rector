@@ -39,7 +39,7 @@ final class MethodCallToChainedMethodCallRector extends AbstractRector implement
                 new ConfiguredCodeSample(
                     '$struct->getId();',
                     '$struct->getPrice()->getId();',
-                    [new MethodCallToChainedMethodCallConfiguration('ProductPriceUpdateStructInterface', 'getId', ['getPrice', 'getId'])]
+                    [new MethodCallToChainedMethodCallConfiguration('Ibexa\Contracts\ProductCatalog\Values\Price\Update\Struct\ProductPriceUpdateStructInterface', 'getId', ['getPrice', 'getId'])]
                 ),
             ]
         );
