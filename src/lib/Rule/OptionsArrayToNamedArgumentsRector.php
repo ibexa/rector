@@ -11,6 +11,7 @@ namespace Ibexa\Rector\Rule;
 use Ibexa\Rector\Rule\Configuration\OptionsArrayToNamedArgumentsConfiguration;
 use Ibexa\Rector\Tests\Rule\OptionsArrayToNamedArgumentsRector\OptionsArrayToNamedArgumentsRectorTest;
 use InvalidArgumentException;
+use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\ArrayItem;
@@ -40,6 +41,9 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
 final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements ConfigurableRectorInterface
 {
     private const string OPTIONS = 'options';
+
+    /** @var array<string, list<Comment>> comments of the options array items being converted */
+    private array $comments = [];
 
     /** @var array<string, OptionsArrayToNamedArgumentsConfiguration> */
     private array $configurations = [];
@@ -224,7 +228,11 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
             }
 
             $keepPosition = $keepPosition && isset($positional[$parameter]) && $index === count($newArgs);
-            $newArgs[] = new Arg($values[$parameter], name: $keepPosition ? null : new Identifier($parameter));
+            $newArgs[] = new Arg(
+                $values[$parameter],
+                name: $keepPosition ? null : new Identifier($parameter),
+                attributes: ['comments' => $this->comments[$parameter] ?? []],
+            );
         }
 
         return $newArgs;
@@ -253,6 +261,7 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
         }
 
         $values = [];
+        $this->comments = [];
         foreach ($value->items as $item) {
             if (!$item instanceof ArrayItem || !$item->key instanceof String_) {
                 return null;
@@ -268,6 +277,7 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
             }
 
             $values[$item->key->value] = $item->value;
+            $this->comments[$item->key->value] = $item->getComments();
         }
 
         return $values;
