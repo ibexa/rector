@@ -42,7 +42,7 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
 {
     private const string OPTIONS = 'options';
 
-    /** @var array<string, list<Comment>> comments of the options array items being converted */
+    /** @var array<string, array<Comment>> comments of the options array items being converted */
     private array $comments = [];
 
     /** @var array<string, OptionsArrayToNamedArgumentsConfiguration> */
