@@ -18,7 +18,6 @@ use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Array_ as ArrayCast;
-use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Expr\New_;
 use PhpParser\Node\Identifier;
@@ -246,8 +245,9 @@ final class OptionsArrayToNamedArgumentsRector extends AbstractRector implements
         if (!$value instanceof Array_ || !$this->hasStringKeys($value)) {
             // a literal list or scalar was the value of the default option, anything else may be an options array
             $defaultOption = $configuration->getDefaultOption();
+            // a constant may hold an options array, only true/false are safe
             $isLiteral = $value instanceof Array_ || $value instanceof Scalar
-                || $value instanceof ConstFetch || $value instanceof ClassConstFetch;
+                || ($value instanceof ConstFetch && $this->isNames($value, ['true', 'false']));
 
             return $defaultOption === null || !$isLiteral ? null : [$defaultOption => $value];
         }

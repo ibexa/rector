@@ -26,6 +26,8 @@ final class OtherConstraint
 
 final class SkipOptions
 {
+    private const OPTIONS = ['identifierPath' => 'identifier'];
+
     public function build(array $options, array $args): array
     {
         return [
@@ -38,6 +40,7 @@ final class SkipOptions
             new LocationIsContainer(['Default']),
             new UniqueInheritingIdentifier($options),
             new UniqueInheritingIdentifier('identifier', 'id'),
+            new UniqueInheritingIdentifier(self::OPTIONS),
             new UniqueWithOwnConstructor(['identifierPath' => 'identifier']),
             new OtherConstraint(['message' => 'x']),
             new SimplifiedRequest('https', 'example.com'),
