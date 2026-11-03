@@ -59,8 +59,8 @@ final class MethodCallToChainedMethodCallRector extends AbstractRector implement
      */
     public function refactor(Node $node): ?Node
     {
-        // the new chain takes no arguments, don't guess where old ones would go
-        if ($node->args !== []) {
+        // the new chain takes no arguments, don't guess where old ones would go; $a->b(...) moves to the last call
+        if ($node->args !== [] && !$node->isFirstClassCallable()) {
             return null;
         }
 
@@ -101,6 +101,7 @@ final class MethodCallToChainedMethodCallRector extends AbstractRector implement
         foreach ($newMethods as $method) {
             $chain = new MethodCall($chain, $method);
         }
+        $chain->args = $node->args;
 
         return $chain;
     }
