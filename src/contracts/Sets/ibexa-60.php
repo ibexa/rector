@@ -1085,6 +1085,18 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\\TranslationsManagement\\AutoTranslate\\ReviewStatus\\ContextResolver\\ContextResolverInterface',
                 'SERVICE_TAG'
             ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\AdminUi\\Component\\Event\\RenderGroupEvent',
+                'NAME',
+                'Ibexa\\Contracts\\TwigComponents\\Event\\RenderGroupEvent',
+                'class'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\AdminUi\\Component\\Event\\RenderSingleEvent',
+                'NAME',
+                'Ibexa\\Contracts\\TwigComponents\\Event\\RenderSingleEvent',
+                'class'
+            ),
         ]
     );
 
