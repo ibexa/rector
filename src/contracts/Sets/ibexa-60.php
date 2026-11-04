@@ -1088,6 +1088,17 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeDeclarationRector::class,
+        [
+            new AddReturnTypeDeclaration(
+                'Ibexa\\FieldTypePage\\FieldType\\Page\\Block\\Definition\\Attribute\\Validator\\ConstraintFactory',
+                'getConstraint',
+                new ObjectType('Symfony\\Component\\Validator\\Constraint')
+            ),
+        ]
+    );
+
     $rectorConfig->skip(
         [
             // skip removing `createView` method call from `Form` objects, per SF 7 recommendation
