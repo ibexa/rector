@@ -1013,6 +1013,57 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
+    $rectorConfig->ruleWithConfiguration(
+        RenameMethodRector::class,
+        [
+            new MethodCallRename(
+                'Ibexa\\Core\\MVC\\Symfony\\Controller\\Controller',
+                'getTemplateEngine',
+                'getTwig'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Dashboard\\Migration\\AssignDashboardToUser',
+                'getValue',
+                'getUserLogin'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\Content\\AssignParentLocation',
+                'getValue',
+                'getLocationId'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\ContentType\\AssignContentTypeGroup',
+                'getValue',
+                'getGroupName'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\ContentType\\UnassignContentTypeGroup',
+                'getValue',
+                'getGroupName'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\ContentType\\RemoveFieldByIdentifier',
+                'getValue',
+                'getIdentifier'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Contracts\\ProductCatalog\\Values\\Availability\\AvailabilityInterface',
+                'isAvailable',
+                'getComputedAvailability'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Bundle\\ProductCatalog\\UI\\ProductSelector\\BaseProduct',
+                'getBasePrice',
+                'getPrice'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Bundle\\ProductCatalog\\UI\\ProductSelector\\BaseProduct',
+                'setBasePrice',
+                'setPrice'
+            ),
+        ]
+    );
+
     $rectorConfig->skip(
         [
             // skip removing `createView` method call from `Form` objects, per SF 7 recommendation
