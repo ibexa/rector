@@ -206,6 +206,22 @@ return static function (RectorConfig $rectorConfig): void {
         RenamePropertyRector::class,
         [
             new RenameProperty(
+                'Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup',
+                'defaultLanguageCode',
+                'mainLanguageCode',
+            ),
+            new RenameProperty(
+                'Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState',
+                'defaultLanguageCode',
+                'mainLanguageCode',
+            ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenamePropertyRector::class,
+        [
+            new RenameProperty(
                 'Ibexa\Contracts\Core\Repository\Values\Content\Trash\SearchResult',
                 'count',
                 'totalCount',
