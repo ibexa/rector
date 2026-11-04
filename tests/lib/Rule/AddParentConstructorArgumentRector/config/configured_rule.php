@@ -18,5 +18,18 @@ return static function (RectorConfig $rectorConfig): void {
             'joinedTablesTracker',
             'Ibexa\\Core\\Persistence\\Doctrine\\JoinedTablesTracker'
         ),
+        // listed out of order on purpose, position 3 counts the argument inserted at position 2
+        new AddParentConstructorArgumentConfiguration(
+            'Ibexa\\Bundle\\RepositoryInstaller\\Installer\\CoreInstaller',
+            3,
+            'dbPlatformFactory',
+            'Ibexa\\Contracts\\DoctrineSchema\\DbPlatformFactoryInterface'
+        ),
+        new AddParentConstructorArgumentConfiguration(
+            'Ibexa\\Bundle\\RepositoryInstaller\\Installer\\CoreInstaller',
+            2,
+            'schemaAssetsFilterBypass',
+            'Ibexa\\Contracts\\DoctrineSchema\\SchemaAssetsFilterBypassInterface'
+        ),
     ]);
 };

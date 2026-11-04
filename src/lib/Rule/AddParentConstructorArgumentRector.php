@@ -211,5 +211,11 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
 
             $this->configurations[] = $c;
         }
+
+        // a later position counts the arguments inserted for an earlier one
+        usort(
+            $this->configurations,
+            static fn (AddParentConstructorArgumentConfiguration $a, AddParentConstructorArgumentConfiguration $b): int => $a->getPosition() <=> $b->getPosition()
+        );
     }
 }
