@@ -287,6 +287,14 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\Contracts\Rest\Input\Parser',
                 'parse'
             ),
+            new MethodReturnTypeConfiguration(
+                'Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter',
+                'apply'
+            ),
+            new MethodReturnTypeConfiguration(
+                'Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension',
+                'getFunctions'
+            ),
         ]
     );
 
