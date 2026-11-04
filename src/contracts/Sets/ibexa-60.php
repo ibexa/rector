@@ -27,6 +27,7 @@ use Ibexa\Rector\Rule\RestVisitorSetHeaderRector;
 use PHPStan\Type\ObjectType;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
+use Rector\Removing\Rector\Class_\RemoveInterfacesRector;
 use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
@@ -939,6 +940,13 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\User\Validator\Constraints\UserPassword',
                 ['message', 'groups', 'payload'],
             ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RemoveInterfacesRector::class,
+        [
+            'Ibexa\Bundle\Core\Command\BackwardCompatibleCommand',
         ]
     );
 
