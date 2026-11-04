@@ -1015,6 +1015,10 @@ return static function (RectorConfig $rectorConfig): void {
             'Ibexa\\Segmentation\\Value\\SegmentUpdateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentUpdateStruct',
             'Ibexa\\Segmentation\\Value\\SegmentGroupCreateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroupCreateStruct',
             'Ibexa\\Segmentation\\Value\\SegmentGroupUpdateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroupUpdateStruct',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\AbstractFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\AbstractFormContextMenuBuilder',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\CopyFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\CopyFormContextMenuBuilder',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\CreateFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\CreateFormContextMenuBuilder',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\UpdateFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\UpdateFormContextMenuBuilder',
         ]
     );
 

@@ -42,6 +42,10 @@ final class RemovedClasses
             \Ibexa\Segmentation\Value\SegmentUpdateStruct::class,
             \Ibexa\Segmentation\Value\SegmentGroupCreateStruct::class,
             \Ibexa\Segmentation\Value\SegmentGroupUpdateStruct::class,
+            \Ibexa\Bundle\ProductCatalog\Menu\AbstractFormContextMenuBuilder::class,
+            \Ibexa\Bundle\ProductCatalog\Menu\CopyFormContextMenuBuilder::class,
+            \Ibexa\Bundle\ProductCatalog\Menu\CreateFormContextMenuBuilder::class,
+            \Ibexa\Bundle\ProductCatalog\Menu\UpdateFormContextMenuBuilder::class,
         ];
     }
 }
@@ -85,6 +89,10 @@ use Ibexa\Contracts\Segmentation\Value\SegmentCreateStruct;
 use Ibexa\Contracts\Segmentation\Value\SegmentUpdateStruct;
 use Ibexa\Contracts\Segmentation\Value\SegmentGroupCreateStruct;
 use Ibexa\Contracts\Segmentation\Value\SegmentGroupUpdateStruct;
+use Ibexa\Contracts\AdminUi\Menu\AbstractFormContextMenuBuilder;
+use Ibexa\Contracts\AdminUi\Menu\CopyFormContextMenuBuilder;
+use Ibexa\Contracts\AdminUi\Menu\CreateFormContextMenuBuilder;
+use Ibexa\Contracts\AdminUi\Menu\UpdateFormContextMenuBuilder;
 
 final class RemovedClasses
 {
@@ -126,6 +134,10 @@ final class RemovedClasses
             SegmentUpdateStruct::class,
             SegmentGroupCreateStruct::class,
             SegmentGroupUpdateStruct::class,
+            AbstractFormContextMenuBuilder::class,
+            CopyFormContextMenuBuilder::class,
+            CreateFormContextMenuBuilder::class,
+            UpdateFormContextMenuBuilder::class,
         ];
     }
 }
