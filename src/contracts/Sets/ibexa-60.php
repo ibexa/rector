@@ -980,7 +980,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->ruleWithConfiguration(
         RenameClassRector::class,
         [
-            'Ibexa\\AdminUi\\Component\\Registry' => 'Ibexa\\TwigComponents\\Component\\Registry',
             'Ibexa\\AdminUi\\Component\\TwigComponent' => 'Ibexa\\TwigComponents\\Component\\TemplateComponent',
             'Ibexa\\AdminUi\\Component\\LinkComponent' => 'Ibexa\\TwigComponents\\Component\\LinkComponent',
             'Ibexa\\AdminUi\\Component\\ScriptComponent' => 'Ibexa\\TwigComponents\\Component\\ScriptComponent',

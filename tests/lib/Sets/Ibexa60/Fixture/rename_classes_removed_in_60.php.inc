@@ -7,7 +7,6 @@ final class RemovedClasses
     public function classes(): array
     {
         return [
-            \Ibexa\AdminUi\Component\Registry::class,
             \Ibexa\AdminUi\Component\TwigComponent::class,
             \Ibexa\AdminUi\Component\LinkComponent::class,
             \Ibexa\AdminUi\Component\ScriptComponent::class,
@@ -56,7 +55,6 @@ final class RemovedClasses
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa60\Fixture;
 
-use Ibexa\TwigComponents\Component\Registry;
 use Ibexa\TwigComponents\Component\TemplateComponent;
 use Ibexa\TwigComponents\Component\LinkComponent;
 use Ibexa\TwigComponents\Component\ScriptComponent;
@@ -99,7 +97,6 @@ final class RemovedClasses
     public function classes(): array
     {
         return [
-            Registry::class,
             TemplateComponent::class,
             LinkComponent::class,
             ScriptComponent::class,
