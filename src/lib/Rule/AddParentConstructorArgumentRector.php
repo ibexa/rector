@@ -197,20 +197,12 @@ final class AddParentConstructorArgumentRector extends AbstractRector implements
         array_splice($constructor->params, $position, 0, [$newParam]);
     }
 
+    /**
+     * @param list<AddParentConstructorArgumentConfiguration> $configuration
+     */
     public function configure(array $configuration): void
     {
-        foreach ($configuration as $c) {
-            if (!$c instanceof AddParentConstructorArgumentConfiguration) {
-                throw new \InvalidArgumentException(sprintf(
-                    '%s expects a list of %s, got %s',
-                    self::class,
-                    AddParentConstructorArgumentConfiguration::class,
-                    get_debug_type($c),
-                ));
-            }
-
-            $this->configurations[] = $c;
-        }
+        $this->configurations = $configuration;
 
         // a later position counts the arguments inserted for an earlier one
         usort(
