@@ -24,6 +24,8 @@ use Ibexa\Rector\Rule\PlatformGetNameToDatabasePlatformResolverRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
 use Ibexa\Rector\Rule\RestVisitorSetHeaderRector;
+use PHPStan\Type\ArrayType;
+use PHPStan\Type\MixedType;
 use PHPStan\Type\ObjectType;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
@@ -288,13 +290,21 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\Contracts\Rest\Input\Parser',
                 'parse'
             ),
-            new MethodReturnTypeConfiguration(
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeDeclarationRector::class,
+        [
+            new AddReturnTypeDeclaration(
                 'Ibexa\Bundle\Core\Imagine\Filter\UnsupportedFilter',
-                'apply'
+                'apply',
+                new ObjectType('Imagine\Image\ImageInterface')
             ),
-            new MethodReturnTypeConfiguration(
+            new AddReturnTypeDeclaration(
                 'Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\FieldRenderingExtension',
-                'getFunctions'
+                'getFunctions',
+                new ArrayType(new MixedType(), new MixedType())
             ),
         ]
     );
