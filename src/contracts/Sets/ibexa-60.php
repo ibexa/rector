@@ -1064,6 +1064,30 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassAndConstFetch(
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\DependencyInjection\\AutoTranslateServiceTags',
+                'PROVIDER_LANGUAGE_NORMALIZER',
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\Provider\\LanguageNormalizer\\LanguageNormalizerInterface',
+                'SERVICE_TAG'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\DependencyInjection\\AutoTranslateServiceTags',
+                'PROVIDER_AI_TRANSLATION_STRATEGY',
+                'Ibexa\\TranslationsManagement\\AutoTranslate\\Ai\\AiTranslationStrategyInterface',
+                'SERVICE_TAG'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\DependencyInjection\\AutoTranslateServiceTags',
+                'REVIEW_STATUS_CONTEXT_RESOLVER',
+                'Ibexa\\TranslationsManagement\\AutoTranslate\\ReviewStatus\\ContextResolver\\ContextResolverInterface',
+                'SERVICE_TAG'
+            ),
+        ]
+    );
+
     $rectorConfig->skip(
         [
             // skip removing `createView` method call from `Form` objects, per SF 7 recommendation
