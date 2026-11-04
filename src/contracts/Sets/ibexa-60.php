@@ -976,7 +976,7 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
-    // classes removed in 6.0, replaced by the ones their 5.0 deprecation pointed at
+    // classes removed in 6.0, renamed to their 6.0 replacement (the one named by the 5.0 deprecation where there was one)
     $rectorConfig->ruleWithConfiguration(
         RenameClassRector::class,
         [
