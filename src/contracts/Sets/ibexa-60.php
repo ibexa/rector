@@ -357,6 +357,24 @@ return static function (RectorConfig $rectorConfig): void {
                 'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
             ),
             new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\Field',
+                6,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FieldEmpty',
+                5,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
+            new AddParentConstructorArgumentConfiguration(
+                'Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\FullText',
+                3,
+                'joinedTablesTracker',
+                'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
+            ),
+            new AddParentConstructorArgumentConfiguration(
                 'Ibexa\Measurement\ProductCatalog\Form\Attribute\Search\Criterion\AbstractMeasurementAttributeVisitor',
                 2,
                 'joinedTablesTracker',
