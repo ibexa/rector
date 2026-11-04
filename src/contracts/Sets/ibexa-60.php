@@ -1010,6 +1010,11 @@ return static function (RectorConfig $rectorConfig): void {
             'Ibexa\\Bundle\\Shipping\\Form\\Type\\DateRangeType' => 'Ibexa\\AdminUi\\Form\\Type\\DateRangeType',
             'Ibexa\\Bundle\\Messenger\\Lock\\Store\\DoctrineDbalStore' => 'Symfony\\Component\\Lock\\Store\\DoctrineDbalStore',
             'Ibexa\\Segmentation\\Value\\Segment' => 'Ibexa\\Contracts\\Segmentation\\Value\\Segment',
+            'Ibexa\\Segmentation\\Value\\SegmentGroup' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroup',
+            'Ibexa\\Segmentation\\Value\\SegmentCreateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentCreateStruct',
+            'Ibexa\\Segmentation\\Value\\SegmentUpdateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentUpdateStruct',
+            'Ibexa\\Segmentation\\Value\\SegmentGroupCreateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroupCreateStruct',
+            'Ibexa\\Segmentation\\Value\\SegmentGroupUpdateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroupUpdateStruct',
         ]
     );
 

@@ -37,6 +37,11 @@ final class RemovedClasses
             \Ibexa\Bundle\Shipping\Form\Type\DateRangeType::class,
             \Ibexa\Bundle\Messenger\Lock\Store\DoctrineDbalStore::class,
             \Ibexa\Segmentation\Value\Segment::class,
+            \Ibexa\Segmentation\Value\SegmentGroup::class,
+            \Ibexa\Segmentation\Value\SegmentCreateStruct::class,
+            \Ibexa\Segmentation\Value\SegmentUpdateStruct::class,
+            \Ibexa\Segmentation\Value\SegmentGroupCreateStruct::class,
+            \Ibexa\Segmentation\Value\SegmentGroupUpdateStruct::class,
         ];
     }
 }
@@ -75,6 +80,11 @@ use Ibexa\AdminUi\Form\Data\DateRangeData;
 use Ibexa\AdminUi\Form\Type\DateRangeType;
 use Symfony\Component\Lock\Store\DoctrineDbalStore;
 use Ibexa\Contracts\Segmentation\Value\Segment;
+use Ibexa\Contracts\Segmentation\Value\SegmentGroup;
+use Ibexa\Contracts\Segmentation\Value\SegmentCreateStruct;
+use Ibexa\Contracts\Segmentation\Value\SegmentUpdateStruct;
+use Ibexa\Contracts\Segmentation\Value\SegmentGroupCreateStruct;
+use Ibexa\Contracts\Segmentation\Value\SegmentGroupUpdateStruct;
 
 final class RemovedClasses
 {
@@ -111,6 +121,11 @@ final class RemovedClasses
             DateRangeType::class,
             DoctrineDbalStore::class,
             Segment::class,
+            SegmentGroup::class,
+            SegmentCreateStruct::class,
+            SegmentUpdateStruct::class,
+            SegmentGroupCreateStruct::class,
+            SegmentGroupUpdateStruct::class,
         ];
     }
 }
