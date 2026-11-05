@@ -976,6 +976,149 @@ return static function (RectorConfig $rectorConfig): void {
         ]
     );
 
+    // classes removed in 6.0, renamed to their 6.0 replacement (the one named by the 5.0 deprecation where there was one)
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        [
+            'Ibexa\\AdminUi\\Component\\TwigComponent' => 'Ibexa\\TwigComponents\\Component\\TemplateComponent',
+            'Ibexa\\AdminUi\\Component\\LinkComponent' => 'Ibexa\\TwigComponents\\Component\\LinkComponent',
+            'Ibexa\\AdminUi\\Component\\ScriptComponent' => 'Ibexa\\TwigComponents\\Component\\ScriptComponent',
+            'Ibexa\\Contracts\\AdminUi\\Component\\Renderable' => 'Ibexa\\Contracts\\TwigComponents\\ComponentInterface',
+            'Ibexa\\Contracts\\AdminUi\\Component\\Renderer\\RendererInterface' => 'Ibexa\\Contracts\\TwigComponents\\Renderer\\RendererInterface',
+            'Ibexa\\AdminUi\\Component\\Renderer\\DefaultRenderer' => 'Ibexa\\TwigComponents\\Component\\Renderer\\DefaultRenderer',
+            'Ibexa\\AdminUi\\Component\\Event\\RenderGroupEvent' => 'Ibexa\\Contracts\\TwigComponents\\Event\\RenderGroupEvent',
+            'Ibexa\\AdminUi\\Component\\Event\\RenderSingleEvent' => 'Ibexa\\Contracts\\TwigComponents\\Event\\RenderSingleEvent',
+            'Ibexa\\Bundle\\AdminUi\\DependencyInjection\\Compiler\\ComponentPass' => 'Ibexa\\Bundle\\TwigComponents\\DependencyInjection\\Compiler\\ComponentPass',
+            'Ibexa\\AdminUi\\Form\\Type\\Preview\\SiteAccessChoiceType' => 'Ibexa\\AdminUi\\Form\\Type\\Preview\\VersionPreviewUrlChoiceType',
+            'Ibexa\\AdminUi\\Form\\Type\\ChoiceList\\Loader\\SiteAccessPreviewChoiceLoader' => 'Ibexa\\AdminUi\\Form\\Type\\ChoiceList\\Loader\\VersionPreviewUrlChoiceLoader',
+            'Ibexa\\ContentForms\\Content\\Form\\Provider\\GroupedContentFormFieldsProvider' => 'Ibexa\\ContentForms\\Content\\Form\\Provider\\IdentifiedGroupedContentFormFieldsProvider',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\AbstractCriterionQuery' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\AbstractCriterionQuery',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\AbstractSortClause' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\AbstractSortClause',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\SortDirection' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\SortDirection',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\CriterionMapperInterface' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\CriterionMapperInterface',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\Criterion\\AbstractCompositeCriterion' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\Criterion\\AbstractCompositeCriterion',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\Criterion\\CriterionInterface' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\Criterion\\CriterionInterface',
+            'Ibexa\\Contracts\\ProductCatalog\\Values\\Common\\Query\\SortClause\\FieldValueSortClause' => 'Ibexa\\Contracts\\CoreSearch\\Values\\Query\\SortClause\\FieldValueSortClause',
+            'Ibexa\\ProductCatalog\\Common\\Pool' => 'Ibexa\\Contracts\\Core\\Pool\\Pool',
+            'Ibexa\\Bundle\\ProductCatalog\\Form\\Type\\LanguageSwitchType' => 'Ibexa\\AdminUi\\Form\\Type\\LanguageSwitchType',
+            'Ibexa\\Bundle\\ProductCatalog\\Form\\Type\\ReferenceCollectionType' => 'Ibexa\\AdminUi\\Form\\Type\\ReferenceCollectionType',
+            'Ibexa\\Bundle\\ProductCatalog\\Form\\Data\\AbstractLanguageSwitchData' => 'Ibexa\\AdminUi\\Form\\Data\\AbstractLanguageSwitchData',
+            'Ibexa\\Bundle\\Payment\\Form\\Data\\DateRangeData' => 'Ibexa\\AdminUi\\Form\\Data\\DateRangeData',
+            'Ibexa\\Bundle\\Payment\\Form\\Type\\DateRangeType' => 'Ibexa\\AdminUi\\Form\\Type\\DateRangeType',
+            'Ibexa\\Bundle\\Shipping\\Form\\Data\\DateRangeData' => 'Ibexa\\AdminUi\\Form\\Data\\DateRangeData',
+            'Ibexa\\Bundle\\Shipping\\Form\\Type\\DateRangeType' => 'Ibexa\\AdminUi\\Form\\Type\\DateRangeType',
+            'Ibexa\\Bundle\\Messenger\\Lock\\Store\\DoctrineDbalStore' => 'Symfony\\Component\\Lock\\Store\\DoctrineDbalStore',
+            'Ibexa\\Segmentation\\Value\\Segment' => 'Ibexa\\Contracts\\Segmentation\\Value\\Segment',
+            'Ibexa\\Segmentation\\Value\\SegmentGroup' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroup',
+            'Ibexa\\Segmentation\\Value\\SegmentCreateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentCreateStruct',
+            'Ibexa\\Segmentation\\Value\\SegmentUpdateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentUpdateStruct',
+            'Ibexa\\Segmentation\\Value\\SegmentGroupCreateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroupCreateStruct',
+            'Ibexa\\Segmentation\\Value\\SegmentGroupUpdateStruct' => 'Ibexa\\Contracts\\Segmentation\\Value\\SegmentGroupUpdateStruct',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\AbstractFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\AbstractFormContextMenuBuilder',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\CopyFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\CopyFormContextMenuBuilder',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\CreateFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\CreateFormContextMenuBuilder',
+            'Ibexa\\Bundle\\ProductCatalog\\Menu\\UpdateFormContextMenuBuilder' => 'Ibexa\\Contracts\\AdminUi\\Menu\\UpdateFormContextMenuBuilder',
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameMethodRector::class,
+        [
+            new MethodCallRename(
+                'Ibexa\\Core\\MVC\\Symfony\\Controller\\Controller',
+                'getTemplateEngine',
+                'getTwig'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Dashboard\\Migration\\AssignDashboardToUser',
+                'getValue',
+                'getUserLogin'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\Content\\AssignParentLocation',
+                'getValue',
+                'getLocationId'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\ContentType\\AssignContentTypeGroup',
+                'getValue',
+                'getGroupName'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\ContentType\\UnassignContentTypeGroup',
+                'getValue',
+                'getGroupName'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Migration\\ValueObject\\Step\\Action\\ContentType\\RemoveFieldByIdentifier',
+                'getValue',
+                'getIdentifier'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Contracts\\ProductCatalog\\Values\\Availability\\AvailabilityInterface',
+                'isAvailable',
+                'getComputedAvailability'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Bundle\\ProductCatalog\\UI\\ProductSelector\\BaseProduct',
+                'getBasePrice',
+                'getPrice'
+            ),
+            new MethodCallRename(
+                'Ibexa\\Bundle\\ProductCatalog\\UI\\ProductSelector\\BaseProduct',
+                'setBasePrice',
+                'setPrice'
+            ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassConstFetchRector::class,
+        [
+            new RenameClassAndConstFetch(
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\DependencyInjection\\AutoTranslateServiceTags',
+                'PROVIDER_LANGUAGE_NORMALIZER',
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\Provider\\LanguageNormalizer\\LanguageNormalizerInterface',
+                'SERVICE_TAG'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\DependencyInjection\\AutoTranslateServiceTags',
+                'PROVIDER_AI_TRANSLATION_STRATEGY',
+                'Ibexa\\TranslationsManagement\\AutoTranslate\\Ai\\AiTranslationStrategyInterface',
+                'SERVICE_TAG'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\Contracts\\TranslationsManagement\\AutoTranslate\\DependencyInjection\\AutoTranslateServiceTags',
+                'REVIEW_STATUS_CONTEXT_RESOLVER',
+                'Ibexa\\TranslationsManagement\\AutoTranslate\\ReviewStatus\\ContextResolver\\ContextResolverInterface',
+                'SERVICE_TAG'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\AdminUi\\Component\\Event\\RenderGroupEvent',
+                'NAME',
+                'Ibexa\\Contracts\\TwigComponents\\Event\\RenderGroupEvent',
+                'class'
+            ),
+            new RenameClassAndConstFetch(
+                'Ibexa\\AdminUi\\Component\\Event\\RenderSingleEvent',
+                'NAME',
+                'Ibexa\\Contracts\\TwigComponents\\Event\\RenderSingleEvent',
+                'class'
+            ),
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        AddReturnTypeDeclarationRector::class,
+        [
+            new AddReturnTypeDeclaration(
+                'Ibexa\\FieldTypePage\\FieldType\\Page\\Block\\Definition\\Attribute\\Validator\\ConstraintFactory',
+                'getConstraint',
+                new ObjectType('Symfony\\Component\\Validator\\Constraint')
+            ),
+        ]
+    );
+
     $rectorConfig->skip(
         [
             // skip removing `createView` method call from `Form` objects, per SF 7 recommendation
