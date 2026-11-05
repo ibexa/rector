@@ -14,8 +14,10 @@ use Ibexa\Rector\Rule\AddReturnTypeFromPhpDocRule;
 use Ibexa\Rector\Rule\ChangeArgumentTypeRector;
 use Ibexa\Rector\Rule\Configuration\AddParentConstructorArgumentConfiguration;
 use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
+use Ibexa\Rector\Rule\Configuration\MethodCallToChainedMethodCallConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
+use Ibexa\Rector\Rule\MethodCallToChainedMethodCallRector;
 use Ibexa\Rector\Rule\PlatformGetNameToDatabasePlatformResolverRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
@@ -410,6 +412,23 @@ return static function (RectorConfig $rectorConfig): void {
 
     // Doctrine DBAL 4 removed AbstractPlatform::getName()
     $rectorConfig->rule(PlatformGetNameToDatabasePlatformResolverRector::class);
+
+    // ProductPrice{Update,Delete}Struct::getId() removed, the id is read from the price
+    $rectorConfig->ruleWithConfiguration(
+        MethodCallToChainedMethodCallRector::class,
+        [
+            new MethodCallToChainedMethodCallConfiguration(
+                'Ibexa\Contracts\ProductCatalog\Values\Price\Update\Struct\ProductPriceUpdateStructInterface',
+                'getId',
+                ['getPrice', 'getId'],
+            ),
+            new MethodCallToChainedMethodCallConfiguration(
+                'Ibexa\Contracts\ProductCatalog\Values\Price\Delete\Struct\ProductPriceDeleteStructInterface',
+                'getId',
+                ['getPrice', 'getId'],
+            ),
+        ]
+    );
 
     $rectorConfig->skip(
         [
