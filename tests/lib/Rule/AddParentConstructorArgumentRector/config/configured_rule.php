@@ -28,8 +28,8 @@ return static function (RectorConfig $rectorConfig): void {
         new AddParentConstructorArgumentConfiguration(
             'Ibexa\\Bundle\\RepositoryInstaller\\Installer\\CoreInstaller',
             2,
-            'schemaAssetsFilterBypass',
-            'Ibexa\\Contracts\\DoctrineSchema\\SchemaAssetsFilterBypassInterface'
+            'logger',
+            'Psr\\Log\\LoggerInterface'
         ),
     ]);
 };
