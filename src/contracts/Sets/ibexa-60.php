@@ -424,24 +424,12 @@ return static function (RectorConfig $rectorConfig): void {
             new AddParentConstructorArgumentConfiguration(
                 'Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller',
                 2,
-                'schemaAssetsFilterBypass',
-                'Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
-            ),
-            new AddParentConstructorArgumentConfiguration(
-                'Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller',
-                3,
                 'dbPlatformFactory',
                 'Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface'
             ),
             new AddParentConstructorArgumentConfiguration(
                 'Ibexa\Installer\Installer\AbstractProductInstaller',
                 2,
-                'schemaAssetsFilterBypass',
-                'Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
-            ),
-            new AddParentConstructorArgumentConfiguration(
-                'Ibexa\Installer\Installer\AbstractProductInstaller',
-                3,
                 'dbPlatformFactory',
                 'Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface'
             ),

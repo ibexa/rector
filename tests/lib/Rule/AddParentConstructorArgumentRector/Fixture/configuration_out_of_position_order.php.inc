@@ -18,9 +18,9 @@ use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 
 final class OutOfOrderInstaller extends CoreInstaller
 {
-    public function __construct(object $db, object $schemaBuilder, bool $doctrineMigrationsEnabled, \Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass, \Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface $dbPlatformFactory)
+    public function __construct(object $db, object $schemaBuilder, bool $doctrineMigrationsEnabled, \Psr\Log\LoggerInterface $logger, \Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface $dbPlatformFactory)
     {
-        parent::__construct($db, $schemaBuilder, $schemaAssetsFilterBypass, $dbPlatformFactory, $doctrineMigrationsEnabled);
+        parent::__construct($db, $schemaBuilder, $logger, $dbPlatformFactory, $doctrineMigrationsEnabled);
     }
 }
 
