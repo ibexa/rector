@@ -17,12 +17,14 @@ use Ibexa\Rector\Rule\Configuration\ChangeArgumentTypeConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodCallToChainedMethodCallConfiguration;
 use Ibexa\Rector\Rule\Configuration\MethodReturnTypeConfiguration;
 use Ibexa\Rector\Rule\Configuration\OptionsArrayToNamedArgumentsConfiguration;
+use Ibexa\Rector\Rule\Configuration\RemoveParentConstructorArgumentConfiguration;
 use Ibexa\Rector\Rule\ConstToEnumValueRector;
 use Ibexa\Rector\Rule\MethodCallToChainedMethodCallRector;
 use Ibexa\Rector\Rule\OptionsArrayToNamedArgumentsRector;
 use Ibexa\Rector\Rule\PlatformGetNameToDatabasePlatformResolverRector;
 use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Ibexa\Rector\Rule\RemoveArgumentFromMethodCallRector;
+use Ibexa\Rector\Rule\RemoveParentConstructorArgumentRector;
 use Ibexa\Rector\Rule\RestVisitorSetHeaderRector;
 use PHPStan\Type\ArrayType;
 use PHPStan\Type\MixedType;
@@ -421,17 +423,31 @@ return static function (RectorConfig $rectorConfig): void {
                 'joinedTablesTracker',
                 'Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker'
             ),
-            new AddParentConstructorArgumentConfiguration(
+        ]
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RemoveParentConstructorArgumentRector::class,
+        [
+            new RemoveParentConstructorArgumentConfiguration(
+                'Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller',
+                1,
+                'schemaBuilder'
+            ),
+            new RemoveParentConstructorArgumentConfiguration(
                 'Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller',
                 2,
-                'dbPlatformFactory',
-                'Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface'
+                'doctrineMigrationsEnabled'
             ),
-            new AddParentConstructorArgumentConfiguration(
+            new RemoveParentConstructorArgumentConfiguration(
+                'Ibexa\Installer\Installer\AbstractProductInstaller',
+                1,
+                'schemaBuilder'
+            ),
+            new RemoveParentConstructorArgumentConfiguration(
                 'Ibexa\Installer\Installer\AbstractProductInstaller',
                 2,
-                'dbPlatformFactory',
-                'Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface'
+                'doctrineMigrationsEnabled'
             ),
         ]
     );

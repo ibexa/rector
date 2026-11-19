@@ -18,14 +18,13 @@ final class CustomInstaller extends CoreInstaller
 
 namespace Ibexa\Rector\Tests\Sets\Ibexa60\Fixture;
 
-use Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface;
 use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 
 final class CustomInstaller extends CoreInstaller
 {
-    public function __construct(object $db, object $schemaBuilder, bool $doctrineMigrationsEnabled, DbPlatformFactoryInterface $dbPlatformFactory, ?object $taggedMigrationsRunner = null)
+    public function __construct(object $db, ?object $taggedMigrationsRunner = null)
     {
-        parent::__construct($db, $schemaBuilder, $dbPlatformFactory, $doctrineMigrationsEnabled, $taggedMigrationsRunner);
+        parent::__construct($db, $taggedMigrationsRunner);
     }
 }
 
