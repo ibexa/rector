@@ -34,6 +34,7 @@ use Rector\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector;
 use Rector\Renaming\Rector\MethodCall\RenameMethodRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Renaming\Rector\PropertyFetch\RenamePropertyRector;
+use Rector\Renaming\Rector\String_\RenameStringRector;
 use Rector\Renaming\ValueObject\MethodCallRename;
 use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
@@ -49,6 +50,17 @@ return static function (RectorConfig $rectorConfig): void {
         [
             'Ibexa\\Bundle\\Core\\ApiLoader\\RepositoryConfigurationProvider' => 'Ibexa\\Contracts\\Core\\Container\\ApiLoader\\RepositoryConfigurationProviderInterface',
         ]
+    );
+
+    // ibexa/collaboration was merged into ibexa/share
+    $rectorConfig->ruleWithConfiguration(
+        RenameClassRector::class,
+        require __DIR__ . '/ibexa-60-collaboration-to-share.php'
+    );
+
+    $rectorConfig->ruleWithConfiguration(
+        RenameStringRector::class,
+        require __DIR__ . '/ibexa-60-collaboration-to-share-strings.php'
     );
 
     $rectorConfig->ruleWithConfiguration(
