@@ -15,5 +15,8 @@ use Rector\Configuration\RectorConfigBuilder;
  */
 interface IbexaRectorConfigFactoryInterface
 {
+    /**
+     * @throws \Rector\Exception\Configuration\InvalidConfigurationException
+     */
     public function createConfig(): RectorConfigBuilder;
 }
